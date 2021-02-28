@@ -13,9 +13,10 @@ namespace P_ZPP_1.AppDatabase
         public int id { get; set; }
         public string productName { get; set; }
         public float price { get; set; }
-        public float priceWithShipping { get; set; } 
+        public float priceWithShipping { get; set; }
         public int numberOfPeopleWhoAlsoBought { get; set; }
         public bool ALLEGROsmart { get; set; }
 
         public List<object> Pictures { get; set; }
     }
+}
