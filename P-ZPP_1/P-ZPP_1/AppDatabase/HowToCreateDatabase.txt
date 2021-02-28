@@ -1,0 +1,4 @@
+﻿run code in main function:
+
+	var db = new P_ZPP_1.AppDatabase.AllegroAppContext();
+	db.Database.CreateIfNotExists();

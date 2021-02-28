@@ -23,6 +23,7 @@ namespace P_ZPP_1
         public MainWindow()
         {
             InitializeComponent();
+
         }
     }
 }
