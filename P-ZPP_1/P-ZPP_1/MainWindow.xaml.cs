@@ -1,4 +1,5 @@
-﻿using System;
+﻿using P_ZPP_1.AppDatabase;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,19 @@ namespace P_ZPP_1
         public MainWindow()
         {
             InitializeComponent();
-
+            var QuerryResult = GetQuerryResult();
+            if (QuerryResult.Count > 0)
+                ListViewProducts.ItemsSource = QuerryResult;
+        }
+        private List<AppDatabase.QuerryResult> GetQuerryResult()
+        {
+            return new List<QuerryResult>()
+      {
+        new QuerryResult(1,"Product 1", 205, 225,6,true, "/1.jpg"),
+        new QuerryResult(1,"Product 2", 105, 125,6,true, "/1.jpg"),
+        new QuerryResult(1,"Product 3", 305, 325,6,false, "/1.jpg"),
+        
+      };
         }
     }
 }
