@@ -28,14 +28,16 @@ namespace P_ZPP_1
             if (QuerryResult.Count > 0)
                 ListViewProducts.ItemsSource = QuerryResult;
         }
-        private List<AppDatabase.QuerryResult> GetQuerryResult()
+        public List<QuerryResult> GetQuerryResult()
         {
             return new List<QuerryResult>()
       {
         new QuerryResult(1,"Product 1", 205, 225,6,true, "/1.jpg"),
         new QuerryResult(1,"Product 2", 105, 125,6,true, "/1.jpg"),
         new QuerryResult(1,"Product 3", 305, 325,6,false, "/1.jpg"),
-        
+        new QuerryResult(1,"Product 3", 305, 325,6,false, "/1.jpg"),
+        new QuerryResult(1,"Product 3", 305, 325,6,false, "/1.jpg"),
+
       };
         }
     }

@@ -25,6 +25,7 @@
                 <TextBlock Text="Items" Margin="10" FontSize="22" FontWeight="Medium"/>
                 <StackPanel Margin="20 0">
                     <ItemsControl x:Name="ListViewProducts" ItemsSource="{Binding QuerryResult}">
+                        
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Margin="10" Width="110" Height="160">
@@ -39,6 +40,7 @@
                                         </Border>
                                         <TextBlock Margin="5" Text="{Binding Price, StringFormat={}{0:C}}" FontSize="17" FontFamily="Franklin Gothic Medium"/>
                                         <TextBlock Margin="5 0" Text="{Binding ProductName}" FontSize="15"/>
+                                        <TextBlock Margin="5" Text="{Binding ALLEGROsmart}" />
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>

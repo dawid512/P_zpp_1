@@ -20,15 +20,15 @@ namespace P_ZPP_1.AppDatabase
         public string Image { get; set; }
         public List<object> Pictures { get; set; }
 
-        public QuerryResult(int id, string ProductName, float Price, float PriceWithShipping, int NumberOfPeopleWhoAlsoBought, bool ALLEGROsmart, string Image)
+        public QuerryResult(int id, string productName, float price, float priceWithShipping, int numberOfPeopleWhoAlsoBought, bool allegroSmart, string image)
         {
             Id = id;
-            ProductName = ProductName;
-            Price = Price;
-            PriceWithShipping = PriceWithShipping;
-            NumberOfPeopleWhoAlsoBought = NumberOfPeopleWhoAlsoBought;
-            ALLEGROsmart = ALLEGROsmart;
-            Image = Image;
+            ProductName = productName;
+            Price = price;
+            PriceWithShipping = priceWithShipping;
+            NumberOfPeopleWhoAlsoBought = numberOfPeopleWhoAlsoBought;
+            ALLEGROsmart = allegroSmart;
+            Image = image;
 
         }
     }
