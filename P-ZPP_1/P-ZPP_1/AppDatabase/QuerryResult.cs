@@ -11,25 +11,24 @@ namespace P_ZPP_1.AppDatabase
     {
         [Key]
         public int Id { get; set; }
+        public int Querry_Id { get; set; }
         public string ProductName { get; set; }
         public double Price { get; set; }
         public float PriceWithShipping { get; set; }
         public int NumberOfPeopleWhoAlsoBought { get; set; }
         public bool ALLEGROsmart { get; set; }
-        //tymczasowe zdjecie
         public string Image { get; set; }
-        public List<object> Pictures { get; set; }
 
-        public QuerryResult(int id, string productName, float price, float priceWithShipping, int numberOfPeopleWhoAlsoBought, bool allegroSmart, string image)
+        public QuerryResult(int id, int querry_Id, string productName, double price, float priceWithShipping, int numberOfPeopleWhoAlsoBought, bool aLLEGROsmart, string image)
         {
             Id = id;
+            Querry_Id = querry_Id;
             ProductName = productName;
             Price = price;
             PriceWithShipping = priceWithShipping;
             NumberOfPeopleWhoAlsoBought = numberOfPeopleWhoAlsoBought;
-            ALLEGROsmart = allegroSmart;
+            ALLEGROsmart = aLLEGROsmart;
             Image = image;
-
         }
     }
 }

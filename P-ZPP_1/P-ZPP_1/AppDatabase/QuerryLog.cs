@@ -8,10 +8,15 @@ namespace P_ZPP_1.AppDatabase
 {
     public class QuerryLog
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string querry { get; set; }
         public DateTime date { get; set; }
 
-        public QuerryResult querryResult { get; set; }
+        public QuerryLog(int id, string querry, DateTime date)
+        {
+            Id = id;
+            this.querry = querry;
+            this.date = date;
+        }
     }
 }

@@ -79,6 +79,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppDatabase\AllegroAppContext.cs" />
+    <Compile Include="AppDatabase\QuerryItemParam.cs" />
     <Compile Include="AppDatabase\QuerryLog.cs" />
     <Compile Include="AppDatabase\QuerryResult.cs" />
     <Compile Include="MainWindow.xaml.cs">
