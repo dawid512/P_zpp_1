@@ -12,7 +12,7 @@ namespace P_ZPP_1.AppDatabase
     {
 
         public AllegroAppContext() 
-            : base(@" Data Source = DESKTOP-IJ22KEC\SQLEXPRESS;Initial Catalog = AllegroAppDatabase; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
+            : base("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = AllegroDatabase; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
         {
             Database.SetInitializer<AllegroAppContext>(new CreateDatabaseIfNotExists<AllegroAppContext>());
         }

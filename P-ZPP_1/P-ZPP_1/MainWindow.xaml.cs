@@ -27,8 +27,8 @@ namespace P_ZPP_1
 
             InitializeComponent();
 
-            //var db = new AppDatabase.AllegroAppContext();
-            //db.Database.CreateIfNotExists();
+            var db = new AppDatabase.AllegroAppContext();
+            db.Database.CreateIfNotExists();
             var QuerryResult = GetQuerryResult();
 
             if (QuerryResult.Count > 0)
