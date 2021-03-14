@@ -29,10 +29,10 @@ namespace P_ZPP_1
             InitializeComponent();
 
             var db = new AppDatabase.AllegroAppContext();
-            //db.Database.CreateIfNotExists();
+            db.Database.CreateIfNotExists();
 
-            //Parser parser = new Parser();
-            //parser.Parse("laptop");
+            Parser parser = new Parser();
+            parser.Parse("laptop");
 
             var items = GetItems();
             if (items.Count > 0)

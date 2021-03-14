@@ -47,7 +47,7 @@
                                         </Grid>
                                         <Grid Height="200" Width="600">
                                             <TextBlock Text="{Binding ProductName}" Margin="10,0,10,166" />
-                                            <TextBlock Text="{Binding Price }" Margin="10,81,446,91"/>
+                                            <TextBlock Text="{Binding Price,StringFormat={}{0:zl} }" Margin="10,81,446,91"/>
                                             <Grid Margin="10,23,10,124">
 
                                             </Grid>
