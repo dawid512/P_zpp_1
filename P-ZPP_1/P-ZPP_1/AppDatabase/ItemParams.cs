@@ -16,6 +16,12 @@ namespace P_ZPP_1.AppDatabase
         public string Property_Name { get; set; }
         public string Property_Value { get; set; }
 
-       
+        public ItemParams(int id, int item_Id, string property_Name, string property_Value)
+        {
+            Id = id;
+            Item_Id = item_Id;
+            Property_Name = property_Name;
+            Property_Value = property_Value;
+        }
     }
 }

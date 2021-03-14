@@ -19,6 +19,17 @@ namespace P_ZPP_1.AppDatabase
         public bool ALLEGROsmart { get; set; }
         public string Image { get; set; }
         public List<ItemParams> parameters { get; set; }
-        
+
+        public Items(int id, string productName, decimal price, float priceWithShipping, int numberOfPeopleWhoAlsoBought, bool aLLEGROsmart, string image, List<ItemParams> parameters)
+        {
+            Id = id;
+            ProductName = productName;
+            Price = price;
+            PriceWithShipping = priceWithShipping;
+            NumberOfPeopleWhoAlsoBought = numberOfPeopleWhoAlsoBought;
+            ALLEGROsmart = aLLEGROsmart;
+            Image = image;
+            this.parameters = parameters;
+        }
     }
 }

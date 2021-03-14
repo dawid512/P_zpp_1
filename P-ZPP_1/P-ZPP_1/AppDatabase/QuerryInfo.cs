@@ -15,6 +15,12 @@ namespace P_ZPP_1.AppDatabase
         public DateTime date { get; set; }
         public List<Items> querryItems { get; set; }
 
-       
+        public QuerryInfo(int id, string querry, DateTime date, List<Items> querryItems)
+        {
+            Id = id;
+            this.querry = querry;
+            this.date = date;
+            this.querryItems = querryItems;
+        }
     }
 }
