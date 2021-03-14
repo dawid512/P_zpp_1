@@ -18,7 +18,7 @@ namespace P_ZPP_1.AppDatabase
         }
 
 
-        public DbSet<QuerryInfo> QuerryLogs { get; set; }
+        public DbSet<QueryInfo> QuerryLogs { get; set; }
         public DbSet<Items> QuerryResults { get; set; }
         public DbSet<ItemParams> QuerryItemParams { get; set; }
 
