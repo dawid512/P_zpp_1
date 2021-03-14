@@ -6,7 +6,6 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-
 namespace P_ZPP_1
 {
     class Parser
@@ -23,10 +22,14 @@ namespace P_ZPP_1
             string priceInfo = ".//span[@class='_1svub _lf05o']"; //informacja o cenie
             string paramList = ".//dl[@class='mp4t_0 m3h2_0 mryx_0 munh_0 mg9e_0 mvrt_0 mj7a_0 mh36_0 meqh_en msa3_z4 _1vx3o']"; //lista parametrów danego produktu - zawsze inna
             #endregion
+            //----------------
+            string querry = "";
+            
+            //----------------
 
             //pobieranie i formatowanie HTML
             WebClient client = new WebClient();
-            string url = "https://allegro.pl/kategoria/laptopy-491?string=laptop&bmatch=cl-e2101-d3681-c3682-ele-1-1-0304";
+            string url = "https://allegro.pl/kategoria/laptopy-491?string=" + querry + "&bmatch=cl-e2101-d3681-c3682-ele-1-1-0304";
             Uri uri = new Uri(url);
             client.Headers.Add("Accept: text/html, application/xhtml+xml, /");
             client.Headers.Add("User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
@@ -46,14 +49,15 @@ namespace P_ZPP_1
 
                 if (item.SelectSingleNode(regularAuctionName) != null)
                 {
-                    var ItemName = item.SelectSingleNode(regularAuctionName).InnerText;
-                    var ItemPrice = item.SelectSingleNode(priceInfo).InnerText;
-                    var ParametersNode = item.SelectSingleNode(paramList);
+                    var ItemName = item.SelectSingleNode(regularAuctionName).InnerText;     //produkt name
+                    var ItemPrice = item.SelectSingleNode(priceInfo).InnerText;             // cena
+                    var ParametersNode = item.SelectSingleNode(paramList);                  
                     var ParametersList = ParametersNode.ChildNodes;
                     string tmp = "";
                     string tmp2 = "";
                     //var techDic = new Dictionary<string, string>();
                    // Console.WriteLine("\n{0}\nCena: {1}", ItemName, ItemPrice);
+                    
                     foreach (var item2 in ParametersList)
                     {
                         if (item2.Name == "dt")
@@ -67,7 +71,7 @@ namespace P_ZPP_1
                             //Console.WriteLine(tmp2);
                         }
                     }
-
+                    //zrobić liste parametrow na clasie querry item param
 
                 }
                 else if (item.SelectSingleNode(freeShippingAuctionName) != null)

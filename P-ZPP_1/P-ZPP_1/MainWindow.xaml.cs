@@ -36,16 +36,16 @@ namespace P_ZPP_1
 
         }
 
-        public List<QuerryResult> GetQuerryResult()
+        public List<Items> GetQuerryResult()
         {
 
-            return new List<QuerryResult>()
+            return new List<Items>()
       {
-        new QuerryResult(1,1,"Product 1", 205, 225,6,true, "/1.jpg"),
-        new QuerryResult(1,1,"Product 2", 105, 125,6,true, "/1.jpg"),
-        new QuerryResult(1,1,"Product 3", 305, 325,6,false, "/1.jpg"),
-        new QuerryResult(1,2,"Product 3", 305, 325,6,false, "/1.jpg"),
-        new QuerryResult(1,2,"Product 3", 305, 325,6,false, "/1.jpg"),
+        new Items(1,1,"Product 1", 205, 225,6,true, "/1.jpg"),
+        new Items(1,1,"Product 2", 105, 125,6,true, "/1.jpg"),
+        new Items(1,1,"Product 3", 305, 325,6,false, "/1.jpg"),
+        new Items(1,2,"Product 3", 305, 325,6,false, "/1.jpg"),
+        new Items(1,2,"Product 3", 305, 325,6,false, "/1.jpg"),
 
       };
             

@@ -18,9 +18,9 @@ namespace P_ZPP_1.AppDatabase
         }
 
 
-        public DbSet<QuerryLog> QuerryLogs { get; set; }
-        public DbSet<QuerryResult> QuerryResults { get; set; }
-        public DbSet<QuerryItemParam> QuerryItemParams { get; set; }
+        public DbSet<QuerryInfo> QuerryLogs { get; set; }
+        public DbSet<Items> QuerryResults { get; set; }
+        public DbSet<ItemParams> QuerryItemParams { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)    //pilnuje konwencji anzwniczej -> nazwy tabel powinny byc w liczbie pojedynczej
         {
