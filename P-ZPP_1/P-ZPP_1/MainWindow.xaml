@@ -38,14 +38,22 @@
                             <Grid Width="220" Height="200">
                                 <Border Height="150" Width="180" Margin="15,25,15,15">
                                     <Border.Background>
-                                        <ImageBrush ImageSource="1.jpg"/>
+                                        <ImageBrush ImageSource="Photos/1.jpg"/>
                                     </Border.Background>
 
                                 </Border>
                             </Grid>
-                            <Grid Height="200" Width="400">
+                            <Grid Height="200" Width="600">
                                 <TextBlock Text="PRODUCTNAME" Margin="10,0,10,166" />
-                                <TextBlock Text="CENA" Margin="10,34,62,140"/>
+                                <TextBlock Text="CENA" Margin="10,34,10,140"/>
+                                <Border Margin="104,34,368,145">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="Photos/smart.png"/>
+                                    </Border.Background>
+                                    
+
+                                </Border>
+                                <TextBlock Text="z dostawą" Margin="237,39,-23,138"/>
                                 <TextBlock Text="Cena z dostawą" Margin="10,172,10,0"/>
                                 
                                 
@@ -53,9 +61,7 @@
 
 
                             </Grid>
-                            <Grid Height="200" Width="200">
-                                
-                            </Grid>
+                            
                         </WrapPanel>
 
 
