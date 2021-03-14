@@ -119,7 +119,10 @@
     <Resource Include="AppDatabase\HowToCreateDatabase.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="1.jpg" />
+    <Resource Include="Photos\1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Photos\smart.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
