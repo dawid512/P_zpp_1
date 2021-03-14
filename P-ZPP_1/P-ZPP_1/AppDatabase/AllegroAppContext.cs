@@ -19,7 +19,11 @@ namespace P_ZPP_1.AppDatabase
 
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         public DbSet<QueryInfo> QuerryLogs { get; set; }
+=======
+        public DbSet<QuerryInfo> QuerryLogs { get; set; }
+>>>>>>> Stashed changes
 =======
         public DbSet<QuerryInfo> QuerryLogs { get; set; }
 >>>>>>> Stashed changes

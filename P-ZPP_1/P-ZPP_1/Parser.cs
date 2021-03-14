@@ -24,7 +24,11 @@ namespace P_ZPP_1
             #endregion
             //----------------
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             //string querry = "";
+=======
+            string querry = "";
+>>>>>>> Stashed changes
 =======
             string querry = "";
 >>>>>>> Stashed changes

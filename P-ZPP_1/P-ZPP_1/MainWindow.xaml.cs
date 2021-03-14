@@ -31,6 +31,7 @@ namespace P_ZPP_1
             var db = new AppDatabase.AllegroAppContext();
             db.Database.CreateIfNotExists();
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
             Parser parser = new Parser();
             parser.Parse("laptop");
@@ -53,6 +54,8 @@ namespace P_ZPP_1
         }
 
 =======
+=======
+>>>>>>> Stashed changes
             var QuerryResult = GetQuerryResult();
 
             if (QuerryResult.Count > 0)
@@ -75,6 +78,9 @@ namespace P_ZPP_1
             
 
         }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         private void Button_Click(object sender, RoutedEventArgs e)
         {

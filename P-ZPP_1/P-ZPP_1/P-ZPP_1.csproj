@@ -81,7 +81,11 @@
     <Compile Include="AppDatabase\AllegroAppContext.cs" />
     <Compile Include="AppDatabase\ItemParams.cs" />
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Compile Include="AppDatabase\QueryInfo.cs" />
+=======
+    <Compile Include="AppDatabase\QuerryInfo.cs" />
+>>>>>>> Stashed changes
 =======
     <Compile Include="AppDatabase\QuerryInfo.cs" />
 >>>>>>> Stashed changes

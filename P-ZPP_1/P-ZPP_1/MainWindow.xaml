@@ -85,13 +85,19 @@
 
         </ScrollViewer>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
         <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="22" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="434"/>
         <Button Content="Szukaj" Grid.Column="1" HorizontalAlignment="Left" Margin="464,10,0,0" VerticalAlignment="Top" Width="98" Height="30"/>
 =======
         <Button Content="stworz baze danych jesni nie stnieje" HorizontalAlignment="Left" VerticalAlignment="Top" Width="338" Margin="28,13,0,0" Height="27" Grid.Column="1" Click="Button_Click"/>
 >>>>>>> main
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     </Grid>
 </Window>
