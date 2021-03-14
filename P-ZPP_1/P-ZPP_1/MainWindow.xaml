@@ -27,46 +27,60 @@
 
         <Button Content="stworz baze danych jesni nie stnieje" HorizontalAlignment="Left" VerticalAlignment="Top" Width="338" Margin="28,13,0,0" Height="27" Grid.Column="1" Click="Button_Click" />
         <!-- Products List -->
-        <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True"
+        <ScrollViewer VerticalScrollBarVisibility="Visible" 
             Grid.Column="1" Grid.Row="1" 
-            HorizontalAlignment="Right"  Margin="0,10,0,0"  
-            VerticalAlignment="Top" Width="890" Height="500" Background="LightSteelBlue">
+              Background="LightSteelBlue">
             <StackPanel>
-                <StackPanel Margin="20 10 " Background="AliceBlue">
-                    <Border Margin="10" Width="830" Height="200" >
-                        <WrapPanel>
-                            <Grid Width="220" Height="200">
-                                <Border Height="150" Width="180" Margin="15,25,15,15">
-                                    <Border.Background>
-                                        <ImageBrush ImageSource="Photos/1.jpg"/>
-                                    </Border.Background>
+                <ItemsControl x:Name="ProductList" ItemsSource="{Binding Items}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="20 10 " Background="AliceBlue">
+                                <Border Margin="10" Width="830" Height="200" >
+                                    <WrapPanel>
+                                        <Grid Width="220" Height="200">
+                                            <Border Height="150" Width="180" Margin="15,25,15,15">
+                                                <Border.Background>
+                                                    <ImageBrush ImageSource="{Binding Image}"/>
+                                                </Border.Background>
+
+                                            </Border>
+                                        </Grid>
+                                        <Grid Height="200" Width="600">
+                                            <TextBlock Text="{Binding ProductName}" Margin="10,0,10,166" />
+                                            <TextBlock Text="{Binding Price }" Margin="10,81,446,91"/>
+                                            <Grid Margin="10,23,10,124">
+
+                                            </Grid>
+                                            <Grid x:Name="AllegroSmart">
+                                                <Border Margin="171,77,301,101">
+                                                    <Border.Background>
+                                                        <ImageBrush ImageSource="Photos/smart.png"/>
+                                                    </Border.Background>
+                                                </Border>
+                                                <TextBlock Text="z dostawą" Margin="299,88,110,89"/>
+                                            </Grid>
+
+                                            <TextBlock Text="{Binding PriceWithShipping}" Margin="10,172,10,0"/>
+
+
+
+
+
+                                        </Grid>
+
+                                    </WrapPanel>
+
 
                                 </Border>
-                            </Grid>
-                            <Grid Height="200" Width="600">
-                                <TextBlock Text="PRODUCTNAME" Margin="10,0,10,166" />
-                                <TextBlock Text="CENA" Margin="10,34,10,140"/>
-                                <Border Margin="104,34,368,145">
-                                    <Border.Background>
-                                        <ImageBrush ImageSource="Photos/smart.png"/>
-                                    </Border.Background>
-                                    
-
-                                </Border>
-                                <TextBlock Text="z dostawą" Margin="237,39,-23,138"/>
-                                <TextBlock Text="Cena z dostawą" Margin="10,172,10,0"/>
-                                
-                                
-
-
-
-                            </Grid>
-                            
-                        </WrapPanel>
-
-
-                    </Border>
-                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </StackPanel>
 
         </ScrollViewer>
