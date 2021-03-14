@@ -7,20 +7,18 @@ using System.Threading.Tasks;
 
 namespace P_ZPP_1.AppDatabase
 {
-    public class QuerryInfo
+    public class QueryInfo
     {
         [Key]
         public int Id { get; set; }
         public string querry { get; set; }
         public DateTime date { get; set; }
-        public List<Items> querryItems { get; set; }
 
-        public QuerryInfo(int id, string querry, DateTime date, List<Items> querryItems)
+        public QueryInfo(int id, string querry, DateTime date)
         {
             Id = id;
             this.querry = querry;
             this.date = date;
-            this.querryItems = querryItems;
         }
     }
 }
