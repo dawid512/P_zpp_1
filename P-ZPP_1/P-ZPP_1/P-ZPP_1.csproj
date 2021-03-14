@@ -80,7 +80,11 @@
     </Compile>
     <Compile Include="AppDatabase\AllegroAppContext.cs" />
     <Compile Include="AppDatabase\ItemParams.cs" />
+<<<<<<< Updated upstream
     <Compile Include="AppDatabase\QueryInfo.cs" />
+=======
+    <Compile Include="AppDatabase\QuerryInfo.cs" />
+>>>>>>> Stashed changes
     <Compile Include="AppDatabase\Items.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

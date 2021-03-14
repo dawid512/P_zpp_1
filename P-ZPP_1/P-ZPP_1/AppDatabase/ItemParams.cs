@@ -12,6 +12,7 @@ namespace P_ZPP_1.AppDatabase
     {
         [Key]
         public int Id { get; set; }
+<<<<<<< Updated upstream
         public int item_id { get; set; }
         public int querry_id { get; set; }
         public string Property_Name { get; set; }
@@ -22,6 +23,16 @@ namespace P_ZPP_1.AppDatabase
             Id = id;
             this.item_id = item_id;
             this.querry_id = querry_id;
+=======
+        public int Item_Id { get; set; }
+        public string Property_Name { get; set; }
+        public string Property_Value { get; set; }
+
+        public ItemParams(int id, int item_Id, string property_Name, string property_Value)
+        {
+            Id = id;
+            Item_Id = item_Id;
+>>>>>>> Stashed changes
             Property_Name = property_Name;
             Property_Value = property_Value;
         }

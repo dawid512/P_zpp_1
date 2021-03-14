@@ -23,7 +23,11 @@ namespace P_ZPP_1
             string paramList = ".//dl[@class='mp4t_0 m3h2_0 mryx_0 munh_0 mg9e_0 mvrt_0 mj7a_0 mh36_0 meqh_en msa3_z4 _1vx3o']"; //lista parametrów danego produktu - zawsze inna
             #endregion
             //----------------
+<<<<<<< Updated upstream
             //string querry = "";
+=======
+            string querry = "";
+>>>>>>> Stashed changes
             
             //----------------
 

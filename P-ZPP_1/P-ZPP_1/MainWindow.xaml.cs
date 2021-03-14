@@ -30,6 +30,7 @@ namespace P_ZPP_1
 
             var db = new AppDatabase.AllegroAppContext();
             db.Database.CreateIfNotExists();
+<<<<<<< Updated upstream
 
             Parser parser = new Parser();
             parser.Parse("laptop");
@@ -51,9 +52,35 @@ namespace P_ZPP_1
             };
         }
 
+=======
+            var QuerryResult = GetQuerryResult();
+
+            if (QuerryResult.Count > 0)
+                ListViewProducts.ItemsSource = QuerryResult;
+
+        }
+
+        public List<Items> GetQuerryResult()
+        {
+
+            return new List<Items>()
+      {
+        new Items(1,1,"Product 1", 205, 225,6,true, "/1.jpg"),
+        new Items(1,1,"Product 2", 105, 125,6,true, "/1.jpg"),
+        new Items(1,1,"Product 3", 305, 325,6,false, "/1.jpg"),
+        new Items(1,2,"Product 3", 305, 325,6,false, "/1.jpg"),
+        new Items(1,2,"Product 3", 305, 325,6,false, "/1.jpg"),
+
+      };
+            
+
+        }
+>>>>>>> Stashed changes
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
         }
     }
-}
+}  
+
+
