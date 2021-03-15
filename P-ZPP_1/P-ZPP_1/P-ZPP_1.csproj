@@ -138,7 +138,10 @@
     <Resource Include="AppDatabase\HowToCreateDatabase.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="1.jpg" />
+    <Resource Include="Photos\1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Photos\smart.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

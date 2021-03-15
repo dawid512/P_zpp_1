@@ -11,16 +11,15 @@ namespace P_ZPP_1.AppDatabase
     public class AllegroAppContext : DbContext
     {
 
-        public AllegroAppContext() 
-            : base("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = AllegroDatabase; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
-        {
-            Database.SetInitializer<AllegroAppContext>(new CreateDatabaseIfNotExists<AllegroAppContext>());
-        }
+        public AllegroAppContext()
+            : base("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = AllegroDatabase; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False") => Database.SetInitializer<AllegroAppContext>(new CreateDatabaseIfNotExists<AllegroAppContext>());
 
 
-        public DbSet<QueryInfo> QuerryLogs { get; set; }
-        public DbSet<Items> QuerryResults { get; set; }
-        public DbSet<ItemParams> QuerryItemParams { get; set; }
+
+        public DbSet<QueryInfo> QueryInfo { get; set; }
+        public DbSet<Items> Items { get; set; }
+        public DbSet<ItemParams> ItemParams { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)    //pilnuje konwencji anzwniczej -> nazwy tabel powinny byc w liczbie pojedynczej
         {

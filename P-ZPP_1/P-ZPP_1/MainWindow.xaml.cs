@@ -22,27 +22,39 @@ namespace P_ZPP_1
     /// </summary>
     public partial class MainWindow : Window
     {
+       
         public MainWindow()
         {
 
             InitializeComponent();
 
             var db = new AppDatabase.AllegroAppContext();
+<<<<<<< HEAD
             db.Database.CreateIfNotExists();
             Parser parser = new Parser();
-            parser.Parse("1");
-            
+            parser.Parse("laptop");
 
 
-         
+            var items = GetItems();
+            if (items.Count > 0)
+                ProductList.ItemsSource = items;
+
         }
 
-        
+        private List<Items> GetItems()
+        {
+            return new List<Items>()
+            {
+                new Items(1,1,"Produkt 1",300,325,5,true,"/Photos/1.jpg"),
+                 new Items(2,2,"Produkt 1",300,325,5,true,"/Photos/smart.png"),
+                  new Items(3,4,"Produkt 1",300,325,5,true,"/Photos/1.jpg"),
+                   new Items(4,5,"Produkt 1",300,325,5,true,"/Photos/1.jpg")
+            };
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
         }
     }
-}  
-
-
+}

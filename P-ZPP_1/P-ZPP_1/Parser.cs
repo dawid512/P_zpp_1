@@ -23,6 +23,10 @@ namespace P_ZPP_1
             string priceInfo = ".//span[@class='_1svub _lf05o']"; //informacja o cenie
             string paramList = ".//dl[@class='mp4t_0 m3h2_0 mryx_0 munh_0 mg9e_0 mvrt_0 mj7a_0 mh36_0 meqh_en msa3_z4 _1vx3o']"; //lista parametrów danego produktu - zawsze inna
             #endregion
+<<<<<<< HEAD
+            //---------------- 
+
+=======
             //----------------
             //----------------
 
@@ -38,22 +42,23 @@ namespace P_ZPP_1
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(html);
 
-            //Utworzenie tablicy node'ów które przechowują przedmioty
+
             HtmlNode[] nodes = htmlDoc.DocumentNode.SelectNodes("//article").ToArray();
 
             //Dodanie informacji o wykonaniu query
             DbLoader dbLoad = new DbLoader();
             QueryInfo queryInfo = new QueryInfo(querry, DateTime.Now);
             dbLoad.SaveToLogDb(queryInfo);
-
             //wyciągnięcie informacji z tych nodów
+
             foreach (HtmlNode item in nodes)
             {
                 var index = Array.IndexOf(nodes, item);
-                if (item.SelectSingleNode(regularAuctionName) != null)
+                if (item.SelectSingleNode(regularAuctionName) != null  )
                 {
-                    var ItemName = item.SelectSingleNode(regularAuctionName).InnerText;     //produkt name
-                    var ItemPrice = item.SelectSingleNode(priceInfo).InnerText;             // cena
+                    var ItemName = item.SelectSingleNode(regularAuctionName).InnerText;
+                    var ItemPrice = item.SelectSingleNode(priceInfo).InnerText;
+                    var decimalPrice = Decimal.Parse(ItemPrice.Substring(0, ItemPrice.Length - 3));
                     var ParametersNode = item.SelectSingleNode(paramList);
                     var ParametersList = ParametersNode.ChildNodes;
 
@@ -73,9 +78,6 @@ namespace P_ZPP_1
 
                     string tmp = "";
                     string tmp2 = "";
-                    //var techDic = new Dictionary<string, string>();
-                    // Console.WriteLine("\n{0}\nCena: {1}", ItemName, ItemPrice);
-
 
                     Items result = new Items(queryInfo.Id, ItemName, decimal.Parse(cutItemPrice));
                     dbLoad.SaveToItemDb(result);
@@ -85,17 +87,16 @@ namespace P_ZPP_1
                         if (item2.Name == "dt")
                         {
                             tmp = item2.InnerText;
-                            // Console.Write("{0}: ", tmp);
                         }
                         else
                         {
                             tmp2 = item2.InnerText;
-                            // Console.WriteLine(tmp2);
                         }
                         ItemParams param = new ItemParams(result.Id, queryInfo.Id, tmp, tmp2);
                         dbLoad.SaveToParamDb(param);
                     }
-                    //zrobić liste parametrow na clasie querry item param
+                    
+
                 }
                 else if (item.SelectSingleNode(freeShippingAuctionName) != null)
                 {
@@ -143,6 +144,9 @@ namespace P_ZPP_1
                     }
                 }
             }
+            var db = new AppDatabase.AllegroAppContext();
+            db.QueryInfo.Add(new AppDatabase.QueryInfo(querry, DateTime.Now));
+            db.SaveChanges();
         }
     }
 }
