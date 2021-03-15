@@ -13,7 +13,7 @@ namespace P_ZPP_1
         {
             using(var db = new AllegroAppContext())
             {
-                db.QuerryLogs.Add(query);
+                db.QueryInfo.Add(query);
                 db.SaveChanges();
             }
 
@@ -23,7 +23,7 @@ namespace P_ZPP_1
         {
             using (var db = new AllegroAppContext())
             {
-                db.QuerryResults.Add(result);
+                db.Items.Add(result);
                 db.SaveChanges();
             }
 
@@ -33,7 +33,7 @@ namespace P_ZPP_1
         {
             using (var db = new AllegroAppContext())
             {
-                db.QuerryItemParams.Add(param);
+                db.ItemParams.Add(param);
                 db.SaveChanges();
             }
 
