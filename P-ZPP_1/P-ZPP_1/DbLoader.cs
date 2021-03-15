@@ -7,6 +7,9 @@ using P_ZPP_1.AppDatabase;
 
 namespace P_ZPP_1
 {
+    /// <summary>
+    /// Class containing simple methods that are meant to help adding data to tables more efficently.
+    /// </summary>
     class DbLoader
     {
         public void SaveToLogDb(QueryInfo query)

@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace P_ZPP_1.AppDatabase
 {
+    /// <summary>
+    /// The database context class. 
+    /// Contains the model of database in Code First modeling in <see href="https://docs.microsoft.com/pl-pl/ef/">Entity Framework</see>.
+    /// </summary>
     public class AllegroAppContext : DbContext
     {
 

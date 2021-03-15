@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 
 namespace P_ZPP_1.AppDatabase
 {
+    /// <summary>
+    /// The derived table containg all items from a result of the query from <see cref="QueryInfo">QueryInfo</see> base table.
+    /// </summary>
     public class Items
     {
         [Key]
         public int Id { get; set; }
-        public int query_Id { get; set; }
+        public int Query_Id { get; set; }
         public string ProductName { get; set; }
         public decimal Price { get; set; }
         //public float PriceWithShipping { get; set; }
@@ -23,7 +26,7 @@ namespace P_ZPP_1.AppDatabase
         public Items(/*int id,*/ int query_Id, string productName, decimal price/*, float priceWithShipping, int numberOfPeopleWhoAlsoBought*/, bool aLLEGROsmart/*, string image*/)
         {
             //Id = id;
-            this.query_Id = query_Id;
+            this.Query_Id = query_Id;
             ProductName = productName;
             Price = price;
             //PriceWithShipping = priceWithShipping;

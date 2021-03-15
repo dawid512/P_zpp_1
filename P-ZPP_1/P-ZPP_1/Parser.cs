@@ -9,11 +9,17 @@ using System.Web;
 using P_ZPP_1.AppDatabase;
 namespace P_ZPP_1
 {
+    /// <summary>
+    /// Class containg <see cref="Parse(int, string)">Parse</see> method.
+    /// </summary>
     class Parser
     {
         /// <summary>
         /// Funkcja parsująca HTML z query allegro.
+        /// Method parsing the HTML code and then adding it to database
         /// </summary>
+        /// <param name="page">Page number.</param>
+        /// <param name="querry">Query search from <see href="http://allegro.pl">allegro</see> site.</param>
         public Task Parse(string page, string querry)
         {
             //klasy znaczników 
@@ -23,12 +29,6 @@ namespace P_ZPP_1
             string priceInfo = ".//span[@class='_1svub _lf05o']"; //informacja o cenie
             string paramList = ".//dl[@class='mp4t_0 m3h2_0 mryx_0 munh_0 mg9e_0 mvrt_0 mj7a_0 mh36_0 meqh_en msa3_z4 _1vx3o']"; //lista parametrów danego produktu - zawsze inna
             #endregion
-
-            //---------------- 
-
-
-            //----------------
-            //----------------
 
             //pobieranie i formatowanie HTML
             var task = new Task(() =>
