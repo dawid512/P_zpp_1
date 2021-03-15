@@ -29,8 +29,8 @@ namespace P_ZPP_1
 
             var db = new AppDatabase.AllegroAppContext();
             db.Database.CreateIfNotExists();
-            
-
+            Parser parser = new Parser();
+            parser.Parse("1");
             
 
 

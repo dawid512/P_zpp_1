@@ -15,21 +15,21 @@ namespace P_ZPP_1.AppDatabase
         public int query_Id { get; set; }
         public string ProductName { get; set; }
         public decimal Price { get; set; }
-        public float PriceWithShipping { get; set; }
-        public int NumberOfPeopleWhoAlsoBought { get; set; }
-        public bool ALLEGROsmart { get; set; }
-        public string Image { get; set; }
+        //public float PriceWithShipping { get; set; }
+        //public int NumberOfPeopleWhoAlsoBought { get; set; }
+        //public bool ALLEGROsmart { get; set; }
+        //public string Image { get; set; }
 
-        public Items(int id, int query_Id, string productName, decimal price, float priceWithShipping, int numberOfPeopleWhoAlsoBought, bool aLLEGROsmart, string image)
+        public Items(/*int id,*/ int query_Id, string productName, decimal price/*, float priceWithShipping, int numberOfPeopleWhoAlsoBought, bool aLLEGROsmart, string image*/)
         {
-            Id = id;
+            //Id = id;
             this.query_Id = query_Id;
             ProductName = productName;
             Price = price;
-            PriceWithShipping = priceWithShipping;
-            NumberOfPeopleWhoAlsoBought = numberOfPeopleWhoAlsoBought;
-            ALLEGROsmart = aLLEGROsmart;
-            Image = image;
+            //PriceWithShipping = priceWithShipping;
+            //NumberOfPeopleWhoAlsoBought = numberOfPeopleWhoAlsoBought;
+            //ALLEGROsmart = aLLEGROsmart;
+            //Image = image;
         }
     }
 }
