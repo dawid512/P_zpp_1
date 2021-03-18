@@ -25,7 +25,7 @@ namespace P_ZPP_1.AppDatabase
         public DbSet<ItemParams> ItemParams { get; set; }
 
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)    //pilnuje konwencji anzwniczej -> nazwy tabel powinny byc w liczbie pojedynczej
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)    //pilnuje konwencji nazwniczej -> nazwy tabel powinny byc w liczbie pojedynczej
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
