@@ -20,7 +20,7 @@ namespace P_ZPP_1
         /// </summary>
         /// <param name="page">Page number.</param>
         /// <param name="querry">Query search from <see href="http://allegro.pl">allegro</see> site.</param>
-        public void Parse(string page, string querry)
+        public async Task Parse(string page, string querry)
         {
             //klasy znaczników 
             #region tag classes 
@@ -31,7 +31,7 @@ namespace P_ZPP_1
             #endregion
 
             //pobieranie i formatowanie HTML
-            //var task = new Task(() =>
+            await Task.Run(() =>
             {
                 WebClient client = new WebClient();
                 string url = "https://allegro.pl/listing?string=" + querry + "&bmatch=cl-e2101-d3681-c3682-ele-1-1-0304&p=" + page;
@@ -123,13 +123,7 @@ namespace P_ZPP_1
                         }
                     }
                 }
-                //var db = new AppDatabase.AllegroAppContext();
-                //db.QueryInfo.Add(new AppDatabase.QueryInfo(querry, DateTime.Now));
-                //db.SaveChanges();
-            }//);
-            //task.Start();
-
-            //return task;
+            });
         }
     }
 }
