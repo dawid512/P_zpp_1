@@ -20,7 +20,7 @@ namespace P_ZPP_1
         /// </summary>
         /// <param name="page">Page number.</param>
         /// <param name="querry">Query search from <see href="http://allegro.pl">allegro</see> site.</param>
-        public Task Parse(string page, string querry)
+        public void Parse(string page, string querry)
         {
             //klasy znaczników 
             #region tag classes 
@@ -31,7 +31,7 @@ namespace P_ZPP_1
             #endregion
 
             //pobieranie i formatowanie HTML
-            var task = new Task(() =>
+            //var task = new Task(() =>
             {
                 WebClient client = new WebClient();
                 string url = "https://allegro.pl/listing?string=" + querry + "&bmatch=cl-e2101-d3681-c3682-ele-1-1-0304&p=" + page;
@@ -83,17 +83,17 @@ namespace P_ZPP_1
                             else
                             {
                                 tmp2 = item2.InnerText;
+                                ItemParams param = new ItemParams(result.Id, queryInfo.Id, tmp, tmp2);
+                                dbLoad.SaveToParamDb(param);
                             }
-                            ItemParams param = new ItemParams(result.Id, queryInfo.Id, tmp, tmp2);
-                            dbLoad.SaveToParamDb(param);
                         }
-
-
                     }
                     else if (item.SelectSingleNode(freeShippingAuctionName) != null)
                     {
                         var ItemName = item.SelectSingleNode(freeShippingAuctionName).InnerText;
                         var ItemPrice = item.SelectSingleNode(priceInfo).InnerText;
+                        ItemPrice = ItemPrice.Replace(",", ".");
+                        ItemPrice = ItemPrice.Replace(" ", "");
                         var decimalPrice = Decimal.Parse(ItemPrice.Substring(0, ItemPrice.Length - 3));
                         var ParametersNode = item.SelectSingleNode(paramList);
                         var ParametersList = ParametersNode.ChildNodes;
@@ -117,19 +117,19 @@ namespace P_ZPP_1
                             {
                                 tmp2 = item2.InnerText;
                                 //Console.WriteLine(tmp2);
+                                ItemParams param = new ItemParams(result.Id, queryInfo.Id, tmp, tmp2);
+                                dbLoad.SaveToParamDb(param);
                             }
-                            ItemParams param = new ItemParams(result.Id, queryInfo.Id, tmp, tmp2);
-                            dbLoad.SaveToParamDb(param);
                         }
                     }
                 }
                 //var db = new AppDatabase.AllegroAppContext();
                 //db.QueryInfo.Add(new AppDatabase.QueryInfo(querry, DateTime.Now));
                 //db.SaveChanges();
-            });
-            task.Start();
+            }//);
+            //task.Start();
 
-            return task;
+            //return task;
         }
     }
 }

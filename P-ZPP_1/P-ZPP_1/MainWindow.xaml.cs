@@ -58,7 +58,9 @@ namespace P_ZPP_1
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            var number = 2;
+            Parser parser = new Parser();
+            parser.Parse("1","laptopy");
+           /* var number = 2;
             var query = "laptop";
             Parser parser = new Parser();
             var loadTasks = new Task[5];
@@ -67,7 +69,7 @@ namespace P_ZPP_1
                 if(number + i - 2 >= 0)
                     loadTasks[i] = parser.Parse((number + i - 2).ToString(), query);
             }
-            Task.WaitAll(loadTasks);
+            Task.WaitAll(loadTasks);*/
         }
     }
 }
