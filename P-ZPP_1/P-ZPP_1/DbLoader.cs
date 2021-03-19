@@ -12,6 +12,10 @@ namespace P_ZPP_1
     /// </summary>
     class DbLoader
     {
+        /// <summary>
+        /// Saves data to <see cref="QueryInfo"/>table.
+        /// </summary>
+        /// <param name="query">Information about query</param>
         public void SaveToLogDb(QueryInfo query)
         {
             using(var db = new AllegroAppContext())
@@ -21,7 +25,10 @@ namespace P_ZPP_1
             }
 
         }
-
+        /// <summary>
+        /// Saves data to <see cref="Items"/>table.
+        /// </summary>
+        /// <param name="result">Item information - name, price, etc.</param>
         public void SaveToItemDb(Items result)
         {
             using (var db = new AllegroAppContext())
@@ -31,7 +38,10 @@ namespace P_ZPP_1
             }
 
         }
-
+        /// <summary>
+        /// Saves data to <see cref="ItemParams"/> table.
+        /// </summary>
+        /// <param name="param">Item parameters.</param>
         public void SaveToParamDb(ItemParams param)
         {
             using (var db = new AllegroAppContext())
@@ -40,6 +50,15 @@ namespace P_ZPP_1
                 db.SaveChanges();
             }
 
+        }
+        public QueryInfo GetLastQueryInfo()
+        {
+            QueryInfo qi = new QueryInfo();
+            using (var db = new AllegroAppContext())
+            {
+                qi = db.QueryInfo.Last();
+            }
+            return qi;
         }
     }
 }

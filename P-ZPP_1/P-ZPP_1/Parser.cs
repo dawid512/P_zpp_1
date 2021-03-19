@@ -20,7 +20,7 @@ namespace P_ZPP_1
         /// </summary>
         /// <param name="page">Page number.</param>
         /// <param name="querry">Query search from <see href="http://allegro.pl">allegro</see> site.</param>
-        public void Parse(string page, string querry)
+        public void Parse(int page, string querry)
         {
             //klasy znaczników 
             #region tag classes 

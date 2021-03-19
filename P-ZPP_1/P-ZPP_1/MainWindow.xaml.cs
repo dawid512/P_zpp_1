@@ -59,7 +59,7 @@ namespace P_ZPP_1
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Parser parser = new Parser();
-            parser.Parse("1","laptopy");
+            parser.Parse(1,"laptopy");
            /* var number = 2;
             var query = "laptop";
             Parser parser = new Parser();
