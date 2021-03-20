@@ -89,6 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\WebConnection.cs" />
     <Page Include="HistoryOfQuerry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -105,6 +106,8 @@
     <Compile Include="AppDatabase\ItemParams.cs" />
     <Compile Include="AppDatabase\QueryInfo.cs" />
     <Compile Include="AppDatabase\Items.cs" />
+    <Compile Include="DatabaseManagement\DbItemParams.cs" />
+    <Compile Include="DatabaseManagement\DbQueryInfo.cs" />
     <Compile Include="HistoryOfQuerry.xaml.cs">
       <DependentUpon>HistoryOfQuerry.xaml</DependentUpon>
     </Compile>
@@ -114,12 +117,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Parser.cs" />
+    <Compile Include="Classes\PhotoDownloader.cs" />
     <Compile Include="DbLoader.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="PhotoDownloader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DatabaseManagement\DbItems.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -164,6 +170,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -44,10 +44,10 @@ namespace P_ZPP_1
         {
             return new List<Items>()
             {
-                new Items(1,"Produkt 1",300,true),
-                 new Items(2,"Produkt 1",22,true),
-                  new Items(4,"Produkt 1",325,true),
-                   new Items(5,"Produkt 1",300,true)
+                new Items(1,"Produkt 1",300,true,1),
+                 new Items(2,"Produkt 1",300,true,1),
+                  new Items(4,"Produkt 1",325,true,1),
+                   new Items(5,"Produkt 1",300,true,1)
             };
         }
 
@@ -76,12 +76,6 @@ namespace P_ZPP_1
                     loadTasks[i] = parser.Parse((number + i - 2).ToString(), query);
             }
             Task.WaitAll(loadTasks);*/
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            HistoryOfQuerry historyOfQuerry = new HistoryOfQuerry();
-            historyOfQuerry.Show();
         }
     }
 }

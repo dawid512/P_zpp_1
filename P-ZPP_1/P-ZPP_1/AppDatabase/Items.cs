@@ -19,15 +19,16 @@ namespace P_ZPP_1.AppDatabase
         public string ProductName { get; set; }
         public decimal Price { get; set; }
         public bool ALLEGROsmart { get; set; }
+        public int PageNumber { get; set; }
         //public string ImagePath { get; set; }
 
-        public Items(int query_Id, string productName, decimal price, bool aLLEGROsmart /*string imagepath*/)
+        public Items(int query_Id, string productName, decimal price, bool aLLEGROsmart, int page /*string imagepath*/)
         {
-            //Id = id;
-            this.Query_Id = query_Id;
+            Query_Id = query_Id;
             ProductName = productName;
             Price = price;
             ALLEGROsmart = aLLEGROsmart;
+            PageNumber = page;
             //ImagePath = imagepath;
         }
     }

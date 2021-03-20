@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using P_ZPP_1.AppDatabase;
+using P_ZPP_1.Properties;
+
 namespace P_ZPP_1
 {
     /// <summary>
@@ -20,7 +22,9 @@ namespace P_ZPP_1
         /// </summary>
         /// <param name="page">Page number.</param>
         /// <param name="querry">Query search from <see href="http://allegro.pl">allegro</see> site.</param>
+        /// 
         public void Parse(int page, string querry)
+            // TODO: Przekazać queryInfo
         {
             //klasy znaczników 
             #region tag classes 
@@ -31,26 +35,14 @@ namespace P_ZPP_1
             #endregion
 
             //pobieranie i formatowanie HTML
-            //var task = new Task(() =>
             {
-                WebClient client = new WebClient();
-                string url = "https://allegro.pl/listing?string=" + querry + "&bmatch=cl-e2101-d3681-c3682-ele-1-1-0304&p=" + page;
-                Uri uri = new Uri(url);
-                client.Headers.Add("Accept: text/html, application/xhtml+xml, /");
-                client.Headers.Add("User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
-                var data = client.DownloadData(uri);
-                var html = HttpUtility.HtmlDecode(Encoding.UTF8.GetString(data));
-                WebUtility.HtmlDecode(html);
-                var htmlDoc = new HtmlDocument();
-                htmlDoc.LoadHtml(html);
+                WebConnection connection = new WebConnection();
+                HtmlNode[] nodes = connection.GetHtml(querry, page);
 
+                // TODO: Przenieść w miejsce tworzenia query
+                DbQueryInfo queryLoad = new DbQueryInfo();
+                queryLoad.Add(querry, DateTime.Now);
 
-                HtmlNode[] nodes = htmlDoc.DocumentNode.SelectNodes("//article").ToArray();
-
-                //Dodanie informacji o wykonaniu query
-                DbLoader dbLoad = new DbLoader();
-                QueryInfo queryInfo = new QueryInfo(querry, DateTime.Now);
-                dbLoad.SaveToLogDb(queryInfo);
                 //wyciągnięcie informacji z tych nodów
 
                 foreach (HtmlNode item in nodes)
@@ -62,8 +54,7 @@ namespace P_ZPP_1
                         var ItemPrice = item.SelectSingleNode(priceInfo).InnerText;
                         ItemPrice = ItemPrice.Replace(",", ".");
                         ItemPrice = ItemPrice.Replace(" ", "");
-                        Console.WriteLine(ItemPrice.Substring(0, ItemPrice.Length - 3));
-                        var decimalPrice = Decimal.Parse(ItemPrice.Substring(0, ItemPrice.Length - 3));
+                        var decimalPrice = Decimal.Parse(ItemPrice.Substring(0, ItemPrice.Length - 2));
                         var ParametersNode = item.SelectSingleNode(paramList);
                         var ParametersList = ParametersNode.ChildNodes;
 
@@ -71,8 +62,8 @@ namespace P_ZPP_1
                         string tmp = "";
                         string tmp2 = "";
 
-                        Items result = new Items(queryInfo.Id, ItemName, decimalPrice, true);
-                        dbLoad.SaveToItemDb(result);
+                        DbItems result = new DbItems();
+                        result.Add(queryLoad.queryInfo.Id, ItemName, decimalPrice, true, page);
 
                         foreach (var item2 in ParametersList)
                         {
@@ -83,8 +74,8 @@ namespace P_ZPP_1
                             else
                             {
                                 tmp2 = item2.InnerText;
-                                ItemParams param = new ItemParams(result.Id, queryInfo.Id, tmp, tmp2);
-                                dbLoad.SaveToParamDb(param);
+                                DbItemParams param = new DbItemParams();
+                                param.Add(result.item.Id, queryLoad.queryInfo.Id, tmp, tmp2);
                             }
                         }
                     }
@@ -94,42 +85,33 @@ namespace P_ZPP_1
                         var ItemPrice = item.SelectSingleNode(priceInfo).InnerText;
                         ItemPrice = ItemPrice.Replace(",", ".");
                         ItemPrice = ItemPrice.Replace(" ", "");
-                        var decimalPrice = Decimal.Parse(ItemPrice.Substring(0, ItemPrice.Length - 3));
+                        var decimalPrice = Decimal.Parse(ItemPrice.Substring(0, ItemPrice.Length - 2));
                         var ParametersNode = item.SelectSingleNode(paramList);
                         var ParametersList = ParametersNode.ChildNodes;
 
                         string tmp = "";
                         string tmp2 = "";
-                        //var techDic = new Dictionary<string, string>();
-                        //Console.WriteLine("\n{0}\nCena: {1}", ItemName, ItemPrice);
 
-                        Items result = new Items(queryInfo.Id, ItemName, decimalPrice, true);
-                        dbLoad.SaveToItemDb(result);
+                        DbItems result = new DbItems();
+                        result.Add(queryLoad.queryInfo.Id, ItemName, decimalPrice, true, page);
 
                         foreach (var item2 in ParametersList)
                         {
                             if (item2.Name == "dt")
                             {
                                 tmp = item2.InnerText;
-                                //Console.Write("{0}: ", tmp);
                             }
                             else
                             {
                                 tmp2 = item2.InnerText;
-                                //Console.WriteLine(tmp2);
-                                ItemParams param = new ItemParams(result.Id, queryInfo.Id, tmp, tmp2);
-                                dbLoad.SaveToParamDb(param);
+
+                                DbItemParams param = new DbItemParams();
+                                param.Add(result.item.Id, queryLoad.queryInfo.Id, tmp, tmp2);
                             }
                         }
                     }
                 }
-                //var db = new AppDatabase.AllegroAppContext();
-                //db.QueryInfo.Add(new AppDatabase.QueryInfo(querry, DateTime.Now));
-                //db.SaveChanges();
-            }//);
-            //task.Start();
-
-            //return task;
+            }
         }
     }
 }
