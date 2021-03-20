@@ -42,13 +42,9 @@ namespace P_ZPP_1
 
         private List<Items> GetItems()
         {
-            return new List<Items>()
-            {
-                new Items(1,"Produkt 1",300,true,1),
-                 new Items(2,"Produkt 1",300,true,1),
-                  new Items(4,"Produkt 1",325,true,1),
-                   new Items(5,"Produkt 1",300,true,1)
-            };
+            return new List<Items>();
+            
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -61,11 +57,15 @@ namespace P_ZPP_1
         {
             string inToParser = PoleSzukaj.Text;
 
+
             //Parser parser = new Parser();
             //parser.Parse(1,inToParser);
 
+            if (inToParser.Length >0 )
+            {
 
-           
+
+
                 await Task.Run(() =>
                 {
 
@@ -73,7 +73,10 @@ namespace P_ZPP_1
                     parser.Parse(1, inToParser);
                 });
 
-            
+            }else
+            {
+                MessageBox.Show("Błąd, Pole wyszukiwania jest puste");
+            }
 
 
 
