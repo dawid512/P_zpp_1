@@ -27,6 +27,8 @@ namespace P_ZPP_1
             List<QueryInfo> queryInfos = new List<QueryInfo>();
             queryInfos.Select(x => x.Querry).ToList();
 
+            combox.ItemsSource = queryInfos;
+
             
 
             

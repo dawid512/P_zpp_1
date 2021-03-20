@@ -12,6 +12,9 @@ namespace P_ZPP_1.AppDatabase
     /// </summary>
     public class QueryInfo
     {
+        private string query;
+        private DateTime dateTime;
+
         [Key]
         public int Id { get; set; }
         public string Querry { get; set; }
@@ -20,10 +23,14 @@ namespace P_ZPP_1.AppDatabase
         {
 
         }
-        public QueryInfo(string querry, DateTime date)
+        
+
+        
+
+        public QueryInfo(string query, DateTime dateTime)
         {
-            Querry = querry;
-            Date = date;
+            this.query = query;
+            this.dateTime = dateTime;
         }
     }
 }

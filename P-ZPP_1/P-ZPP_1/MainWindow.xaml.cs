@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,18 +33,28 @@ namespace P_ZPP_1
 
             db.Database.CreateIfNotExists();
 
+           // var  lista = db.Items.Where(X => X.Query_Id == 1).ToList();
+
+            //List<Items> itemss = new List<Items>();
 
 
-            var items = GetItems();
-            if (items.Count > 0)
-                ProductList.ItemsSource = items;
+      
 
-        }
 
-        private List<Items> GetItems()
-        {
-            return new List<Items>();
             
+
+
+
+    }
+
+        private List<Items> GetItems(int querryid)
+        {
+            List<Items> items = new List<Items>();
+            using (var db = new AllegroAppContext())
+            {
+                items = db.Items.Where(x => x.Query_Id == querryid).ToList();
+            }
+            return items;
             
         }
 
@@ -71,13 +82,26 @@ namespace P_ZPP_1
 
                     Parser parser = new Parser();
                     parser.Parse(1, inToParser);
+                    int id;
+                    Thread.Sleep(1000);
+                    using (var db = new AllegroAppContext())
+                    {
+                        QueryInfo lastQuery = db.QueryInfo.ToList().Last();
+                        id = lastQuery.Id;
+                    }
+                    var items = GetItems(id);
+                    if (items.Count > 0)
+                        ProductList.ItemsSource = items;
                 });
+                
+                //List<Items> itemss = new List<Items>();
 
-            }else
+            }
+            else
             {
                 MessageBox.Show("Błąd, Pole wyszukiwania jest puste");
             }
-
+            
 
 
             /* var number = 2;
