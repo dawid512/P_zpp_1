@@ -54,28 +54,30 @@ namespace P_ZPP_1
                         var ItemPrice = item.SelectSingleNode(priceInfo).InnerText;
                         ItemPrice = ItemPrice.Replace(",", ".");
                         ItemPrice = ItemPrice.Replace(" ", "");
-                        var decimalPrice = Decimal.Parse(ItemPrice.Substring(0, ItemPrice.Length - 2));
+                        ItemPrice = ItemPrice.Replace("zł", "");
+                        var decimalPrice = Decimal.Parse(ItemPrice.Substring(0, ItemPrice.Length));
                         var ParametersNode = item.SelectSingleNode(paramList);
-                        var ParametersList = ParametersNode.ChildNodes;
-
 
                         string tmp = "";
                         string tmp2 = "";
 
                         DbItems result = new DbItems();
                         result.Add(queryLoad.queryInfo.Id, ItemName, decimalPrice, true, page);
-
-                        foreach (var item2 in ParametersList)
+                        if(ParametersNode != null)
                         {
-                            if (item2.Name == "dt")
+                            var ParametersList = ParametersNode.ChildNodes;
+                            foreach (var item2 in ParametersList)
                             {
-                                tmp = item2.InnerText;
-                            }
-                            else
-                            {
-                                tmp2 = item2.InnerText;
-                                DbItemParams param = new DbItemParams();
-                                param.Add(result.item.Id, queryLoad.queryInfo.Id, tmp, tmp2);
+                                if (item2.Name == "dt")
+                                {
+                                    tmp = item2.InnerText;
+                                }
+                                else
+                                {
+                                    tmp2 = item2.InnerText;
+                                    DbItemParams param = new DbItemParams();
+                                    param.Add(result.item.Id, queryLoad.queryInfo.Id, tmp, tmp2);
+                                }
                             }
                         }
                     }
@@ -85,9 +87,10 @@ namespace P_ZPP_1
                         var ItemPrice = item.SelectSingleNode(priceInfo).InnerText;
                         ItemPrice = ItemPrice.Replace(",", ".");
                         ItemPrice = ItemPrice.Replace(" ", "");
-                        var decimalPrice = Decimal.Parse(ItemPrice.Substring(0, ItemPrice.Length - 2));
+                        ItemPrice = ItemPrice.Replace("zł", "");
+                        var decimalPrice = Decimal.Parse(ItemPrice.Substring(0, ItemPrice.Length));
                         var ParametersNode = item.SelectSingleNode(paramList);
-                        var ParametersList = ParametersNode.ChildNodes;
+
 
                         string tmp = "";
                         string tmp2 = "";
@@ -95,20 +98,25 @@ namespace P_ZPP_1
                         DbItems result = new DbItems();
                         result.Add(queryLoad.queryInfo.Id, ItemName, decimalPrice, true, page);
 
-                        foreach (var item2 in ParametersList)
+                        if(ParametersNode != null)
                         {
-                            if (item2.Name == "dt")
+                            var ParametersList = ParametersNode.ChildNodes;
+                            foreach (var item2 in ParametersList)
                             {
-                                tmp = item2.InnerText;
-                            }
-                            else
-                            {
-                                tmp2 = item2.InnerText;
+                                if (item2.Name == "dt")
+                                {
+                                    tmp = item2.InnerText;
+                                }
+                                else
+                                {
+                                    tmp2 = item2.InnerText;
 
-                                DbItemParams param = new DbItemParams();
-                                param.Add(result.item.Id, queryLoad.queryInfo.Id, tmp, tmp2);
+                                    DbItemParams param = new DbItemParams();
+                                    param.Add(result.item.Id, queryLoad.queryInfo.Id, tmp, tmp2);
+                                }
                             }
                         }
+
                     }
                 }
             }
