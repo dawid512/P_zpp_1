@@ -13,6 +13,8 @@ namespace P_ZPP_1.AppDatabase
     /// </summary>
     public class Items
     {
+        private int queryId;
+
         [Key]
         public int Id { get; set; }
         public int Query_Id { get; set; }
@@ -22,14 +24,20 @@ namespace P_ZPP_1.AppDatabase
         public int PageNumber { get; set; }
         //public string ImagePath { get; set; }
 
-        public Items(int query_Id, string productName, decimal price, bool aLLEGROsmart, int page /*string imagepath*/)
+        public Items()
         {
-            Query_Id = query_Id;
+
+        }
+
+        
+
+        public Items(int queryId, string productName, decimal price, bool allegroSmart, int pageNumber)
+        {
+            this.queryId = queryId;
             ProductName = productName;
             Price = price;
-            ALLEGROsmart = aLLEGROsmart;
-            PageNumber = page;
-            //ImagePath = imagepath;
+            ALLEGROsmart = allegroSmart;
+            PageNumber = pageNumber;
         }
     }
 }

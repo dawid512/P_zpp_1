@@ -108,6 +108,7 @@
     <Compile Include="AppDatabase\Items.cs" />
     <Compile Include="DatabaseManagement\DbItemParams.cs" />
     <Compile Include="DatabaseManagement\DbQueryInfo.cs" />
+    <Compile Include="DatabaseManagement\QueryRemover.cs" />
     <Compile Include="HistoryOfQuerry.xaml.cs">
       <DependentUpon>HistoryOfQuerry.xaml</DependentUpon>
     </Compile>
@@ -119,7 +120,6 @@
   <ItemGroup>
     <Compile Include="Classes\Parser.cs" />
     <Compile Include="Classes\PhotoDownloader.cs" />
-    <Compile Include="DbLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

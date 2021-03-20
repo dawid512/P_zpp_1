@@ -13,6 +13,11 @@ namespace P_ZPP_1.AppDatabase
     /// </summary>
     public class ItemParams
     {
+        private int itemId;
+        private int queryId;
+        private string propertyName;
+        private string propertyValue;
+
         [Key]
         public int Id { get; set; }
         public int Item_id { get; set; }
@@ -20,12 +25,16 @@ namespace P_ZPP_1.AppDatabase
         public string Property_Name { get; set; }
         public string Property_Value { get; set; }
 
-        public ItemParams(int item_id, int querry_id, string property_Name, string property_Value)
+        
+
+        
+
+        public ItemParams(int itemId, int queryId, string propertyName, string propertyValue)
         {
-            Item_id = item_id;
-            Querry_id = querry_id;
-            Property_Name = property_Name;
-            Property_Value = property_Value;
+            this.itemId = itemId;
+            this.queryId = queryId;
+            this.propertyName = propertyName;
+            this.propertyValue = propertyValue;
         }
     }
 }
