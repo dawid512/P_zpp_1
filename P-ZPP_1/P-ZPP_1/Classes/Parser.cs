@@ -55,7 +55,7 @@ namespace P_ZPP_1
                         ItemPrice = ItemPrice.Replace(",", ".");
                         ItemPrice = ItemPrice.Replace(" ", "");
                         ItemPrice = ItemPrice.Replace("zł", "");
-                        var decimalPrice = Decimal.Parse(ItemPrice.Substring(0, ItemPrice.Length));
+                        var decimalPrice = Convert.ToDecimal(ItemPrice);
                         var ParametersNode = item.SelectSingleNode(paramList);
 
                         string tmp = "";
