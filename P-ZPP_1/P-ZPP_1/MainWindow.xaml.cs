@@ -51,31 +51,42 @@ namespace P_ZPP_1
             };
         }
 
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            HistoryOfQuerry historyOfQuerry = new HistoryOfQuerry();
+            historyOfQuerry.Show();
+        }
 
-        //}
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
             string inToParser = PoleSzukaj.Text;
 
-            Parser parser = new Parser();
-            parser.Parse(1,inToParser);
+            //Parser parser = new Parser();
+            //parser.Parse(1,inToParser);
 
 
+           
+                await Task.Run(() =>
+                {
+
+                    Parser parser = new Parser();
+                    parser.Parse(1, inToParser);
+                });
 
             
-           /* var number = 2;
-            var query = "laptop";
-            Parser parser = new Parser();
-            var loadTasks = new Task[5];
-            for (int i = 0; i < 5; i++)
-            {
-                if(number + i - 2 >= 0)
-                    loadTasks[i] = parser.Parse((number + i - 2).ToString(), query);
-            }
-            Task.WaitAll(loadTasks);*/
+
+
+
+            /* var number = 2;
+             var query = "laptop";
+             Parser parser = new Parser();
+             var loadTasks = new Task[5];
+             for (int i = 0; i < 5; i++)
+             {
+                 if(number + i - 2 >= 0)
+                     loadTasks[i] = parser.Parse((number + i - 2).ToString(), query);
+             }
+             Task.WaitAll(loadTasks);*/
         }
     }
 }

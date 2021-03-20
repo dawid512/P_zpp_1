@@ -120,8 +120,6 @@
     <Compile Include="Classes\Parser.cs" />
     <Compile Include="Classes\PhotoDownloader.cs" />
     <Compile Include="DbLoader.cs" />
-    <Compile Include="Parser.cs" />
-    <Compile Include="PhotoDownloader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
