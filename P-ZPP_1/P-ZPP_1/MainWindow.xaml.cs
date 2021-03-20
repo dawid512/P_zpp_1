@@ -44,10 +44,10 @@ namespace P_ZPP_1
         {
             return new List<Items>()
             {
-                new Items(1,"Produkt 1",300,true),
-                 new Items(2,"Produkt 1",300,true),
-                  new Items(4,"Produkt 1",325,true),
-                   new Items(5,"Produkt 1",300,true)
+                new Items(1,"Produkt 1",300,true,1),
+                 new Items(2,"Produkt 1",300,true,1),
+                  new Items(4,"Produkt 1",325,true,1),
+                   new Items(5,"Produkt 1",300,true,1)
             };
         }
 
@@ -56,20 +56,14 @@ namespace P_ZPP_1
 
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Parser parser = new Parser();
-            parser.Parse(1,"laptopy");
-           /* var number = 2;
-            var query = "laptop";
-            Parser parser = new Parser();
-            var loadTasks = new Task[5];
-            for (int i = 0; i < 5; i++)
-            {
-                if(number + i - 2 >= 0)
-                    loadTasks[i] = parser.Parse((number + i - 2).ToString(), query);
-            }
-            Task.WaitAll(loadTasks);*/
+            await Task.Run(() =>
+            {  
+                Parser parser = new Parser();
+                parser.Parse(1, "laptopy");
+            });
+
         }
     }
 }

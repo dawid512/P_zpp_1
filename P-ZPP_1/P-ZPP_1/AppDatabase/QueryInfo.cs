@@ -16,15 +16,14 @@ namespace P_ZPP_1.AppDatabase
         public int Id { get; set; }
         public string Querry { get; set; }
         public DateTime Date { get; set; }
-        public int PageNumber { get; set; }
         public QueryInfo()
         {
 
         }
         public QueryInfo(string querry, DateTime date)
         {
-            this.Querry = querry;
-            this.Date = date;
+            Querry = querry;
+            Date = date;
         }
     }
 }
