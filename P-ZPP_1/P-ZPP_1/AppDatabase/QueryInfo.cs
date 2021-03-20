@@ -30,7 +30,7 @@ namespace P_ZPP_1.AppDatabase
         public QueryInfo(string query, DateTime dateTime)
         {
             this.query = query;
-            this.dateTime = dateTime;
+            this.Date = dateTime;
         }
     }
 }
