@@ -162,9 +162,6 @@ namespace P_ZPP_1
             });
         }
 
-        private void następna_strona_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
+    
     }
 }

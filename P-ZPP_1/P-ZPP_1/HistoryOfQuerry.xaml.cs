@@ -24,17 +24,35 @@ namespace P_ZPP_1
         {
             InitializeComponent();
 
-            List<QueryInfo> queryInfos = new List<QueryInfo>();
-            queryInfos.Select(x => x.Querry).ToList();
+            var querry = GetQuerry();
 
-            
 
-            
+            combox.ItemsSource = querry;
+
+
+          
+
+        }
+        private List<string> GetQuerry()
+        {
+            List<QueryInfo> qurery = new List<QueryInfo>();
+            List<string> listOfString = new List<string>();
+            using (var db = new AllegroAppContext())
+            {
+                qurery = db.QueryInfo.ToList();
+                foreach (var item in qurery)
+                {
+                    listOfString.Add(item.Querry);
+                }
+
+            }
+            // var id = qurery[0].Id; 
+            var QueryString = qurery[1].Querry;
+
+            return listOfString;
 
         }
 
-
-        
 
     }
 
