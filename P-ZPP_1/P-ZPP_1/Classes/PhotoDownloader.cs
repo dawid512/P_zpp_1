@@ -14,7 +14,7 @@ namespace P_ZPP_1
     /// <summary>
     /// Class containg methods responsible for <see cref="GetPhotoScript(HtmlDocument)">getting photo script</see>,  
     /// <see cref="GetAllLinks(string)">gettling all links</see>, 
-    /// and <see cref="DownloadPhotosFromList(List{string}, System.Net.WebClient, QueryInfo)">downloading images </see>from list.
+    /// and <see cref="DownloadPhotosFromList(List{string}, WebClient, string, int)">downloading images </see>from list.
     /// </summary>
     class PhotoDownloader
     {
@@ -59,16 +59,17 @@ namespace P_ZPP_1
             return imagelinklist;
         }
         /// <summary>
-        /// Takes the <see cref="List{T}"/> of links and downloads them.
+        /// Takes the <see cref="List{T}">List</see> of links and downloads them.
         /// </summary>
         /// <param name="list">List of links.</param>
         /// <param name="client">WebClient object responsible for connecting to Website.</param>
-        /// <param name="qi"><see cref="QueryInfo"/> object.</param>
-        /// <returns><see cref="List{T}"/> of paths to photos.</returns>
-        public List<string> DownloadPhotosFromList(List<string> list, System.Net.WebClient client, QueryInfo qi)
+        /// <param name="pagenumber">Number of page on allegro site.</param>
+        /// <param name="query">Search query.</param>
+        /// <returns><see cref="List{T}">List</see> of paths to photos.</returns>
+        public List<string> DownloadPhotosFromList(List<string> list, System.Net.WebClient client, string query, int pagenumber)
         {
             int i = 1;
-            var createDirectory = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), (qi.Querry + "_" + qi.Id.ToString())));
+            var createDirectory = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), (query + "_" + pagenumber)));
             var path = createDirectory.FullName;
             List<string> photoPaths = new List<string>();
             foreach (var item in list)
@@ -83,17 +84,18 @@ namespace P_ZPP_1
         /// <summary>
         /// Executes <see cref="GetPhotoScript(HtmlDocument)">GetPhotoScript</see>, 
         /// <see cref="GetAllLinks(string)">GetAllLinks</see>, and 
-        /// <see cref="DownloadPhotosFromList(List{string}, WebClient, QueryInfo)">DownloadPhotosFromList</see> methods.
+        /// <see cref="DownloadPhotosFromList(List{string}, WebClient, string, int)">DownloadPhotosFromList</see> methods.
         /// </summary>
         /// <param name="doc"><see cref="HtmlDocument"></see> downloaded from <see cref="WebClient"/>.</param>
         /// <param name="client"><see cref="WebClient"></see> object connecting to <see href="http://allegro.pl">allegro.pl</see> site and downloading photos.</param>
-        /// <param name="qi"><see cref="QueryInfo"/> object.</param>
+        /// <param name="query">Search query needed to create folder with photos.</param>
+        /// <param name="pagenumber">Page number needed to create folder with photos</param>
         /// <returns><see cref="List{T}">List</see> of paths to photos.</returns>
-        public List<string> DownloadPhotos(HtmlDocument doc, System.Net.WebClient client, QueryInfo qi)
+        public List<string> DownloadPhotos(HtmlDocument doc, System.Net.WebClient client, string query, int pagenumber)
         {
             var photoscript = GetPhotoScript(doc);
             var list = GetAllLinks(photoscript);
-            var photoList = DownloadPhotosFromList(list, client, qi);
+            var photoList = DownloadPhotosFromList(list, client, query, pagenumber);
 
             return photoList;
         }

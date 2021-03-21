@@ -9,22 +9,44 @@ using System.Web;
 
 namespace P_ZPP_1
 {
+    /// <summary>
+    /// Contains method responsible for connecting to web. 
+    /// </summary>
     class WebConnection
     {
-        public HtmlNode[] GetHtml(string query, int pageNumber)
+        /// <summary>
+        /// Connects to <see href="http://allegro.pl">Allegro</see> website, 
+        /// downloads photos by <see cref="PhotoDownloader.DownloadPhotos(HtmlDocument, WebClient, string, int)">DownloadPhotos</see> 
+        /// and information by <see cref="Parser.Parse">Parse</see> method.
+        /// </summary>
+        /// <param name="query">Query from textbox.</param>
+        /// <param name="pageNumber">Number of page.</param>
+        public void GetHtml(string query, int pageNumber)
         {
             WebClient client = new WebClient();
+            PhotoDownloader pd = new PhotoDownloader();
+            Parser parser = new Parser();
+            
             string url = "https://allegro.pl/listing?string=" + query + "&bmatch=cl-e2101-d3681-c3682-ele-1-1-0304&p=" + pageNumber;
             Uri uri = new Uri(url);
+            
             client.Headers.Add("Accept: text/html, application/xhtml+xml, /");
             client.Headers.Add("User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
+            
             var data = client.DownloadData(uri);
             var html = HttpUtility.HtmlDecode(Encoding.UTF8.GetString(data));
             WebUtility.HtmlDecode(html);
             var htmlDoc = new HtmlDocument();
+            
             htmlDoc.LoadHtml(html);
+            List<string> listOfPaths = pd.DownloadPhotos(htmlDoc, client, query, pageNumber);
+            client.Dispose();
+            HtmlNode[] nodes = htmlDoc.DocumentNode.SelectNodes("//article").ToArray();
 
-            return htmlDoc.DocumentNode.SelectNodes("//article").ToArray();
+            parser.Parse(nodes, listOfPaths, pageNumber, query);
+
+            
+
         }
     }
 }

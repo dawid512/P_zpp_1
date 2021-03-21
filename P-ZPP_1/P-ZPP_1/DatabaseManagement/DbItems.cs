@@ -10,9 +10,9 @@ namespace P_ZPP_1.Properties
     class DbItems
     {
         public Items item { get; set; }
-        public void Add(int queryId, string productName, decimal price, bool allegroSmart, int pageNumber)
+        public void Add(int queryId, string productName, decimal price, bool allegroSmart, int pageNumber, string imagepath, string hyperlink)
         {
-            item = new Items(queryId, productName, price, allegroSmart, pageNumber);
+            item = new Items(queryId, productName, price, allegroSmart, pageNumber, imagepath, hyperlink);
             SaveToItemDb(item);
         }
 

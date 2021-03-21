@@ -58,9 +58,6 @@ namespace P_ZPP_1
             string inToParser = PoleSzukaj.Text;
 
 
-            //Parser parser = new Parser();
-            //parser.Parse(1,inToParser);
-
             if (inToParser.Length >0 )
             {
 
@@ -70,7 +67,8 @@ namespace P_ZPP_1
                 {
 
                     Parser parser = new Parser();
-                    parser.Parse(1, inToParser);
+                    // TODO - Async downloading and parsing
+                    //parser.Parse(1, inToParser);
                 });
 
             }else
