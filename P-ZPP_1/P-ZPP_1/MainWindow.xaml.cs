@@ -56,9 +56,9 @@ namespace P_ZPP_1
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            string inToParser = PoleSzukaj.Text;
-
-            if (inToParser.Length > 0 )
+            PagesLoadedMemory.currentQuery = PoleSzukaj.Text;
+            bool created;
+            if (SetCurrentValue.Length > 0 )
             {
                 await Task.Run(() =>
                 {
@@ -67,7 +67,7 @@ namespace P_ZPP_1
                     PagesLoadedMemory.SetCurrentPage(1);
 
                     PagesLoadedMemory.LoadedPageAdd(1);
-                    PagesLoadedMemory.maxPage = parser.GetHtml(inToParser, 1);
+                    PagesLoadedMemory.maxPage = parser.GetHtml(PagesLoadedMemory.currentQuery, 1);
 
                     if (PagesLoadedMemory.maxPage == 0)
                     {
@@ -78,8 +78,9 @@ namespace P_ZPP_1
                     {
                         for(int i = 2; i <= 3 || i <= PagesLoadedMemory.maxPage; i++)
                         {
-                            PagesLoadedMemory.LoadedPageAdd(i);
-                            parser.GetHtml(inToParser, i);
+                            created = PagesLoadedMemory.LoadedPageAdd(i);
+                            if(created)
+                                parser.GetHtml(inToParser, i);
                         }
                     }
                 });
@@ -90,70 +91,78 @@ namespace P_ZPP_1
             }
         }
 
-        //Dla inkrementacji stron
-        /*
 
-                await Task.Run(() =>
-                {
-                    WebConnection parser = new WebConnection();
-                    PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage()+1);
-                    
-                    for(int i = PagesLoadedMemory.GetCurrentPage(); i <= PagesLoadedMemory.GetCurrentPage() + 2 || i <= PagesLoadedMemory.maxPage; i++)
-                    {
-                        PagesLoadedMemory.LoadedPageAdd(i);
-                        parser.GetHtml(inToParser, i);
-                    }
-
-                }
-         //Dla dekrementacji stron
-        
-
-                await Task.Run(() =>
-                {
-                    WebConnection parser = new WebConnection();
-                    PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage()-1);
-                    
-                    for(int i = PagesLoadedMemory.GetCurrentPage(); i => PagesLoadedMemory.GetCurrentPage() - 2 || i > 0; i--)
-                    {
-                        PagesLoadedMemory.LoadedPageAdd(i);
-                        parser.GetHtml(inToParser, i);
-                    }
-
-                }
-
-        //Dla idź do
-        /*
-
-                await Task.Run(() =>
-                {
-                    WebConnection parser = new WebConnection();
-                    PagesLoadedMemory.SetCurrentPage(ConvertTo.Int32(textbox.Text));
-                    
-                    for(int i = PagesLoadedMemory.GetCurrentPage(); i <= PagesLoadedMemory.GetCurrentPage() + 2 || i <= PagesLoadedMemory.maxPage; i++)
-                    {
-                        PagesLoadedMemory.LoadedPageAdd(i);
-                        parser.GetHtml(inToParser, i);
-                    }
-
-
-                    for(int i = PagesLoadedMemory.GetCurrentPage(); i => PagesLoadedMemory.GetCurrentPage() - 2 || i > 0; i--)
-                    {
-                        PagesLoadedMemory.LoadedPageAdd(i);
-                        parser.GetHtml(inToParser, i);
-                    }
-                }
-
-         
-        */
-        private void Poprzednia_strona_Click(object sender, RoutedEventArgs e)
+        private async void Poprzednia_strona_Click(object sender, RoutedEventArgs e)
         {
-            
+            bool created;
+            WebConnection parser = new WebConnection();
+            await Task.Run(() =>
+            {
+                
+                PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() - 1);
+                PagesLoadedMemory.LoadedPageAdd(PagesLoadedMemory.GetCurrentPage());
+                parser.GetHtml(PagesLoadedMemory.currentQuery, PagesLoadedMemory.GetCurrentPage());
+
+                for (int i = PagesLoadedMemory.GetCurrentPage(); i >= PagesLoadedMemory.GetCurrentPage() - 2 || i > 0; i--)
+                {
+                    created = PagesLoadedMemory.LoadedPageAdd(i);
+                    if (created)
+                        parser.GetHtml(PagesLoadedMemory.currentQuery, i);
+                }
+
+            });
         }
-        private void idz_do_Click(object sender, RoutedEventArgs e)
+        private async void idz_do_Click(object sender, RoutedEventArgs e)
         {
-           
+            bool created;
+            WebConnection parser = new WebConnection();
+            await Task.Run(() =>
+            {
+                PagesLoadedMemory.SetCurrentPage(Convert.ToInt32(textbox.Text));
+                PagesLoadedMemory.LoadedPageAdd(PagesLoadedMemory.GetCurrentPage());
+                parser.GetHtml(PagesLoadedMemory.currentQuery, PagesLoadedMemory.GetCurrentPage());
+            });
+            await Task.Run(() =>
+            {
+                for (int i = PagesLoadedMemory.GetCurrentPage(); i <= PagesLoadedMemory.GetCurrentPage() + 2 || i <= PagesLoadedMemory.maxPage; i++)
+                {
+                    created = PagesLoadedMemory.LoadedPageAdd(i);
+                    if (created)
+                        parser.GetHtml(PagesLoadedMemory.currentQuery, i);
+                }
+
+
+                for (int i = PagesLoadedMemory.GetCurrentPage(); i >= PagesLoadedMemory.GetCurrentPage() - 2 || i > 0; i--)
+                {
+                    created = PagesLoadedMemory.LoadedPageAdd(i);
+                    if (created)
+                        parser.GetHtml(PagesLoadedMemory.currentQuery, i);
+                }
+            });
         }
-        private void następna_strona_Click(object sender, RoutedEventArgs e)
+        private async void następna_strona_Click(object sender, RoutedEventArgs e)
+        {
+            bool created;
+            WebConnection parser = new WebConnection();
+            await Task.Run(() =>
+            {
+                PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() + 1);
+                PagesLoadedMemory.LoadedPageAdd(PagesLoadedMemory.GetCurrentPage());
+                parser.GetHtml(PagesLoadedMemory.currentQuery, PagesLoadedMemory.GetCurrentPage());
+            });
+            await Task.Run(() =>
+            {
+                for (int i = PagesLoadedMemory.GetCurrentPage(); i <= PagesLoadedMemory.GetCurrentPage() + 2 || i <= PagesLoadedMemory.maxPage; i++)
+                {
+                    created = PagesLoadedMemory.LoadedPageAdd(i);
+                    if (created)
+                        parser.GetHtml(PagesLoadedMemory.currentQuery, i);
+                }
+
+            });
+        }
+
+        private void następna_strona_Click_1(object sender, RoutedEventArgs e)
         {
 
         }
