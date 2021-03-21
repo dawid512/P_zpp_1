@@ -19,10 +19,10 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.RowSpan="2">
             <TextBlock Text="Allegro" HorizontalAlignment="Center" Margin="12,0,18,5" FontSize="30" Width="140" Height="559" VerticalAlignment="Bottom"/>
-            <Button x:Name="następna_strona" Content="Następna strona" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Bottom" Height="30" Width="140" Click="następna_strona_Click_1"/>
-            <Button  Content="Poprzednia strona " HorizontalAlignment="Left" Margin="10,0,0,92" VerticalAlignment="Bottom" Height="30" Width="140" Click="Button_Click_2"/>
-            <TextBox HorizontalAlignment="Center" Height="30" Width="43" Margin="107,487,20,52" />
-            <Button  Content="Idź do " HorizontalAlignment="Left" Margin="10,0,0,52" VerticalAlignment="Bottom" Height="30" Width="70"/>
+            <Button Content="Następna strona" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Bottom" Height="30" Width="140" Click="następna_strona_Click"/>
+            <Button  Content="Poprzednia strona " HorizontalAlignment="Left" Margin="10,0,0,92" VerticalAlignment="Bottom" Height="30" Width="140" Click="Poprzednia_strona_Click"/>
+            <TextBox x:Name="textbox" HorizontalAlignment="Center" Height="30" Width="43" Margin="107,487,20,52" />
+            <Button  Content="Idź do " HorizontalAlignment="Left" Margin="10,0,0,52" VerticalAlignment="Bottom" Height="30" Width="70" Click="idz_do_Click"/>
         </Grid>
 
         <TextBox Name="PoleSzukaj"  Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="22" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="434"/>

@@ -58,7 +58,7 @@ namespace P_ZPP_1
         {
             PagesLoadedMemory.currentQuery = PoleSzukaj.Text;
             bool created;
-            if (SetCurrentValue.Length > 0 )
+            if (PagesLoadedMemory.currentQuery.Length > 0 )
             {
                 await Task.Run(() =>
                 {
@@ -76,11 +76,11 @@ namespace P_ZPP_1
                     }
                     else
                     {
-                        for(int i = 2; i <= 3 || i <= PagesLoadedMemory.maxPage; i++)
+                        for(int i = 2; i <= 3 && i <= PagesLoadedMemory.maxPage; i++)
                         {
                             created = PagesLoadedMemory.LoadedPageAdd(i);
                             if(created)
-                                parser.GetHtml(inToParser, i);
+                                parser.GetHtml(PagesLoadedMemory.currentQuery, i);
                         }
                     }
                 });
@@ -100,10 +100,11 @@ namespace P_ZPP_1
             {
                 
                 PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() - 1);
-                PagesLoadedMemory.LoadedPageAdd(PagesLoadedMemory.GetCurrentPage());
-                parser.GetHtml(PagesLoadedMemory.currentQuery, PagesLoadedMemory.GetCurrentPage());
+                created = PagesLoadedMemory.LoadedPageAdd(PagesLoadedMemory.GetCurrentPage());
+                if(created)
+                    parser.GetHtml(PagesLoadedMemory.currentQuery, PagesLoadedMemory.GetCurrentPage());
 
-                for (int i = PagesLoadedMemory.GetCurrentPage(); i >= PagesLoadedMemory.GetCurrentPage() - 2 || i > 0; i--)
+                for (int i = PagesLoadedMemory.GetCurrentPage(); i >= PagesLoadedMemory.GetCurrentPage() - 2 && i > 0; i--)
                 {
                     created = PagesLoadedMemory.LoadedPageAdd(i);
                     if (created)
@@ -116,15 +117,16 @@ namespace P_ZPP_1
         {
             bool created;
             WebConnection parser = new WebConnection();
+            PagesLoadedMemory.SetCurrentPage(Convert.ToInt32(textbox.Text));
             await Task.Run(() =>
             {
-                PagesLoadedMemory.SetCurrentPage(Convert.ToInt32(textbox.Text));
-                PagesLoadedMemory.LoadedPageAdd(PagesLoadedMemory.GetCurrentPage());
-                parser.GetHtml(PagesLoadedMemory.currentQuery, PagesLoadedMemory.GetCurrentPage());
+                created = PagesLoadedMemory.LoadedPageAdd(PagesLoadedMemory.GetCurrentPage());
+                if(created)
+                    parser.GetHtml(PagesLoadedMemory.currentQuery, PagesLoadedMemory.GetCurrentPage());
             });
             await Task.Run(() =>
             {
-                for (int i = PagesLoadedMemory.GetCurrentPage(); i <= PagesLoadedMemory.GetCurrentPage() + 2 || i <= PagesLoadedMemory.maxPage; i++)
+                for (int i = PagesLoadedMemory.GetCurrentPage(); i <= PagesLoadedMemory.GetCurrentPage() + 2 && i <= PagesLoadedMemory.maxPage; i++)
                 {
                     created = PagesLoadedMemory.LoadedPageAdd(i);
                     if (created)
@@ -132,7 +134,7 @@ namespace P_ZPP_1
                 }
 
 
-                for (int i = PagesLoadedMemory.GetCurrentPage(); i >= PagesLoadedMemory.GetCurrentPage() - 2 || i > 0; i--)
+                for (int i = PagesLoadedMemory.GetCurrentPage(); i >= PagesLoadedMemory.GetCurrentPage() - 2 && i > 0; i--)
                 {
                     created = PagesLoadedMemory.LoadedPageAdd(i);
                     if (created)
@@ -147,12 +149,13 @@ namespace P_ZPP_1
             await Task.Run(() =>
             {
                 PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() + 1);
-                PagesLoadedMemory.LoadedPageAdd(PagesLoadedMemory.GetCurrentPage());
-                parser.GetHtml(PagesLoadedMemory.currentQuery, PagesLoadedMemory.GetCurrentPage());
+                created = PagesLoadedMemory.LoadedPageAdd(PagesLoadedMemory.GetCurrentPage());
+                if(created)
+                    parser.GetHtml(PagesLoadedMemory.currentQuery, PagesLoadedMemory.GetCurrentPage());
             });
             await Task.Run(() =>
             {
-                for (int i = PagesLoadedMemory.GetCurrentPage(); i <= PagesLoadedMemory.GetCurrentPage() + 2 || i <= PagesLoadedMemory.maxPage; i++)
+                for (int i = PagesLoadedMemory.GetCurrentPage(); i <= PagesLoadedMemory.GetCurrentPage() + 2 && i <= PagesLoadedMemory.maxPage; i++)
                 {
                     created = PagesLoadedMemory.LoadedPageAdd(i);
                     if (created)
@@ -162,9 +165,6 @@ namespace P_ZPP_1
             });
         }
 
-        private void następna_strona_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
+   
     }
 }
