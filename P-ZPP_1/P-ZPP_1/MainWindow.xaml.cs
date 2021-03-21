@@ -89,5 +89,20 @@ namespace P_ZPP_1
              }
              Task.WaitAll(loadTasks);*/
         }
+
+        private void Poprzednia_strona_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void idz_do_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
+        private void następna_strona_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
