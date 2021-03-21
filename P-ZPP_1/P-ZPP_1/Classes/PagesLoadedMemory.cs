@@ -10,19 +10,22 @@ namespace P_ZPP_1.Classes
     {
         private static List<int> pagesLoaded = new List<int>();
         private static int currentPage;
+        public static int maxPage { get; set; }
 
         static PagesLoadedMemory()
         {
 
         }
 
-        public static void LoadedPageAdd(int numberOfPage)
+        public static bool LoadedPageAdd(int numberOfPage)
         {
             bool exists = CheckIfPageLoaded(numberOfPage);
             if(!exists)
             {
                 pagesLoaded.Add(numberOfPage);
+                return true;
             }
+            return false;
         }
 
         public static void ClearInfo()
