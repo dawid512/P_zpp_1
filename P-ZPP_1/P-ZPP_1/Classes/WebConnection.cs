@@ -21,7 +21,7 @@ namespace P_ZPP_1
         /// </summary>
         /// <param name="query">Query from textbox.</param>
         /// <param name="pageNumber">Number of page.</param>
-        public void GetHtml(string query, int pageNumber)
+        public int GetHtml(string query, int pageNumber)
         {
             WebClient client = new WebClient();
             PhotoDownloader pd = new PhotoDownloader();
@@ -41,12 +41,23 @@ namespace P_ZPP_1
             htmlDoc.LoadHtml(html);
             List<string> listOfPaths = pd.DownloadPhotos(htmlDoc, client, query, pageNumber);
             client.Dispose();
-            HtmlNode[] nodes = htmlDoc.DocumentNode.SelectNodes("//article").ToArray();
+            if (htmlDoc == null)
+                return 0;
+            else
+            {
+                HtmlNode numberOfAllPages = htmlDoc.DocumentNode
+                .SelectNodes(".//span[@class='_1h7wt _1fkm6 _g1gnj _3db39_3i0GV _3db39_XEsAE']")
+                .FirstOrDefault();
+                int intNumberOfAllPages = Int32.Parse(numberOfAllPages.InnerText);
+                HtmlNode[] nodes = htmlDoc.DocumentNode.SelectNodes("//article").ToArray();
+                parser.Parse(nodes, listOfPaths, pageNumber, query);
+                return intNumberOfAllPages;
+            }
 
-            parser.Parse(nodes, listOfPaths, pageNumber, query);
-
-            
 
         }
     }
 }
+
+
+

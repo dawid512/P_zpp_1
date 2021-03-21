@@ -1,4 +1,5 @@
 ﻿using P_ZPP_1.AppDatabase;
+using P_ZPP_1.Classes;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -56,38 +57,48 @@ namespace P_ZPP_1
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
             string inToParser = PoleSzukaj.Text;
-
+            int x;
 
             if (inToParser.Length >0 )
             {
-
-
-
                 await Task.Run(() =>
                 {
+                    WebConnection parser = new WebConnection();
+                    PagesLoadedMemory.ClearInfo();
+                    PagesLoadedMemory.SetCurrentPage(1);
 
-                    Parser parser = new Parser();
-                    // TODO - Async downloading and parsing
-                    //parser.Parse(1, inToParser);
+                    x = parser.GetHtml(inToParser, 1);
+                    PagesLoadedMemory.LoadedPageAdd(1);
+                    if (x == 0)
+                    {
+                        MessageBox.Show("Brak ofert dla danego zapytania.");
+                        return;
+                    }
+                    else
+                    {
+                        parser.GetHtml(inToParser, 2);
+                        PagesLoadedMemory.LoadedPageAdd(2);
+                        parser.GetHtml(inToParser, 3);
+                        PagesLoadedMemory.LoadedPageAdd(3);
+                    }
                 });
-
-            }else
+            }
+            else
             {
                 MessageBox.Show("Błąd, Pole wyszukiwania jest puste");
             }
-
-
-
-            /* var number = 2;
-             var query = "laptop";
-             Parser parser = new Parser();
-             var loadTasks = new Task[5];
-             for (int i = 0; i < 5; i++)
-             {
-                 if(number + i - 2 >= 0)
-                     loadTasks[i] = parser.Parse((number + i - 2).ToString(), query);
-             }
-             Task.WaitAll(loadTasks);*/
         }
+
+        /*
+        PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage()+1);
+
+
+
+         
+        */
+
+
+
+
     }
 }
