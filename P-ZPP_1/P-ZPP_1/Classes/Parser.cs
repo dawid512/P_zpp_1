@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using P_ZPP_1.AppDatabase;
 using P_ZPP_1.Properties;
+using System.Globalization;
 
 namespace P_ZPP_1
 {
@@ -53,7 +54,7 @@ namespace P_ZPP_1
                     ItemPrice = ItemPrice.Replace(",", ".");
                     ItemPrice = ItemPrice.Replace(" ", "");
                     ItemPrice = ItemPrice.Replace("zł", "");
-                    var decimalPrice = Convert.ToDecimal(ItemPrice);
+                    var decimalPrice = Decimal.Parse(ItemPrice, CultureInfo.InvariantCulture);
 
                     var link = item.SelectSingleNode(hyperlink).GetAttributeValue("href", "http://allegro.pl");
 
@@ -94,7 +95,7 @@ namespace P_ZPP_1
                     ItemPrice = ItemPrice.Replace(",", ".");
                     ItemPrice = ItemPrice.Replace(" ", "");
                     ItemPrice = ItemPrice.Replace("zł", "");
-                    var decimalPrice = Convert.ToDecimal(ItemPrice);
+                    var decimalPrice = Decimal.Parse(ItemPrice, CultureInfo.InvariantCulture);
 
                     var ParametersNode = item.SelectSingleNode(paramList);
                     
