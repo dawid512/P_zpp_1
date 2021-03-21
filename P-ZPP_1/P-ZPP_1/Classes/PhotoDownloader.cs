@@ -69,7 +69,7 @@ namespace P_ZPP_1
         public List<string> DownloadPhotosFromList(List<string> list, System.Net.WebClient client, string query, int pagenumber)
         {
             int i = 1;
-            var createDirectory = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), (query + "_" + pagenumber)));
+            var createDirectory = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AllegroApp", (query + "_" + pagenumber)));
             var path = createDirectory.FullName;
             List<string> photoPaths = new List<string>();
             foreach (var item in list)
