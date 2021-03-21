@@ -5,9 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:P_ZPP_1"
         mc:Ignorable="d"
-        Title="HistoryOfQuerry" Height="450" Width="800">
+        Title="HistoryOfQuerry" Height="101.5" Width="385">
     <Grid>
-        <ComboBox ItemsSource="{Binding queryInfos}" HorizontalAlignment="Left" Margin="275,93,0,0" VerticalAlignment="Top" Width="120"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="322*"/>
+            <ColumnDefinition Width="173*"/>
+        </Grid.ColumnDefinitions>
+        <ComboBox x:Name="combox" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" Width="198"/>
+        <Button Content="Wybierz" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"  Margin="24,22,0,0" Grid.Column="1"/>
 
     </Grid>
 </Window>

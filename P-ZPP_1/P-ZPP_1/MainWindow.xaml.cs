@@ -145,5 +145,17 @@ namespace P_ZPP_1
 
          
         */
+        private void Poprzednia_strona_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        private void idz_do_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+        private void następna_strona_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
