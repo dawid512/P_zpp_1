@@ -41,7 +41,7 @@
                                         <Grid Width="220" Height="200">
                                             <Border Height="150" Width="180" Margin="15,25,15,15">
                                                 <Border.Background>
-                                                    <ImageBrush ImageSource="{Binding Image}"/>
+                                                    <ImageBrush ImageSource="{Binding ImagePath}"/>
                                                 </Border.Background>
 
                                             </Border>
@@ -52,19 +52,36 @@
                                             <Grid Margin="10,23,10,124">
 
                                             </Grid>
-                                            <Grid x:Name="AllegroSmart">
+                                            <Grid x:Name="AllegroSmart" >
                                                 <Border Margin="171,77,301,101">
-                                                    <Border.Background>
-                                                        <ImageBrush ImageSource="Photos/smart.png"/>
-                                                    </Border.Background>
+                                                    <Image >
+                                                        <Image.Style>
+                                                            <Style TargetType="{x:Type Image}">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding ALLEGROsmart}" Value="True">
+                                                                        <Setter Property="Source" Value="Photos/smart.png"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Image.Style>
+                                                    </Image>
+                                                    
+                                                    
                                                 </Border>
-                                                <TextBlock Text="z dostawą" Margin="299,88,110,89"/>
+                                                <TextBlock x:Name="tekst_zdostawą" Text="z dostawą" Margin="299,88,110,89">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="{x:Type TextBlock}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding ALLEGROsmart}" Value="false">
+                                                                    <Setter Property="Visibility" Value="Hidden"></Setter>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                             </Grid>
 
-                                            <TextBlock Text="{Binding PriceWithShipping}" Margin="10,172,10,0"/>
-
-
-
+                                            <TextBlock Text="{Binding PriceWithShipping}"  Margin="10,172,10,0"/>
 
 
                                         </Grid>

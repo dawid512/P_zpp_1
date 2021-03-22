@@ -33,5 +33,10 @@ namespace P_ZPP_1.AppDatabase
             ImagePath = imagepath;
             Hyperlink = hyperlink;
         }
+
+        public Items()
+        {
+            
+        }
     }
 }

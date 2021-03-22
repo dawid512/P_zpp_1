@@ -35,17 +35,39 @@ namespace P_ZPP_1
 
 
 
-            var items = GetItems();
-            if (items.Count > 0)
-                ProductList.ItemsSource = items;
+           
 
         }
 
-        private List<Items> GetItems()
+        private List<Items> GetItems(int QuerryID, int page )
         {
-            return new List<Items>();
+           
+         
+
+            List<Items> qurery = new List<Items>();
             
+            using (var db = new AllegroAppContext())
+            {
+                //var lastTMP = db.QueryInfo.Last<QueryInfo>();
+                //var last = lastTMP.Id;
+                qurery = db.Items.Where(x=>x.Query_Id== QuerryID).Where(x=>x.PageNumber == page).ToList();
+                
+
+            }
+            return qurery;
             
+
+
+        }
+
+        private List<ItemParams> GetItemParams(int QuerryID, int itemID)
+        {
+            List<ItemParams> itemParams = new List<ItemParams>();
+            using (var db = new AllegroAppContext())
+            {
+                itemParams = db.ItemParams.Where(x => x.Querry_id == QuerryID).Where(x => x.Item_id == itemID).ToList();
+            }
+            return itemParams;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -69,6 +91,12 @@ namespace P_ZPP_1
                     PagesLoadedMemory.LoadedPageAdd(1);
                     PagesLoadedMemory.maxPage = parser.GetHtml(PagesLoadedMemory.currentQuery, 1);
 
+                    
+                    
+
+                    
+
+
                     if (PagesLoadedMemory.maxPage == 0)
                     {
                         MessageBox.Show("Brak ofert dla danego zapytania.");
@@ -76,19 +104,44 @@ namespace P_ZPP_1
                     }
                     else
                     {
-                        for(int i = 2; i <= 3 && i <= PagesLoadedMemory.maxPage; i++)
+                        
+
+                        for (int i = 2; i <= 3 && i <= PagesLoadedMemory.maxPage; i++)
                         {
                             created = PagesLoadedMemory.LoadedPageAdd(i);
                             if(created)
                                 parser.GetHtml(PagesLoadedMemory.currentQuery, i);
                         }
+
+
+
+                        
+
+
                     }
+
+
                 });
             }
             else
             {
                 MessageBox.Show("Błąd, Pole wyszukiwania jest puste");
             }
+
+
+            using (var db = new AllegroAppContext())
+            {
+                var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
+
+                var items = GetItems(id, 1);
+               var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+                if (items.Count > 0)
+                    ProductList.ItemsSource = items;
+
+               // var paramiters = GetItemParams(id, listItemId);
+                    
+            }
+           
         }
 
 
@@ -98,10 +151,10 @@ namespace P_ZPP_1
             WebConnection parser = new WebConnection();
             await Task.Run(() =>
             {
-                
+
                 PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() - 1);
                 created = PagesLoadedMemory.LoadedPageAdd(PagesLoadedMemory.GetCurrentPage());
-                if(created)
+                if (created)
                     parser.GetHtml(PagesLoadedMemory.currentQuery, PagesLoadedMemory.GetCurrentPage());
 
                 for (int i = PagesLoadedMemory.GetCurrentPage(); i >= PagesLoadedMemory.GetCurrentPage() - 2 && i > 0; i--)
@@ -109,9 +162,19 @@ namespace P_ZPP_1
                     created = PagesLoadedMemory.LoadedPageAdd(i);
                     if (created)
                         parser.GetHtml(PagesLoadedMemory.currentQuery, i);
+                    using (var db = new AllegroAppContext())
+                    {
+                        var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
+
+                        var items = GetItems(id, i);
+                        var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+                        if (items.Count > 0)
+                            ProductList.ItemsSource = items;
+                    }
                 }
 
             });
+           
         }
         private async void idz_do_Click(object sender, RoutedEventArgs e)
         {
@@ -139,6 +202,15 @@ namespace P_ZPP_1
                     created = PagesLoadedMemory.LoadedPageAdd(i);
                     if (created)
                         parser.GetHtml(PagesLoadedMemory.currentQuery, i);
+                    using (var db = new AllegroAppContext())
+                    {
+                        var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
+
+                        var items = GetItems(id, i);
+                        var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+                        if (items.Count > 0)
+                            ProductList.ItemsSource = items;
+                    }
                 }
             });
         }
@@ -160,6 +232,15 @@ namespace P_ZPP_1
                     created = PagesLoadedMemory.LoadedPageAdd(i);
                     if (created)
                         parser.GetHtml(PagesLoadedMemory.currentQuery, i);
+                    using (var db = new AllegroAppContext())
+                    {
+                        var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
+
+                        var items = GetItems(id, i);
+                        var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+                        if (items.Count > 0)
+                            ProductList.ItemsSource = items;
+                    }
                 }
 
             });
