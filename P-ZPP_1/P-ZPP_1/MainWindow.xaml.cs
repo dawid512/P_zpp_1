@@ -232,18 +232,22 @@ namespace P_ZPP_1
                     created = PagesLoadedMemory.LoadedPageAdd(i);
                     if (created)
                         parser.GetHtml(PagesLoadedMemory.currentQuery, i);
-                    using (var db = new AllegroAppContext())
-                    {
-                        var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
-
-                        var items = GetItems(id, i);
-                        var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
-                        if (items.Count > 0)
-                            ProductList.ItemsSource = items;
-                    }
+                   
                 }
 
             });
+
+            using (var db = new AllegroAppContext())
+            {
+                var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
+                var nextID = id + 1;
+                var nextpage = PagesLoadedMemory.currentPage + 1;
+                var items = GetItems(nextID,  nextpage);
+                //var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+                if (items.Count > 0)
+                    ProductList.ItemsSource = items;
+            }
+
         }
 
    

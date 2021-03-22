@@ -39,7 +39,9 @@ namespace P_ZPP_1
             List<string> listOfString = new List<string>();
             using (var db = new AllegroAppContext())
             {
-                qurery = db.QueryInfo.ToList();
+                var id = db.Items.Where(x => x.PageNumber == 1).Select(x => x.Query_Id).FirstOrDefault();
+
+                qurery = db.QueryInfo.Where(x=>x.Id ==id ).ToList();
                 foreach (var item in qurery)
                 {
                     listOfString.Add(item.Querry);
@@ -47,7 +49,7 @@ namespace P_ZPP_1
 
             }
             // var id = qurery[0].Id; 
-            var QueryString = qurery[1].Querry;
+           // var QueryString = qurery[1].Querry;
 
             return listOfString;
 

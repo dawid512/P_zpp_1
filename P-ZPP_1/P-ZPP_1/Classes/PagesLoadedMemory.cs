@@ -9,7 +9,7 @@ namespace P_ZPP_1.Classes
     public static class PagesLoadedMemory
     {
         private static List<int> pagesLoaded = new List<int>();
-        private static int currentPage;
+        public static int currentPage;
         public static int maxPage { get; set; }
         public static string currentQuery { get; set; }
 
