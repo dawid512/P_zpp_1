@@ -79,9 +79,6 @@ namespace P_ZPP_1
 
         private List<Items> GetItems(int QuerryID, int page )
         {
-           
-         
-
             List<Items> qurery = new List<Items>();
             
             using (var db = new AllegroAppContext())
@@ -89,13 +86,8 @@ namespace P_ZPP_1
                 //var lastTMP = db.QueryInfo.Last<QueryInfo>();
                 //var last = lastTMP.Id;
                 qurery = db.Items.Where(x=>x.Query_Id== QuerryID).Where(x=>x.PageNumber == page).ToList();
-                
-
             }
             return qurery;
-            
-
-
         }
 
         private List<ItemParams> GetItemParams(int itemID)
@@ -116,49 +108,53 @@ namespace P_ZPP_1
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            WebConnection parser = new WebConnection();
             PagesLoadedMemory.currentQuery = PoleSzukaj.Text;
-            bool created;
             if (PagesLoadedMemory.currentQuery.Length > 0 )
             {
                 await Task.Run(() =>
                 {
-                    WebConnection parser = new WebConnection();
                     PagesLoadedMemory.ClearInfo();
                     PagesLoadedMemory.SetCurrentPage(1);
-
-                    PagesLoadedMemory.LoadedPageAdd(1);
                     PagesLoadedMemory.maxPage = parser.GetHtml(PagesLoadedMemory.currentQuery, 1);
-
-                    
-                    
-
-                    
-
 
                     if (PagesLoadedMemory.maxPage == 0)
                     {
                         MessageBox.Show("Brak ofert dla danego zapytania.");
                         return;
                     }
-                    else
-                    {
-                        
 
-                        for (int i = 2; i <= 3 && i <= PagesLoadedMemory.maxPage; i++)
+                    using (var db = new AllegroAppContext())
+                    {
+                        var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
+
+                        var items = GetItems(id, 1);
+                        var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+                        if (items.Count > 0)
                         {
-                            created = PagesLoadedMemory.LoadedPageAdd(i);
-                            if(created)
-                                parser.GetHtml(PagesLoadedMemory.currentQuery, i);
+                            Dispatcher.Invoke(() =>
+                            {
+                                ProductList.ItemsSource = items;
+                            });
                         }
 
-
-
-                        
-
-
+                        // var paramiters = GetItemParams(id, listItemId);
                     }
+                });
 
 
+                await Task.Run(() =>
+                {
+                    string usedQuery = PagesLoadedMemory.currentQuery;
+                    for (int i = 2; i <= PagesLoadedMemory.maxPage; i++)
+                    {
+                        //mozliwe ze tymczasowe
+                        if (usedQuery != PagesLoadedMemory.currentQuery)
+                            return;
+
+                        parser.GetHtml(usedQuery, i);
+                        PagesLoadedMemory.maxLoadedPage = i;
+                    }
                 });
             }
             else
@@ -167,12 +163,12 @@ namespace P_ZPP_1
             }
 
 
-            using (var db = new AllegroAppContext())
+            /*using (var db = new AllegroAppContext())
             {
                 var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
 
                 var items = GetItems(id, 1);
-               var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+                var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
                 if (items.Count > 0)
                     ProductList.ItemsSource = items;
                 foreach (var item in listItemId)
@@ -196,107 +192,76 @@ namespace P_ZPP_1
 
         private async void Poprzednia_strona_Click(object sender, RoutedEventArgs e)
         {
-            bool created;
-            WebConnection parser = new WebConnection();
             await Task.Run(() =>
             {
-
                 PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() - 1);
-                created = PagesLoadedMemory.LoadedPageAdd(PagesLoadedMemory.GetCurrentPage());
-                if (created)
-                    parser.GetHtml(PagesLoadedMemory.currentQuery, PagesLoadedMemory.GetCurrentPage());
 
-                for (int i = PagesLoadedMemory.GetCurrentPage(); i >= PagesLoadedMemory.GetCurrentPage() - 2 && i > 0; i--)
+                using (var db = new AllegroAppContext())
                 {
-                    created = PagesLoadedMemory.LoadedPageAdd(i);
-                    if (created)
-                        parser.GetHtml(PagesLoadedMemory.currentQuery, i);
-                    using (var db = new AllegroAppContext())
-                    {
-                        var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
+                    var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
 
-                        var items = GetItems(id, i);
-                        var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
-                        if (items.Count > 0)
+                    var nextID = id + PagesLoadedMemory.GetCurrentPage() - 1;
+                    var nextpage = PagesLoadedMemory.GetCurrentPage();
+                    var items = GetItems(nextID, nextpage);
+                    var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+                    if (items.Count > 0)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
                             ProductList.ItemsSource = items;
+                        });
                     }
                 }
-
             });
-           
+
         }
         private async void idz_do_Click(object sender, RoutedEventArgs e)
         {
-            bool created;
-            WebConnection parser = new WebConnection();
-            PagesLoadedMemory.SetCurrentPage(Convert.ToInt32(textbox.Text));
             await Task.Run(() =>
             {
-                created = PagesLoadedMemory.LoadedPageAdd(PagesLoadedMemory.GetCurrentPage());
-                if(created)
-                    parser.GetHtml(PagesLoadedMemory.currentQuery, PagesLoadedMemory.GetCurrentPage());
-            });
-            await Task.Run(() =>
-            {
-                for (int i = PagesLoadedMemory.GetCurrentPage(); i <= PagesLoadedMemory.GetCurrentPage() + 2 && i <= PagesLoadedMemory.maxPage; i++)
+                PagesLoadedMemory.SetCurrentPage(Convert.ToInt32(textbox.Text));
+                using (var db = new AllegroAppContext())
                 {
-                    created = PagesLoadedMemory.LoadedPageAdd(i);
-                    if (created)
-                        parser.GetHtml(PagesLoadedMemory.currentQuery, i);
-                }
+                    var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
 
-
-                for (int i = PagesLoadedMemory.GetCurrentPage(); i >= PagesLoadedMemory.GetCurrentPage() - 2 && i > 0; i--)
-                {
-                    created = PagesLoadedMemory.LoadedPageAdd(i);
-                    if (created)
-                        parser.GetHtml(PagesLoadedMemory.currentQuery, i);
-                    using (var db = new AllegroAppContext())
+                    var nextID = id + PagesLoadedMemory.GetCurrentPage() - 1;
+                    var nextpage = PagesLoadedMemory.GetCurrentPage();
+                    var items = GetItems(nextID, nextpage);
+                    var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+                    if (items.Count > 0)
                     {
-                        var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
-
-                        var items = GetItems(id, i);
-                        var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
-                        if (items.Count > 0)
+                        Dispatcher.Invoke(() =>
+                        {
                             ProductList.ItemsSource = items;
+                        });
                     }
                 }
             });
         }
+
         private async void następna_strona_Click(object sender, RoutedEventArgs e)
         {
-            bool created;
-            WebConnection parser = new WebConnection();
             await Task.Run(() =>
             {
                 PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() + 1);
-                created = PagesLoadedMemory.LoadedPageAdd(PagesLoadedMemory.GetCurrentPage());
-                if(created)
-                    parser.GetHtml(PagesLoadedMemory.currentQuery, PagesLoadedMemory.GetCurrentPage());
-            });
-            await Task.Run(() =>
-            {
-                for (int i = PagesLoadedMemory.GetCurrentPage(); i <= PagesLoadedMemory.GetCurrentPage() + 2 && i <= PagesLoadedMemory.maxPage; i++)
+
+
+                using (var db = new AllegroAppContext())
                 {
-                    created = PagesLoadedMemory.LoadedPageAdd(i);
-                    if (created)
-                        parser.GetHtml(PagesLoadedMemory.currentQuery, i);
-                   
+                    var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
+                    var nextID = id + PagesLoadedMemory.GetCurrentPage() - 1;
+                    var nextpage = PagesLoadedMemory.GetCurrentPage();
+                    var items = GetItems(nextID, nextpage);
+                    //var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+                    if (items.Count > 0)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            ProductList.ItemsSource = items;
+                        });
+                    }
                 }
-
             });
-
-            using (var db = new AllegroAppContext())
-            {
-                var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
-                var nextID = id + 1;
-                var nextpage = PagesLoadedMemory.currentPage + 1;
-                var items = GetItems(nextID,  nextpage);
-                //var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
-                if (items.Count > 0)
-                    ProductList.ItemsSource = items;
-            }
-
         }
 
         public void Store(string link)

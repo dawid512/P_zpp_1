@@ -8,47 +8,33 @@ namespace P_ZPP_1.Classes
 {
     public static class PagesLoadedMemory
     {
-        private static List<int> pagesLoaded = new List<int>();
         public static int currentPage;
         public static int maxPage { get; set; }
+        public static int minPage { get; set; }
         public static string currentQuery { get; set; }
+        public static int maxLoadedPage { get; set; }
+
 
         static PagesLoadedMemory()
         {
 
         }
 
-        public static bool LoadedPageAdd(int numberOfPage)
-        {
-            bool exists = CheckIfPageLoaded(numberOfPage);
-            if(!exists)
-            {
-                pagesLoaded.Add(numberOfPage);
-                return true;
-            }
-            return false;
-        }
-
         public static void ClearInfo()
         {
-            pagesLoaded.Clear();
+            currentPage = 1;
+            maxPage = 1;
+            minPage = 1;
+            maxLoadedPage = 1;
         }
 
-        public static bool CheckIfPageLoaded(int numberOfPage)
-        {
-            if(pagesLoaded.Contains(numberOfPage))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
         public static void SetCurrentPage(int numberOfPage)
         {
-            currentPage = numberOfPage;
+            if (numberOfPage < minPage || numberOfPage > maxLoadedPage)
+                return;
+            else
+                currentPage = numberOfPage;
         }
 
         public static int GetCurrentPage()
