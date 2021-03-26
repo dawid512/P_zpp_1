@@ -2,7 +2,9 @@
 using P_ZPP_1.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +25,7 @@ namespace P_ZPP_1
     /// </summary>
     public partial class MainWindow : Window
     {
+        public ICommand GoToStore { get; set; }
 
         public MainWindow()
         {
@@ -34,10 +37,45 @@ namespace P_ZPP_1
             db.Database.CreateIfNotExists();
 
 
+            var querry = GetQuerry();
 
-           
+
+            combox.ItemsSource = querry;
+
+            GoToStore = new GoToStoreCommand(this);
+
+
+
 
         }
+
+       
+
+        private List<string> GetQuerry()
+        {
+            List<QueryInfo> qurery = new List<QueryInfo>();
+            List<string> listOfString = new List<string>();
+            using (var db = new AllegroAppContext())
+            {
+                var id = db.Items.Where(x => x.PageNumber == 1).Select(x => x.Query_Id).FirstOrDefault();
+
+                qurery = db.QueryInfo.Where(x => x.Id == id).ToList();
+                foreach (var item in qurery)
+                {
+                    listOfString.Add(item.Querry);
+                }
+
+            }
+            // var id = qurery[0].Id; 
+            // var QueryString = qurery[1].Querry;
+
+            return listOfString;
+
+        }
+
+
+
+    
 
         private List<Items> GetItems(int QuerryID, int page )
         {
@@ -60,12 +98,12 @@ namespace P_ZPP_1
 
         }
 
-        private List<ItemParams> GetItemParams(int QuerryID, int itemID)
+        private List<ItemParams> GetItemParams(int itemID)
         {
             List<ItemParams> itemParams = new List<ItemParams>();
             using (var db = new AllegroAppContext())
             {
-                itemParams = db.ItemParams.Where(x => x.Querry_id == QuerryID).Where(x => x.Item_id == itemID).ToList();
+                itemParams = db.ItemParams.Where(x => x.Item_id == itemID).ToList();
             }
             return itemParams;
         }
@@ -137,9 +175,20 @@ namespace P_ZPP_1
                var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
                 if (items.Count > 0)
                     ProductList.ItemsSource = items;
+                foreach (var item in listItemId)
+                {
+                    var paramiters = GetItemParams(item);
+                }
 
-               // var paramiters = GetItemParams(id, listItemId);
-                    
+                //var propertyname = paramiters.Select(x => x.Property_Name ).ToList();
+                //var propvalue = paramiters.Select(x => x.Property_Value).ToList();
+
+                //if (paramiters.Count > 0)
+
+
+
+
+
             }
            
         }
@@ -250,6 +299,9 @@ namespace P_ZPP_1
 
         }
 
-   
+        public void Store(string link)
+        {
+            Process.Start(link);
+        }
     }
 }

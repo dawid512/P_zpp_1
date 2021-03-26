@@ -89,6 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppDatabase\GoToStoreCommand.cs" />
     <Compile Include="Classes\PagesLoadedMemory.cs" />
     <Compile Include="Classes\WebConnection.cs" />
     <Page Include="HistoryOfQuerry.xaml">
@@ -109,6 +110,7 @@
     <Compile Include="AppDatabase\Items.cs" />
     <Compile Include="DatabaseManagement\DbItemParams.cs" />
     <Compile Include="DatabaseManagement\DbQueryInfo.cs" />
+    <Compile Include="DatabaseManagement\QueryRemover.cs" />
     <Compile Include="HistoryOfQuerry.xaml.cs">
       <DependentUpon>HistoryOfQuerry.xaml</DependentUpon>
     </Compile>

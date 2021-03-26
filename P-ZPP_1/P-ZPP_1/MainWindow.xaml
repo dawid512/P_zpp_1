@@ -1,14 +1,15 @@
-﻿<Window x:Class="P_ZPP_1.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:P_ZPP_1"
+        xmlns:AppDatabase="clr-namespace:P_ZPP_1.AppDatabase" x:Class="P_ZPP_1.MainWindow"
         mc:Ignorable="d"
         Height="600" Width="1080"
         FontFamily="The Medic Demo"
         WindowStartupLocation="CenterScreen">
-    <Grid>
+    <Grid Margin="0,0,0,-6">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -16,27 +17,23 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="170"/>
             <ColumnDefinition Width="*"/>
+
         </Grid.ColumnDefinitions>
-        <Grid Grid.RowSpan="2">
-            <TextBlock Text="Allegro" HorizontalAlignment="Center" Margin="12,0,18,5" FontSize="30" Width="140" Height="559" VerticalAlignment="Bottom"/>
-            <Button x:Name="następna_strona" Content="Następna strona" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Bottom" Height="30" Width="140" Click="następna_strona_Click"/>
-            <Button x:Name="poprzednia_strona" Content="Poprzednia strona " HorizontalAlignment="Left" Margin="10,0,0,92" VerticalAlignment="Bottom" Height="30" Width="140" Click="Poprzednia_strona_Click"/>
-            <TextBox Name="textbox" HorizontalAlignment="Center" Height="30" Width="43" Margin="107,487,20,52" />
-            <Button Name="idz_do" Content="Idź do " HorizontalAlignment="Left" Margin="10,0,0,52" VerticalAlignment="Bottom" Height="30" Width="70" Click="idz_do_Click"/>
+        <Grid Grid.RowSpan="1">
+            <TextBlock Text="Allegro" HorizontalAlignment="Center" Margin="12,0,18,5" FontSize="30" Width="140" Height="50" VerticalAlignment="Bottom"/>
+
         </Grid>
 
-        <TextBox Name="PoleSzukaj"  Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="22" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="434"/>
-        <Button Content="Szukaj" Grid.Column="1" HorizontalAlignment="Left" Margin="464,10,0,0" VerticalAlignment="Top" Width="98" Height="30" Click="Button_Click_1"/>
-        <!-- Products List -->
-        <ScrollViewer VerticalScrollBarVisibility="Visible" 
-            Grid.Column="1" Grid.Row="1" 
-              Background="LightSteelBlue">
+        <TextBox x:Name="PoleSzukaj"  Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="22" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="434"/>
+        <Button Background="#ff5a00" Content="Szukaj" Grid.Column="1" HorizontalAlignment="Left" Margin="464,10,0,0" VerticalAlignment="Top" Width="98" Height="30" Click="Button_Click_1"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto"  Grid.Row="1" 
+              Background="#edeff1" Margin="0,10,0,67" Grid.ColumnSpan="2">
             <StackPanel>
                 <ItemsControl x:Name="ProductList" ItemsSource="{Binding Items}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="20 10 " Background="AliceBlue">
-                                <Border Margin="10" Width="830" Height="200" >
+                                <Border Margin="10" Width="1000" Height="180" >
                                     <WrapPanel>
                                         <Grid Width="220" Height="200">
                                             <Border Height="150" Width="180" Margin="15,25,15,15">
@@ -46,12 +43,10 @@
 
                                             </Border>
                                         </Grid>
-                                        <Grid Height="200" Width="600">
+                                        <Grid Height="200" Width="700">
                                             <TextBlock Text="{Binding ProductName}" Margin="10,0,10,166" />
-                                            <TextBlock Text="{Binding Price }" Margin="10,81,446,91"/>
-                                            <Grid Margin="10,23,10,124">
-
-                                            </Grid>
+                                            <TextBlock Text="{Binding Price}" Margin="10,81,446,91"/>
+                                            <Grid Margin="10,23,10,124"/>
                                             <Grid x:Name="AllegroSmart" >
                                                 <Border Margin="171,77,301,101">
                                                     <Image >
@@ -65,23 +60,36 @@
                                                             </Style>
                                                         </Image.Style>
                                                     </Image>
-                                                    
-                                                    
+
+
                                                 </Border>
                                                 <TextBlock x:Name="tekst_zdostawą" Text="z dostawą" Margin="299,88,110,89">
                                                     <TextBlock.Style>
                                                         <Style TargetType="{x:Type TextBlock}">
                                                             <Style.Triggers>
                                                                 <DataTrigger Binding="{Binding ALLEGROsmart}" Value="false">
-                                                                    <Setter Property="Visibility" Value="Hidden"></Setter>
+                                                                    <Setter Property="Visibility" Value="Hidden"/>
                                                                 </DataTrigger>
                                                             </Style.Triggers>
                                                         </Style>
                                                     </TextBlock.Style>
                                                 </TextBlock>
                                             </Grid>
-
-                                            <TextBlock Text="{Binding PriceWithShipping}"  Margin="10,172,10,0"/>
+                                            <Button  Content="PRZEJDŹ DO STRONY"
+                                     HorizontalAlignment="Right" 
+                                     VerticalAlignment="Top" 
+                                     Margin="20,100,0,0"
+                                     Command="{Binding Path=DataContext.GoToStore, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                     CommandParameter="{Binding Hyperlink}" 
+                                     Grid.Column="2"
+                                     Width="200"
+                                     Height="50"
+                                     
+                                     FontSize="15"
+                                     Background="#FF5A00" 
+                                      >
+                                            </Button>
+                                            <TextBlock x:Name="tekstblockparamiters"  Text="{Binding paramiters}"  Margin="10,30,10,70"/>
 
 
                                         </Grid>
@@ -102,6 +110,11 @@
             </StackPanel>
 
         </ScrollViewer>
+        <Button x:Name="następna_strona" Content="Następna strona" HorizontalAlignment="Left" Margin="740,0,0,16" VerticalAlignment="Bottom" Height="30" Width="140" Click="następna_strona_Click" Grid.Column="1" Grid.Row="1"/>
+        <Button x:Name="poprzednia_strona" Content="Poprzednia strona " HorizontalAlignment="Left" Margin="497,0,0,16" VerticalAlignment="Bottom" Height="30" Width="140" Click="Poprzednia_strona_Click" Grid.Column="1" Grid.Row="1"/>
+        <TextBox x:Name="textbox" HorizontalAlignment="Center" Height="30" Width="44" Grid.Column="1" Margin="663,479,195,16" Grid.Row="1"  />
+        <Button x:Name="idz_do" Content="Idź do " HorizontalAlignment="Left" Margin="395,0,0,16" VerticalAlignment="Bottom" Height="30" Width="70" Click="idz_do_Click" Grid.Column="1" Grid.Row="1"/>
         <Button Content="Historia wyszukiwania" Grid.Column="1" HorizontalAlignment="Left" Margin="567,10,0,0" VerticalAlignment="Top" Width="140" Click="Button_Click" Height="30"/>
+        <ComboBox x:Name="combox" Grid.Column="1" HorizontalAlignment="Left" Margin="720,10,0,0" VerticalAlignment="Top" Width="160" Height="30" />
     </Grid>
 </Window>

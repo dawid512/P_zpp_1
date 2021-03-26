@@ -13,6 +13,8 @@ namespace P_ZPP_1.AppDatabase
     /// </summary>
     public class ItemParams
     {
+        
+
         [Key]
         public int Id { get; set; }
         public int Item_id { get; set; }
@@ -26,6 +28,11 @@ namespace P_ZPP_1.AppDatabase
             Querry_id = querry_id;
             Property_Name = property_Name;
             Property_Value = property_Value;
+        }
+
+        public ItemParams()
+        {
+            
         }
     }
 }
