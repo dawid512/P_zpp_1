@@ -105,15 +105,90 @@ namespace P_ZPP_1
             //return itemParams;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             //HistoryOfQuerry historyOfQuerry = new HistoryOfQuerry();
             //historyOfQuerry.Show();
 
             // URUCHOMIC PRZYCISK OD HISTORII OFFLINE 
+            Hello.Visibility = Visibility.Hidden;
+            MyScrollViewer.Visibility = Visibility.Hidden;
+            SpinningWheel.Visibility = Visibility.Visible;
+            Dead.Visibility = Visibility.Hidden;
+            WebConnection parser = new WebConnection();
+            PagesLoadedMemory.currentQuery = combox.SelectedItem.ToString();
+            bool dead = false;
+            if (PagesLoadedMemory.currentQuery.Length > 0)
+            {
+
+                await Task.Run(() =>
+                {
+                    PagesLoadedMemory.ClearInfo();
+                    PagesLoadedMemory.SetCurrentPage(1);
+
+
+                    if (PagesLoadedMemory.maxPage == -1)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            MyScrollViewer.Visibility = Visibility.Hidden;
+                            Dead.Visibility = Visibility.Visible;
+                            dead = true;
+                        });
+                        return;
+                    }
+
+
+                    using (var db = new AllegroAppContext())
+                    {
+                        var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
+
+                        var items = GetItems(id, 1);
+                        var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+
+                        var tmpParserList = new List<P_ZPP_1.Classes.ParsingToWpf>();
+
+                        string myTmp = "";
+                        foreach (var item in items)
+                        {
+                            int i = 0;
+                            foreach (var itempar in GetItemParams(item.Id).ToList())
+                            {
+                                if (i % 2 == 0)
+                                    myTmp += itempar.Property_Name + ": " + itempar.Property_Value + " ";
+                                else
+                                    myTmp += itempar.Property_Name + ": " + itempar.Property_Value + " \n";
+
+                                i++;
+                            }
+
+                            tmpParserList.Add(new P_ZPP_1.Classes.ParsingToWpf(item, myTmp));
+
+                            myTmp = "";
+                        }
+
+
+                        if (tmpParserList.Count > 0)
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                ProductList.ItemsSource = tmpParserList;
+                            });
+                        }
+
+                    }
+                });
+                if (dead)
+                    MyScrollViewer.Visibility = Visibility.Hidden;
+                else
+                    MyScrollViewer.Visibility = Visibility.Visible;
+                SpinningWheel.Visibility = Visibility.Hidden;
+
+
+            }
         }
 
-        private async void Button_Click_1(object sender, RoutedEventArgs e)
+            private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Hello.Visibility = Visibility.Hidden;
             MyScrollViewer.Visibility = Visibility.Hidden;
