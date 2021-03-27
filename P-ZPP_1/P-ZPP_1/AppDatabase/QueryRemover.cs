@@ -28,7 +28,8 @@ namespace P_ZPP_1.DatabaseManagement
                 for (int i = 0; i < numberOfItemsToBeRemoved; i++)
                     RemoveAllEntitiesWithID(TmpListOfAllItems.FirstOrDefault().Id);
             }
-            
+
+            RemoveSponsoredOffersItems();
 
         }
         /// <summary>
@@ -79,6 +80,30 @@ namespace P_ZPP_1.DatabaseManagement
             foreach (var entity in toBeRemoved)
                 db.ItemParams.Remove(entity);
             db.SaveChanges();
+        }
+        /// <summary>
+        /// Method removes sposored offer taht are duplicated on every page.
+        /// </summary>
+        public void RemoveSponsoredOffersItems()
+        {
+            var db = new AppDatabase.AllegroAppContext();
+            var LatestQueryId = db.QueryInfo.OrderBy(r => r.Date).FirstOrDefault().Id;
+
+            var LatestItemListPage_1 = db.Items.Where(qid => qid.Query_Id == LatestQueryId && qid.PageNumber == 1);
+            var LatestItemListPage_2 = db.Items.Where(qid => qid.Query_Id == LatestQueryId && qid.PageNumber == 2);
+            List<AppDatabase.Items> SponsoredOffersList = new List<AppDatabase.Items>();
+
+            foreach (var itemFromPage_1 in LatestItemListPage_1)
+                foreach (var itemFromPage_2 in LatestItemListPage_2)
+                    if (itemFromPage_1 == itemFromPage_2)
+                        SponsoredOffersList.Add(itemFromPage_1);
+
+            var LatestItemList = db.Items.Where(q => q.Query_Id == LatestQueryId);
+
+            foreach (var item in LatestItemList)
+                if (SponsoredOffersList.Contains(item) && item.PageNumber!=1)
+                    db.Items.Remove(item);
+            
         }
     }
 }
