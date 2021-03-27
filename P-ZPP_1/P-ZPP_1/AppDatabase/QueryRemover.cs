@@ -14,7 +14,7 @@ namespace P_ZPP_1.DatabaseManagement
         /// <summary>
         /// Method called to remove oldest QuerryInfo entities and all connected elements in Items and ItemParams from database that exceed history range. 
         /// </summary>
-        public void RemoveOldestQueries()
+        public void QueryRemower_Work()
         {
             int HistoryRange = 3; //  number of queries stored in app history
 
@@ -29,6 +29,7 @@ namespace P_ZPP_1.DatabaseManagement
                     RemoveAllEntitiesWithID(TmpListOfAllItems.FirstOrDefault().Id);
             }
 
+            RemoveOutdatedQuery();
             RemoveSponsoredOffersItems();
 
         }
@@ -95,7 +96,7 @@ namespace P_ZPP_1.DatabaseManagement
 
             foreach (var itemFromPage_1 in LatestItemListPage_1)
                 foreach (var itemFromPage_2 in LatestItemListPage_2)
-                    if (itemFromPage_1 == itemFromPage_2)
+                    if (itemFromPage_1.ProductName == itemFromPage_2.ProductName && itemFromPage_1.Price == itemFromPage_2.Price)
                         SponsoredOffersList.Add(itemFromPage_1);
 
             var LatestItemList = db.Items.Where(q => q.Query_Id == LatestQueryId);
@@ -103,7 +104,22 @@ namespace P_ZPP_1.DatabaseManagement
             foreach (var item in LatestItemList)
                 if (SponsoredOffersList.Contains(item) && item.PageNumber!=1)
                     db.Items.Remove(item);
-            
+
+            db.SaveChanges();          
+        }
+        /// <summary>
+        /// Method removes Old query results, if current query already exists in datatabase
+        /// </summary>
+        /// <returns>bool true if old querry wa removed</returns>
+        public void RemoveOutdatedQuery()
+        {
+            var db = new AppDatabase.AllegroAppContext();
+            var LatestQuery = db.QueryInfo.OrderBy(r => r.Date).FirstOrDefault();
+
+            var SearchForOutdatedQuery = db.QueryInfo.Where(x => x.Querry == LatestQuery.Querry && x.Id != LatestQuery.Id);
+
+            if (SearchForOutdatedQuery.Any())
+                RemoveAllEntitiesWithID(SearchForOutdatedQuery.FirstOrDefault().Id);
         }
     }
 }
