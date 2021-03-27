@@ -102,9 +102,12 @@ namespace P_ZPP_1.DatabaseManagement
             var LatestItemList = db.Items.Where(q => q.Query_Id == LatestQueryId);
 
             foreach (var item in LatestItemList)
-                if (SponsoredOffersList.Contains(item) && item.PageNumber!=1)
+                if (SponsoredOffersList.Contains(item) && item.PageNumber != 1)
+                {
                     db.Items.Remove(item);
-
+                    foreach (var ItemParamsToBeRemoved in db.ItemParams.Where(y=> y.Item_id == item.Id).ToList())
+                        db.ItemParams.Remove(ItemParamsToBeRemoved);
+                }
             db.SaveChanges();          
         }
         /// <summary>
