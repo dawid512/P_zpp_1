@@ -174,23 +174,6 @@ namespace P_ZPP_1
                             });
                         }
 
-
-                        /*
-                        foreach (var item in listItemId)
-                        {
-                            var paramiters = GetItemParams(item).ToList();
-                            foreach (var item2 in paramiters)
-                            {
-                                TMP = TMP + ' ' + item2.Property_Name + ' ' + item2.Property_Value + ' ';
-                            }
-                            
-                        }
-                        */
-
-                        // string paramiterString = TMP;
-                        
-                        //todo spinning wheel
-                        // var paramiters = GetItemParams(id, listItemId);
                     }
                 });
                 if (dead)
@@ -198,6 +181,9 @@ namespace P_ZPP_1
                 else
                     MyScrollViewer.Visibility = Visibility.Visible;
                 SpinningWheel.Visibility = Visibility.Hidden;
+
+                var qr = new QueryRemover();
+                qr.QueryRemower_Work();
 
                 await Task.Run(() =>
                 {
@@ -235,8 +221,7 @@ namespace P_ZPP_1
                 //if (paramiters.Count > 0)
 
             */
-            var qr = new QueryRemover();
-            qr.QueryRemower_Work();
+            
 
 
         }

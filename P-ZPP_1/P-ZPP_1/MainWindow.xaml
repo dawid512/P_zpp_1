@@ -29,7 +29,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="170"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="824"/>
 
         </Grid.ColumnDefinitions>
         <Grid Grid.RowSpan="1">
