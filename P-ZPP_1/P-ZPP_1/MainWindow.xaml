@@ -63,7 +63,7 @@
 
 
                                                 </Border>
-                                                <TextBlock x:Name="tekst_zdostawą" Text="z dostawą" Margin="299,88,110,89">
+                                                <TextBlock x:Name="tekst_zdostawą" Text="z dostawą" Margin="299,88,150,59">
                                                     <TextBlock.Style>
                                                         <Style TargetType="{x:Type TextBlock}">
                                                             <Style.Triggers>
@@ -110,7 +110,7 @@
             </StackPanel>
 
         </ScrollViewer>
-        <Button x:Name="następna_strona" Content="Następna strona" HorizontalAlignment="Left" Margin="740,0,0,16" VerticalAlignment="Bottom" Height="30" Width="140" Click="następna_strona_Click" Grid.Column="1" Grid.Row="1"/>
+        <Button x:Name="następna_strona" Content="Następna strona" HorizontalAlignment="Left" Margin="740,0,0,16" VerticalAlignment="Bottom" Height="30" Width="140" Click="Następna_strona_Click" Grid.Column="1" Grid.Row="1"/>
         <Button x:Name="poprzednia_strona" Content="Poprzednia strona " HorizontalAlignment="Left" Margin="497,0,0,16" VerticalAlignment="Bottom" Height="30" Width="140" Click="Poprzednia_strona_Click" Grid.Column="1" Grid.Row="1"/>
         <TextBox x:Name="textbox" HorizontalAlignment="Center" Height="30" Width="44" Grid.Column="1" Margin="663,479,195,16" Grid.Row="1"  />
         <Button x:Name="idz_do" Content="Idź do " HorizontalAlignment="Left" Margin="395,0,0,16" VerticalAlignment="Bottom" Height="30" Width="70" Click="idz_do_Click" Grid.Column="1" Grid.Row="1"/>

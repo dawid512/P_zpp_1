@@ -49,7 +49,7 @@ namespace P_ZPP_1
 
         }
 
-       
+
 
         private List<string> GetQuerry()
         {
@@ -57,13 +57,17 @@ namespace P_ZPP_1
             List<string> listOfString = new List<string>();
             using (var db = new AllegroAppContext())
             {
-                var id = db.Items.Where(x => x.PageNumber == 1).Select(x => x.Query_Id).FirstOrDefault();
-
-                qurery = db.QueryInfo.Where(x => x.Id == id).ToList();
-                foreach (var item in qurery)
+                //Where(x => x.PageNumber == 1).Select(x => x.Query_Id)
+                var id = db.QueryInfo.Select(X => X.Querry).ToList();
+                //foreach (var item in id)
+                //{
+                //qurery = db.QueryInfo.Where(x => x.Id == item).ToList();
+                foreach (var items in id)
                 {
-                    listOfString.Add(item.Querry);
+                    listOfString.Add(items);
                 }
+                //}
+
 
             }
             // var id = qurery[0].Id; 
@@ -75,7 +79,7 @@ namespace P_ZPP_1
 
 
 
-    
+
 
         private List<Items> GetItems(int QuerryID, int page )
         {
@@ -92,18 +96,21 @@ namespace P_ZPP_1
 
         private List<ItemParams> GetItemParams(int itemID)
         {
-            List<ItemParams> itemParams = new List<ItemParams>();
+            //List<ItemParams> itemParams = new List<ItemParams>();
             using (var db = new AllegroAppContext())
             {
-                itemParams = db.ItemParams.Where(x => x.Item_id == itemID).ToList();
+                return db.ItemParams.Where(x => x.Item_id == itemID).ToList();
+                //return itemParams;
             }
-            return itemParams;
+            //return itemParams;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            HistoryOfQuerry historyOfQuerry = new HistoryOfQuerry();
-            historyOfQuerry.Show();
+            //HistoryOfQuerry historyOfQuerry = new HistoryOfQuerry();
+            //historyOfQuerry.Show();
+
+            // URUCHOMIC PRZYCISK OD HISTORII OFFLINE 
         }
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
@@ -136,6 +143,10 @@ namespace P_ZPP_1
                             {
                                 ProductList.ItemsSource = items;
                             });
+                        }
+                        foreach (var item in listItemId)
+                        {
+                            var paramiters = GetItemParams(item).ToList();
                         }
 
                         // var paramiters = GetItemParams(id, listItemId);
@@ -171,23 +182,20 @@ namespace P_ZPP_1
                 var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
                 if (items.Count > 0)
                     ProductList.ItemsSource = items;
-                foreach (var item in listItemId)
-                {
-                    var paramiters = GetItemParams(item);
-                }
+               
 
                 //var propertyname = paramiters.Select(x => x.Property_Name ).ToList();
                 //var propvalue = paramiters.Select(x => x.Property_Value).ToList();
 
                 //if (paramiters.Count > 0)
 
-
+            */
 
 
 
             }
            
-        }
+        
 
 
         private async void Poprzednia_strona_Click(object sender, RoutedEventArgs e)
@@ -239,7 +247,7 @@ namespace P_ZPP_1
             });
         }
 
-        private async void następna_strona_Click(object sender, RoutedEventArgs e)
+        private async void Następna_strona_Click(object sender, RoutedEventArgs e)
         {
             await Task.Run(() =>
             {
@@ -263,7 +271,10 @@ namespace P_ZPP_1
                 }
             });
         }
-
+        /// <summary>
+        /// otwiera strone
+        /// </summary>
+        /// <param name="link"></param>
         public void Store(string link)
         {
             Process.Start(link);
