@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace P_ZPP_1.DatabaseManagement
+namespace P_ZPP_1.AppDatabase
 {
     /// <summary>
     /// Clas contains methods for removing oldest query from database <see cref="RemoveOldestQuery()"/> 
