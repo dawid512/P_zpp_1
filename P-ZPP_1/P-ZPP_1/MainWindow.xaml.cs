@@ -155,11 +155,20 @@ namespace P_ZPP_1
                                 ProductList.ItemsSource = items;
                             });
                         }
+                        string TMP = "coś tam";
                         foreach (var item in listItemId)
                         {
                             var paramiters = GetItemParams(item).ToList();
+                            foreach (var item2 in paramiters)
+                            {
+                                TMP = TMP + ' ' + item2.Property_Name + ' ' + item2.Property_Value + ' ';
+                            }
+                            
                         }
                         
+
+                        string paramiterString = TMP;
+                        ProductList.ItemsSource = paramiterString;
                         //todo spinning wheel
                         // var paramiters = GetItemParams(id, listItemId);
                     }
@@ -188,7 +197,7 @@ namespace P_ZPP_1
             {
                 MessageBox.Show("Błąd, Pole wyszukiwania jest puste");
             }
-
+            
 
             /*using (var db = new AllegroAppContext())
             {

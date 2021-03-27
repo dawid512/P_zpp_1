@@ -102,7 +102,17 @@
                                      Background="#FF5A00" 
                                       >
                                             </Button>
-                                            <TextBlock x:Name="tekstblockparamiters"  Text="{Binding paramiters}"  Margin="10,30,10,70"/>
+                                            <ItemsControl x:Name="ParamitersList" >
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+
+
+
+                                                        <TextBlock x:Name="tekstblockparamiters"  Text="{Binding paramiterString}"  Margin="10,30,10,70"/>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+
 
                                         </Grid>
 
