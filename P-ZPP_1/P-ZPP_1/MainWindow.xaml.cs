@@ -150,14 +150,19 @@ namespace P_ZPP_1
                         var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
 
                         var tmpParserList = new List<P_ZPP_1.Classes.ParsingToWpf>();
+                        
                         string myTmp = "";
-
                         foreach (var item in items)
                         {
-
+                            int i = 0;
                             foreach (var itempar in GetItemParams(item.Id).ToList())
                             {
-                                myTmp += itempar.Property_Name + ": " + itempar.Property_Value+ " "; 
+                                if(i%2 == 0)
+                                    myTmp += itempar.Property_Name + ": " + itempar.Property_Value+ " "; 
+                                else
+                                    myTmp += itempar.Property_Name + ": " + itempar.Property_Value + " \n";
+
+                                i++;
                             }
 
                             tmpParserList.Add(new P_ZPP_1.Classes.ParsingToWpf(item, myTmp));
