@@ -5,10 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:P_ZPP_1"
         xmlns:AppDatabase="clr-namespace:P_ZPP_1.AppDatabase" x:Class="P_ZPP_1.MainWindow"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Height="600" Width="1080"
+        Height="600" Width="1000"
         FontFamily="The Medic Demo"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <Storyboard x:Key="WaitStoryboard">
+            <DoubleAnimation
+            Storyboard.TargetName="Wait"
+            Storyboard.TargetProperty="(TextBlock.RenderTransform).(RotateTransform.Angle)"
+            From="0"
+            To="360"
+            Duration="0:0:2"
+            RepeatBehavior="Forever" />
+        </Storyboard>
+    </Window.Resources>
     <Grid Margin="0,0,0,-6">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -23,11 +36,11 @@
             <TextBlock Text="Allegro" HorizontalAlignment="Center" Margin="12,0,18,5" FontSize="30" Width="140" Height="50" VerticalAlignment="Bottom"/>
 
         </Grid>
+        <TextBox x:Name="PoleSzukaj"  Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="22" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="414"/>
+        <Button Background="#ff5a00" Content="Szukaj" Grid.Column="1" HorizontalAlignment="Left" Margin="440,10,0,0" VerticalAlignment="Top" Width="98" Height="30" Click="Button_Click_1"/>
 
-        <TextBox x:Name="PoleSzukaj"  Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="22" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="434"/>
-        <Button Background="#ff5a00" Content="Szukaj" Grid.Column="1" HorizontalAlignment="Left" Margin="464,10,0,0" VerticalAlignment="Top" Width="98" Height="30" Click="Button_Click_1"/>
-        <ScrollViewer VerticalScrollBarVisibility="Auto"  Grid.Row="1" 
-              Background="#edeff1" Margin="0,10,0,67" Grid.ColumnSpan="2">
+        <ScrollViewer x:Name="MyScrollViewer" VerticalScrollBarVisibility="Auto"  Grid.Row="1" 
+              Background="#edeff1" Margin="0,10,0,67" Grid.ColumnSpan="2" Visibility="Hidden">
             <StackPanel>
                 <ItemsControl x:Name="ProductList" ItemsSource="{Binding Items}">
                     <ItemsControl.ItemTemplate>
@@ -111,9 +124,25 @@
         </ScrollViewer>
         <Button x:Name="następna_strona" Content="Następna strona" HorizontalAlignment="Left" Margin="740,0,0,16" VerticalAlignment="Bottom" Height="30" Width="140" Click="Następna_strona_Click" Grid.Column="1" Grid.Row="1"/>
         <Button x:Name="poprzednia_strona" Content="Poprzednia strona " HorizontalAlignment="Left" Margin="497,0,0,16" VerticalAlignment="Bottom" Height="30" Width="140" Click="Poprzednia_strona_Click" Grid.Column="1" Grid.Row="1"/>
+
+
+
         <TextBox x:Name="textbox" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="25" Width="35" Grid.Column="1" Margin="663,0,0,16" Grid.Row="1"   />
         <Button x:Name="idz_do" Content="Idź do " HorizontalAlignment="Left" Margin="395,0,0,16" VerticalAlignment="Bottom" Height="30" Width="70" Click="idz_do_Click" Grid.Column="1" Grid.Row="1"/>
-        <Button Content="Historia wyszukiwania" Grid.Column="1" HorizontalAlignment="Left" Margin="567,10,0,0" VerticalAlignment="Top" Width="140" Click="Button_Click" Height="30"/>
-        <ComboBox x:Name="combox" Grid.Column="1" HorizontalAlignment="Left" Margin="720,10,0,0" VerticalAlignment="Top" Width="160" Height="30" />
+        <Button Content="Historia wyszukiwania" Grid.Column="1" HorizontalAlignment="Left" Margin="546,10,0,0" VerticalAlignment="Top" Width="140" Click="Button_Click" Height="30"/>
+        <ComboBox x:Name="combox" Grid.Column="1" HorizontalAlignment="Left" Margin="692,10,0,0" VerticalAlignment="Top" Width="115" Height="30" />
+
+        <Grid x:Name="Hello" Grid.Column="1" Grid.Row="1" Visibility="Visible">
+            <Image HorizontalAlignment="Left" VerticalAlignment="Center" Source="wink.png" Opacity="0.5" Height="216" Width="200" Margin="230,92,0,219" />
+            <Label Content="Co Cię dziś interesuje?" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="126,314,0,0" Width="412" FontSize="40" Opacity="0.5"/>
+        </Grid>
+        <Grid x:Name="SpinningWheel" Margin="168,72,338,207" Grid.Row="1" Grid.Column="1" Visibility="Hidden">
+            <fa:ImageAwesome Icon="Spinner" Spin="True" Height="200" Width="200" Rotation="0.2" Opacity="0.5"/>
+            <Label Content="Czekaj, szukam dla Ciebie ofert..." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-129,244,-136,-52" Width="583" FontSize="40" Opacity="0.5" Height="56"/>
+        </Grid>
+        <Grid x:Name="Dead" Grid.Row="1" Grid.Column="1" Visibility="Hidden">
+            <Label Content="Nie znalazłem żadnych ofert..." Opacity="0.5" FontSize="40"  Margin="55,315,71,-1"/>
+            <Image HorizontalAlignment="Left" VerticalAlignment="Center" Source="dead.png" Opacity="0.5" Margin="230,92,0,219" Height="216" Width="200"/>
+        </Grid>
     </Grid>
 </Window>

@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Windows;
 
 namespace P_ZPP_1
 {
@@ -49,12 +50,18 @@ namespace P_ZPP_1
                 .SelectNodes(".//span[@class='_1h7wt _1fkm6 _g1gnj _3db39_3i0GV _3db39_XEsAE']")
                 .FirstOrDefault();
                 int intNumberOfAllPages = Int32.Parse(numberOfAllPages.InnerText);
-                HtmlNode[] nodes = htmlDoc.DocumentNode.SelectNodes("//article").ToArray();
-                parser.Parse(nodes, listOfPaths, pageNumber, query);
+                try
+                { 
+                    HtmlNode[] nodes = htmlDoc.DocumentNode.SelectNodes("//article").ToArray();
+                    parser.Parse(nodes, listOfPaths, pageNumber, query);
+                    
+                }
+                catch (System.ArgumentNullException)
+                {
+                    return -1;
+                }
                 return intNumberOfAllPages;
             }
-
-
         }
     }
 }

@@ -30,7 +30,7 @@ namespace P_ZPP_1
         {
 
             InitializeComponent();
-
+            //imgBrush.ImageSource = new BitmapImage(new Uri("pack://application:,,,C:/Users/ASUS/Photos/wink.png"));
             var db = new AppDatabase.AllegroAppContext();
 
             db.Database.CreateIfNotExists();
@@ -76,7 +76,7 @@ namespace P_ZPP_1
 
         }
 
-
+        
 
 
 
@@ -115,8 +115,13 @@ namespace P_ZPP_1
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            Hello.Visibility = Visibility.Hidden;
+            MyScrollViewer.Visibility = Visibility.Hidden;
+            SpinningWheel.Visibility = Visibility.Visible;
+            Dead.Visibility = Visibility.Hidden;
             WebConnection parser = new WebConnection();
             PagesLoadedMemory.currentQuery = PoleSzukaj.Text;
+            bool dead = false;
             if (PagesLoadedMemory.currentQuery.Length > 0 )
             {
                 await Task.Run(() =>
@@ -125,11 +130,17 @@ namespace P_ZPP_1
                     PagesLoadedMemory.SetCurrentPage(1);
                     PagesLoadedMemory.maxPage = parser.GetHtml(PagesLoadedMemory.currentQuery, 1);
 
-                    if (PagesLoadedMemory.maxPage == 0)
+                    if (PagesLoadedMemory.maxPage == -1)
                     {
-                        MessageBox.Show("Brak ofert dla danego zapytania.");
+                        Dispatcher.Invoke(() =>
+                        {
+                            MyScrollViewer.Visibility = Visibility.Hidden;
+                            Dead.Visibility = Visibility.Visible;
+                            dead = true;
+                        });
                         return;
                     }
+
 
                     using (var db = new AllegroAppContext())
                     {
@@ -148,11 +159,16 @@ namespace P_ZPP_1
                         {
                             var paramiters = GetItemParams(item).ToList();
                         }
-
+                        
+                        //todo spinning wheel
                         // var paramiters = GetItemParams(id, listItemId);
                     }
                 });
-
+                if (dead)
+                    MyScrollViewer.Visibility = Visibility.Hidden;
+                else
+                    MyScrollViewer.Visibility = Visibility.Visible;
+                SpinningWheel.Visibility = Visibility.Hidden;
 
                 await Task.Run(() =>
                 {
