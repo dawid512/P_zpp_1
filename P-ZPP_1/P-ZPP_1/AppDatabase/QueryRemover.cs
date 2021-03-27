@@ -87,11 +87,11 @@ namespace P_ZPP_1.AppDatabase
         /// </summary>
         public void RemoveSponsoredOffersItems()
         {
-            var db = new AppDatabase.AllegroAppContext();
+            /*var db = new AppDatabase.AllegroAppContext();
             var LatestQueryId = db.QueryInfo.OrderBy(r => r.Date).FirstOrDefault().Id;
 
-            var LatestItemListPage_1 = db.Items.Where(qid => qid.Query_Id == LatestQueryId && qid.PageNumber == 1);
-            var LatestItemListPage_2 = db.Items.Where(qid => qid.Query_Id == LatestQueryId && qid.PageNumber == 2);
+            List<Items> LatestItemListPage_1 = db.Items.Where(qid => qid.Query_Id == LatestQueryId && qid.PageNumber == 1).ToList();
+            List<Items> LatestItemListPage_2 = db.Items.Where(qid => qid.Query_Id == LatestQueryId && qid.PageNumber == 2).ToList();
             List<AppDatabase.Items> SponsoredOffersList = new List<AppDatabase.Items>();
 
             foreach (var itemFromPage_1 in LatestItemListPage_1)
@@ -108,7 +108,7 @@ namespace P_ZPP_1.AppDatabase
                     foreach (var ItemParamsToBeRemoved in db.ItemParams.Where(y=> y.Item_id == item.Id).ToList())
                         db.ItemParams.Remove(ItemParamsToBeRemoved);
                 }
-            db.SaveChanges();          
+            db.SaveChanges();  */        
         }
         /// <summary>
         /// Method removes Old query results, if current query already exists in datatabase

@@ -107,7 +107,6 @@
     <Compile Include="AppDatabase\Items.cs" />
     <Compile Include="DatabaseManagement\DbItemParams.cs" />
     <Compile Include="DatabaseManagement\DbQueryInfo.cs" />
-    <Compile Include="DatabaseManagement\QueryRemover.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
