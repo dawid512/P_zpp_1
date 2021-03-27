@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace P_ZPP_1.Classes
 {
-   public  class ParsingToWpf
+    public class ParsingToWpf
     {        
         public int Id { get; set; }
         public int Query_Id { get; set; }
@@ -18,17 +18,17 @@ namespace P_ZPP_1.Classes
         public string Hyperlink { get; set; }
         public string myParameters { get; set; }
 
-        public ParsingToWpf(int id, int query_Id, string productName, decimal price, bool aLLEGROsmart, int pageNumber, string imagePath, string hyperlink, string myParameters)
+        public ParsingToWpf(P_ZPP_1.AppDatabase.Items item, string myParams)
         {
-            Id = id;
-            Query_Id = query_Id;
-            ProductName = productName;
-            Price = price;
-            ALLEGROsmart = aLLEGROsmart;
-            PageNumber = pageNumber;
-            ImagePath = imagePath;
-            Hyperlink = hyperlink;
-            this.myParameters = myParameters;
+            Id = item.Id;
+            Query_Id = item.Query_Id;
+            ProductName = item.ProductName;
+            Price = item.Price;
+            ALLEGROsmart = item.ALLEGROsmart;
+            PageNumber = item.PageNumber;
+            ImagePath = item.ImagePath;
+            Hyperlink = item.Hyperlink;
+            this.myParameters = myParams;
         }
     }
 }

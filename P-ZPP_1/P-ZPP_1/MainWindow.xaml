@@ -42,7 +42,7 @@
         <ScrollViewer x:Name="MyScrollViewer" VerticalScrollBarVisibility="Auto"  Grid.Row="1" 
               Background="#edeff1" Margin="0,10,0,67" Grid.ColumnSpan="2" Visibility="Hidden">
             <StackPanel>
-                <ItemsControl x:Name="ProductList" ItemsSource="{Binding Items}">
+                <ItemsControl x:Name="ProductList" ItemsSource="{Binding tmpParserList}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="20 10 " Background="AliceBlue">
@@ -58,6 +58,7 @@
                                         </Grid>
                                         <Grid Height="200" Width="600">
                                             <TextBlock Text="{Binding ProductName}" Margin="10,0,10,166" />
+                                            <TextBlock x:Name="tekstblockparamiters"  Text="{Binding myParameters}"  Margin="10,30,10,70"/>
                                             <TextBlock Text="{Binding Price}" Margin="10,81,446,91"/>
                                             <Grid Margin="10,23,10,124"/>
                                             <Grid x:Name="AllegroSmart" >
@@ -108,7 +109,7 @@
 
 
 
-                                                        <TextBlock x:Name="tekstblockparamiters"  Text="{Binding paramiterString}"  Margin="10,30,10,70"/>
+                                                        
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>

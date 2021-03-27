@@ -148,14 +148,34 @@ namespace P_ZPP_1
 
                         var items = GetItems(id, 1);
                         var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
-                        if (items.Count > 0)
+
+                        var tmpParserList = new List<P_ZPP_1.Classes.ParsingToWpf>();
+                        string myTmp = "";
+
+                        foreach (var item in items)
+                        {
+
+                            foreach (var itempar in GetItemParams(item.Id).ToList())
+                            {
+                                myTmp += itempar.Property_Name + ": " + itempar.Property_Value+ " "; 
+                            }
+
+                            tmpParserList.Add(new P_ZPP_1.Classes.ParsingToWpf(item, myTmp));
+
+                            myTmp = "";
+                        }
+
+
+                        if (tmpParserList.Count > 0)
                         {
                             Dispatcher.Invoke(() =>
                             {
-                                ProductList.ItemsSource = items;
+                                ProductList.ItemsSource = tmpParserList;
                             });
                         }
-                        string TMP = "coś tam";
+
+
+                        /*
                         foreach (var item in listItemId)
                         {
                             var paramiters = GetItemParams(item).ToList();
@@ -165,10 +185,10 @@ namespace P_ZPP_1
                             }
                             
                         }
-                        
+                        */
 
-                        string paramiterString = TMP;
-                        ProductList.ItemsSource = paramiterString;
+                        // string paramiterString = TMP;
+                        
                         //todo spinning wheel
                         // var paramiters = GetItemParams(id, listItemId);
                     }

@@ -94,6 +94,7 @@
     </ApplicationDefinition>
     <Compile Include="AppDatabase\QueryRemover.cs" />
     <Compile Include="Classes\PagesLoadedMemory.cs" />
+    <Compile Include="Classes\ParsingToWpf.cs" />
     <Compile Include="Classes\WebConnection.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
