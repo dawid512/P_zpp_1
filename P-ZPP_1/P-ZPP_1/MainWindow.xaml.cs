@@ -25,13 +25,7 @@ namespace P_ZPP_1
     /// </summary>
     public partial class MainWindow : Window
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public ICommand GoToStore { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
+        
         public MainWindow()
         {
 

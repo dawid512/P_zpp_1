@@ -89,7 +89,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppDatabase\GoToStoreCommand.cs" />
     <Compile Include="AppDatabase\QueryRemover.cs" />
     <Compile Include="Classes\PagesLoadedMemory.cs" />
     <Compile Include="Classes\WebConnection.cs" />
