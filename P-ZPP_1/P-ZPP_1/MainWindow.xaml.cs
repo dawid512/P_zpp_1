@@ -88,7 +88,8 @@ namespace P_ZPP_1
             {
                 //var lastTMP = db.QueryInfo.Last<QueryInfo>();
                 //var last = lastTMP.Id;
-                qurery = db.Items.Where(x=>x.Query_Id== QuerryID).Where(x=>x.PageNumber == page).ToList();
+                List < Items > tmp = db.Items.Where(x=>x.Query_Id == QuerryID && x.PageNumber == page).ToList();
+                qurery = tmp.Skip(2).Take(tmp.Count()- 4).ToList();
             }
             return qurery;
         }

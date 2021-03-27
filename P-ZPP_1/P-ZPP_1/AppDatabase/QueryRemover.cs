@@ -17,7 +17,6 @@ namespace P_ZPP_1.AppDatabase
         public void QueryRemower_Work()
         {
             
-
             var db = new AppDatabase.AllegroAppContext();
             int numberOfItemsToBeRemoved = db.QueryInfo.Select(x => x).Count() - 3;
 
@@ -30,9 +29,7 @@ namespace P_ZPP_1.AppDatabase
                 db.SaveChanges();
             }
 
-            RemoveOutdatedQuery();
-            RemoveSponsoredOffersItems();
-            
+            RemoveOutdatedQuery();    
         }
         /// <summary>
         /// Method invokes all methods required to remove all elements connected to QuerryInfo with Id of queryID from database:
@@ -82,12 +79,6 @@ namespace P_ZPP_1.AppDatabase
             foreach (var entity in toBeRemoved)
                 db.ItemParams.Remove(entity);
             db.SaveChanges();
-        }
-        /// <summary>
-        /// Method removes sposored offer taht are duplicated on every page.
-        /// </summary>
-        public void RemoveSponsoredOffersItems()
-        {
         }
         /// <summary>
         /// Method removes Old query results, if current query already exists in datatabase
