@@ -25,8 +25,13 @@ namespace P_ZPP_1
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public ICommand GoToStore { get; set; }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public MainWindow()
         {
 
@@ -42,7 +47,7 @@ namespace P_ZPP_1
 
             combox.ItemsSource = querry;
 
-            GoToStore = new GoToStoreCommand(this);
+            //GoToStore = new GoToStoreCommand(this);
 
 
 
@@ -276,9 +281,15 @@ namespace P_ZPP_1
         /// otwiera strone
         /// </summary>
         /// <param name="link"></param>
-        public void Store(string link)
+        //public void Store(string link)
+        //{
+        //    Process.Start(link);
+        //}
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            Process.Start(link);
+            var hyperlink = (sender as Button).Tag;
+            Process.Start(hyperlink.ToString());
         }
     }
 }

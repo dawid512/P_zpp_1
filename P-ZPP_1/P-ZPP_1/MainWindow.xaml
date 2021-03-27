@@ -43,7 +43,7 @@
 
                                             </Border>
                                         </Grid>
-                                        <Grid Height="200" Width="700">
+                                        <Grid Height="200" Width="600">
                                             <TextBlock Text="{Binding ProductName}" Margin="10,0,10,166" />
                                             <TextBlock Text="{Binding Price}" Margin="10,81,446,91"/>
                                             <Grid Margin="10,23,10,124"/>
@@ -76,11 +76,11 @@
                                                 </TextBlock>
                                             </Grid>
                                             <Button  Content="PRZEJDŹ DO STRONY"
-                                     HorizontalAlignment="Right" 
-                                     VerticalAlignment="Top" 
-                                     Margin="20,100,0,0"
-                                     Command="{Binding Path=DataContext.GoToStore, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
-                                     CommandParameter="{Binding Hyperlink}" 
+                                     
+                                     
+                                     Margin="20,80,0,0"
+                                      Click="Button_Click_2"
+                                                     Tag="{Binding Hyperlink}"
                                      Grid.Column="2"
                                      Width="200"
                                      Height="50"
@@ -90,7 +90,6 @@
                                       >
                                             </Button>
                                             <TextBlock x:Name="tekstblockparamiters"  Text="{Binding paramiters}"  Margin="10,30,10,70"/>
-
 
                                         </Grid>
 
@@ -112,7 +111,7 @@
         </ScrollViewer>
         <Button x:Name="następna_strona" Content="Następna strona" HorizontalAlignment="Left" Margin="740,0,0,16" VerticalAlignment="Bottom" Height="30" Width="140" Click="Następna_strona_Click" Grid.Column="1" Grid.Row="1"/>
         <Button x:Name="poprzednia_strona" Content="Poprzednia strona " HorizontalAlignment="Left" Margin="497,0,0,16" VerticalAlignment="Bottom" Height="30" Width="140" Click="Poprzednia_strona_Click" Grid.Column="1" Grid.Row="1"/>
-        <TextBox x:Name="textbox" HorizontalAlignment="Center" Height="30" Width="44" Grid.Column="1" Margin="663,479,195,16" Grid.Row="1"  />
+        <TextBox x:Name="textbox" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="25" Width="35" Grid.Column="1" Margin="663,0,0,16" Grid.Row="1"   />
         <Button x:Name="idz_do" Content="Idź do " HorizontalAlignment="Left" Margin="395,0,0,16" VerticalAlignment="Bottom" Height="30" Width="70" Click="idz_do_Click" Grid.Column="1" Grid.Row="1"/>
         <Button Content="Historia wyszukiwania" Grid.Column="1" HorizontalAlignment="Left" Margin="567,10,0,0" VerticalAlignment="Top" Width="140" Click="Button_Click" Height="30"/>
         <ComboBox x:Name="combox" Grid.Column="1" HorizontalAlignment="Left" Margin="720,10,0,0" VerticalAlignment="Top" Width="160" Height="30" />

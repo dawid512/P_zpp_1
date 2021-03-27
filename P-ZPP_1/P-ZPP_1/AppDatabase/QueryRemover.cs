@@ -88,28 +88,6 @@ namespace P_ZPP_1.AppDatabase
         /// </summary>
         public void RemoveSponsoredOffersItems()
         {
-            /*var db = new AppDatabase.AllegroAppContext();
-            var LatestQueryId = db.QueryInfo.OrderBy(r => r.Date).FirstOrDefault().Id;
-
-            List<Items> LatestItemListPage_1 = db.Items.Where(qid => qid.Query_Id == LatestQueryId && qid.PageNumber == 1).ToList();
-            List<Items> LatestItemListPage_2 = db.Items.Where(qid => qid.Query_Id == LatestQueryId && qid.PageNumber == 2).ToList();
-            List<AppDatabase.Items> SponsoredOffersList = new List<AppDatabase.Items>();
-
-            foreach (var itemFromPage_1 in LatestItemListPage_1)
-                foreach (var itemFromPage_2 in LatestItemListPage_2)
-                    if (itemFromPage_1.ProductName == itemFromPage_2.ProductName && itemFromPage_1.Price == itemFromPage_2.Price)
-                        SponsoredOffersList.Add(itemFromPage_1);
-
-            var LatestItemList = db.Items.Where(q => q.Query_Id == LatestQueryId);
-
-            foreach (var item in LatestItemList)
-                if (SponsoredOffersList.Contains(item) && item.PageNumber != 1)
-                {
-                    db.Items.Remove(item);
-                    foreach (var ItemParamsToBeRemoved in db.ItemParams.Where(y=> y.Item_id == item.Id).ToList())
-                        db.ItemParams.Remove(ItemParamsToBeRemoved);
-                }
-            db.SaveChanges();  */        
         }
         /// <summary>
         /// Method removes Old query results, if current query already exists in datatabase
