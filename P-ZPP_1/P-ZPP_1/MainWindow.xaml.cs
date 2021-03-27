@@ -190,10 +190,11 @@ namespace P_ZPP_1
                 //if (paramiters.Count > 0)
 
             */
+            var qr = new QueryRemover();
+            qr.QueryRemower_Work();
 
 
-
-            }
+        }
            
         
 

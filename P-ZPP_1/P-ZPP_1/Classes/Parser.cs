@@ -131,8 +131,6 @@ namespace P_ZPP_1
                     x++;
                 }
             }
-            var qr = new QueryRemover();
-            qr.QueryRemower_Work();
         }
     }
 }

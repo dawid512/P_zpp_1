@@ -16,22 +16,23 @@ namespace P_ZPP_1.AppDatabase
         /// </summary>
         public void QueryRemower_Work()
         {
-            int HistoryRange = 3; //  number of queries stored in app history
+            
 
             var db = new AppDatabase.AllegroAppContext();
-            int numberOfItemsToBeRemoved = db.QueryInfo.Count() - HistoryRange;
+            int numberOfItemsToBeRemoved = db.QueryInfo.Select(x => x).Count() - 3;
 
             if (numberOfItemsToBeRemoved > 0)
             {
-                var TmpListOfAllItems = db.QueryInfo.OrderBy(y => y.Date).ToList();
+                var TmpListOfAllItems = db.QueryInfo.OrderBy(y => y.Date).Skip(3).ToList();
 
-                for (int i = 0; i < numberOfItemsToBeRemoved; i++)
-                    RemoveAllEntitiesWithID(TmpListOfAllItems.FirstOrDefault().Id);
+                foreach (var item in TmpListOfAllItems)
+                    RemoveAllEntitiesWithID(item.Id);
+                db.SaveChanges();
             }
 
             RemoveOutdatedQuery();
             RemoveSponsoredOffersItems();
-
+            
         }
         /// <summary>
         /// Method invokes all methods required to remove all elements connected to QuerryInfo with Id of queryID from database:
