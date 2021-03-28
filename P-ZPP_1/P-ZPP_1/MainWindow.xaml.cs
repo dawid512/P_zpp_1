@@ -25,7 +25,7 @@ namespace P_ZPP_1
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+
         public MainWindow()
         {
 
@@ -43,7 +43,7 @@ namespace P_ZPP_1
             poprzednia_strona.IsEnabled = false;
             następna_strona.IsEnabled = false;
 
-            
+
 
         }
 
@@ -86,20 +86,20 @@ namespace P_ZPP_1
 
         }
 
-        
 
 
 
-        private List<Items> GetItems(int QuerryID, int page )
+
+        private List<Items> GetItems(int QuerryID, int page)
         {
             List<Items> qurery = new List<Items>();
-            
+
             using (var db = new AllegroAppContext())
             {
                 //var lastTMP = db.QueryInfo.Last<QueryInfo>();
                 //var last = lastTMP.Id;
-                List < Items > tmp = db.Items.Where(x=>x.Query_Id == QuerryID && x.PageNumber == page).ToList();
-                qurery = tmp.Skip(2).Take(tmp.Count()- 4).ToList();
+                List<Items> tmp = db.Items.Where(x => x.Query_Id == QuerryID && x.PageNumber == page).ToList();
+                qurery = tmp.Skip(2).Take(tmp.Count() - 4).ToList();
             }
             return qurery;
         }
@@ -125,7 +125,7 @@ namespace P_ZPP_1
             MyScrollViewer.Visibility = Visibility.Hidden;
             SpinningWheel.Visibility = Visibility.Visible;
             Dead.Visibility = Visibility.Hidden;
-            WebConnection parser = new WebConnection();
+
             PagesLoadedMemory.currentQuery = combox.SelectedItem.ToString();
             bool dead = false;
             if (PagesLoadedMemory.currentQuery.Length > 0)
@@ -140,6 +140,101 @@ namespace P_ZPP_1
                     PagesLoadedMemory.ClearInfo();
                     PagesLoadedMemory.SetCurrentPage(1);
 
+
+                    if (PagesLoadedMemory.maxPage == -1)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            MyScrollViewer.Visibility = Visibility.Hidden;
+                            Dead.Visibility = Visibility.Visible;
+                            dead = true;
+                        });
+                        return;
+                    }
+
+
+                    using (var db = new AllegroAppContext())
+                    {
+                        var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
+
+                        var items = GetItems(id, 1);
+                        var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+
+                        var tmpParserList = new List<P_ZPP_1.Classes.ParsingToWpf>();
+
+                        string myTmp = "";
+                        foreach (var item in items)
+                        {
+
+                            foreach (var itempar in GetItemParams(item.Id).ToList())
+                            {
+
+                                myTmp += itempar.Property_Name + ": " + itempar.Property_Value + " \n";
+
+
+                            }
+
+                            tmpParserList.Add(new P_ZPP_1.Classes.ParsingToWpf(item, myTmp));
+
+                            myTmp = "";
+                        }
+
+
+                        if (tmpParserList.Count > 0)
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                ProductList.ItemsSource = tmpParserList;
+                            });
+                        }
+
+                    }
+                    PagesLoadedMemory.loading = 0;
+                });
+                if (dead)
+                    MyScrollViewer.Visibility = Visibility.Hidden;
+                else
+                    MyScrollViewer.Visibility = Visibility.Visible;
+                SpinningWheel.Visibility = Visibility.Hidden;
+
+
+            }
+        }
+
+        private async void Button_Click_1(object sender, RoutedEventArgs e) //przycisk wyszukaj
+        {
+            /*using (var db = new AllegroAppContext()) 
+            {
+                combox.ItemsSource = db.QueryInfo.OrderBy(y=>y.Date).Distinct().Select(x => x.Querry).ToList();
+            }*/
+
+
+
+
+            Hello.Visibility = Visibility.Hidden;
+            MyScrollViewer.Visibility = Visibility.Hidden;
+            SpinningWheel.Visibility = Visibility.Visible;
+            Dead.Visibility = Visibility.Hidden;
+            WebConnection parser = new WebConnection();
+            PagesLoadedMemory.currentQuery = PoleSzukaj.Text;
+            bool dead = false;
+            if (PagesLoadedMemory.currentQuery.Length > 0)
+            {
+                await Task.Run(() =>
+                {
+                    do
+                    {
+                    } while (PagesLoadedMemory.loading == 1);
+                    PagesLoadedMemory.loading = 1;
+
+                    PagesLoadedMemory.ClearInfo();
+                    PagesLoadedMemory.SetCurrentPage(1);
+                    Dispatcher.Invoke(() =>
+                    {
+                        następna_strona.IsEnabled = false;
+                    });
+
+                    PagesLoadedMemory.maxPage = parser.GetHtml(PagesLoadedMemory.currentQuery, 1);
 
                     if (PagesLoadedMemory.maxPage == -1)
                     {
@@ -187,108 +282,11 @@ namespace P_ZPP_1
                             Dispatcher.Invoke(() =>
                             {
                                 ProductList.ItemsSource = tmpParserList;
-                            });
-                        }
-
-                    }
-                    PagesLoadedMemory.loading = 0;
-                });
-                if (dead)
-                    MyScrollViewer.Visibility = Visibility.Hidden;
-                else
-                    MyScrollViewer.Visibility = Visibility.Visible;
-                SpinningWheel.Visibility = Visibility.Hidden;
-
-
-            }
-        }
-
-            private async void Button_Click_1(object sender, RoutedEventArgs e) //przycisk wyszukaj
-        {
-            /*using (var db = new AllegroAppContext()) 
-            {
-                combox.ItemsSource = db.QueryInfo.OrderBy(y=>y.Date).Distinct().Select(x => x.Querry).ToList();
-            }*/
-
-            
-
-
-            Hello.Visibility = Visibility.Hidden;
-            MyScrollViewer.Visibility = Visibility.Hidden;
-            SpinningWheel.Visibility = Visibility.Visible;
-            Dead.Visibility = Visibility.Hidden;
-            WebConnection parser = new WebConnection();
-            PagesLoadedMemory.currentQuery = PoleSzukaj.Text;
-            bool dead = false;
-            if (PagesLoadedMemory.currentQuery.Length > 0 )
-            {
-                await Task.Run(() =>
-                {
-                    do
-                    {
-                    } while (PagesLoadedMemory.loading == 1);
-                    PagesLoadedMemory.loading = 1;
-
-                    PagesLoadedMemory.ClearInfo();
-                    PagesLoadedMemory.SetCurrentPage(1);
-                    Dispatcher.Invoke(() =>
-                    {
-                        następna_strona.IsEnabled = false;
-                    });
-
-                    PagesLoadedMemory.maxPage = parser.GetHtml(PagesLoadedMemory.currentQuery, 1);
-
-                    if (PagesLoadedMemory.maxPage == -1)
-                    {
-                        Dispatcher.Invoke(() =>
-                        {
-                            MyScrollViewer.Visibility = Visibility.Hidden;
-                            Dead.Visibility = Visibility.Visible;
-                            dead = true;
-                        });
-                        return;
-                    }
-
-
-                    using (var db = new AllegroAppContext())
-                    {
-                        var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
-
-                        var items = GetItems(id, 1);
-                        var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
-                        
-                        var tmpParserList = new List<P_ZPP_1.Classes.ParsingToWpf>();
-                        
-                        string myTmp = "";
-                        foreach (var item in items)
-                        {
-                            int i = 0;
-                            foreach (var itempar in GetItemParams(item.Id).ToList())
-                            {
-                                if(i%2 == 0)
-                                    myTmp += itempar.Property_Name + ": " + itempar.Property_Value+ " "; 
-                                else
-                                    myTmp += itempar.Property_Name + ": " + itempar.Property_Value + " \n";
-
-                                i++;
-                            }
-
-                            tmpParserList.Add(new P_ZPP_1.Classes.ParsingToWpf(item, myTmp));
-
-                            myTmp = "";
-                        }
-
-
-                        if (tmpParserList.Count > 0)
-                        {
-                            Dispatcher.Invoke(() =>
-                            {
-                                ProductList.ItemsSource = tmpParserList;
                                 string aktualnaStrona = PagesLoadedMemory.GetCurrentPage().ToString();
                                 textboxStrona.Text = aktualnaStrona;
                             });
                         }
-                        
+
 
                     }
                     PagesLoadedMemory.loading = 0;
@@ -305,8 +303,8 @@ namespace P_ZPP_1
 
 
 
-                textbox.Text = PagesLoadedMemory.GetCurrentPage().ToString();
-             
+                // textbox.Text = PagesLoadedMemory.GetCurrentPage().ToString();
+
 
                 //var qr = new QueryRemover();
                 //qr.QueryRemower_Work();
@@ -347,7 +345,7 @@ namespace P_ZPP_1
             {
                 MessageBox.Show("Błąd, Pole wyszukiwania jest puste");
             }
-            
+
 
             /*using (var db = new AllegroAppContext())
             {
@@ -366,8 +364,8 @@ namespace P_ZPP_1
 
             */
         }
-           
-        
+
+
 
 
         private async void Poprzednia_strona_Click(object sender, RoutedEventArgs e)
@@ -375,12 +373,15 @@ namespace P_ZPP_1
             await Task.Run(() =>
             {
                 PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() - 1);
-                if (PagesLoadedMemory.GetCurrentPage() >= PagesLoadedMemory.maxLoadedPage)
-                    następna_strona.IsEnabled = false;
-                else
-                    następna_strona.IsEnabled = true;
-                if (PagesLoadedMemory.GetCurrentPage() == 1)
-                    poprzednia_strona.IsEnabled = false;
+                Dispatcher.Invoke(() =>
+                {
+                    if (PagesLoadedMemory.GetCurrentPage() >= PagesLoadedMemory.maxLoadedPage)
+                        następna_strona.IsEnabled = false;
+                    else
+                        następna_strona.IsEnabled = true;
+                    if (PagesLoadedMemory.GetCurrentPage() == 1)
+                        poprzednia_strona.IsEnabled = false;
+                });
 
                 using (var db = new AllegroAppContext())
                 {
@@ -395,7 +396,8 @@ namespace P_ZPP_1
                         Dispatcher.Invoke(() =>
                         {
                             ProductList.ItemsSource = items;
-                            textbox.Text = PagesLoadedMemory.GetCurrentPage().ToString();
+                            string aktualnaStrona = PagesLoadedMemory.GetCurrentPage().ToString();
+                            textboxStrona.Text = aktualnaStrona;
                         });
                     }
                 }
@@ -430,12 +432,15 @@ namespace P_ZPP_1
         private async void Następna_strona_Click(object sender, RoutedEventArgs e)
         {
             PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() + 1);
-            if (PagesLoadedMemory.GetCurrentPage() >= PagesLoadedMemory.maxLoadedPage)
-                następna_strona.IsEnabled = false;
-            else
-                następna_strona.IsEnabled = true;
-            if (PagesLoadedMemory.GetCurrentPage() != 1)
-                poprzednia_strona.IsEnabled = true;
+            Dispatcher.Invoke(() =>
+            {
+                if (PagesLoadedMemory.GetCurrentPage() >= PagesLoadedMemory.maxLoadedPage)
+                    następna_strona.IsEnabled = false;
+                else
+                    następna_strona.IsEnabled = true;
+                if (PagesLoadedMemory.GetCurrentPage() != 1)
+                    poprzednia_strona.IsEnabled = true;
+            });
 
             await Task.Run(() =>
             {
@@ -461,7 +466,8 @@ namespace P_ZPP_1
                             Dispatcher.Invoke(() =>
                             {
                                 ProductList.ItemsSource = items;
-                                textbox.Text = PagesLoadedMemory.GetCurrentPage().ToString();
+                                string aktualnaStrona = PagesLoadedMemory.GetCurrentPage().ToString();
+                                textboxStrona.Text = aktualnaStrona;
                             });
                         }
                     }
@@ -506,7 +512,7 @@ namespace P_ZPP_1
 
         private void combox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
         }
 
         private void Allegrobutton_Click(object sender, RoutedEventArgs e)
