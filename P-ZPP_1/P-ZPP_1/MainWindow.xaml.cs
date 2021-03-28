@@ -43,6 +43,7 @@ namespace P_ZPP_1
             combox.ItemsSource = querry.Distinct();
             poprzednia_strona.IsEnabled = false;
             następna_strona.IsEnabled = false;
+            historyButton.IsEnabled = false;
 
 
 
@@ -122,11 +123,14 @@ namespace P_ZPP_1
             //historyOfQuerry.Show();
 
             // URUCHOMIC PRZYCISK OD HISTORII OFFLINE 
+
+            następna_strona.Visibility = Visibility.Hidden;
+            poprzednia_strona.Visibility = Visibility.Hidden;
+            textboxStrona.Visibility = Visibility.Hidden;
             Hello.Visibility = Visibility.Hidden;
             MyScrollViewer.Visibility = Visibility.Hidden;
             SpinningWheel.Visibility = Visibility.Visible;
             Dead.Visibility = Visibility.Hidden;
-
             PagesLoadedMemory.currentQuery = combox.SelectedItem.ToString();
             bool dead = false;
             if (PagesLoadedMemory.currentQuery.Length > 0)
@@ -210,17 +214,19 @@ namespace P_ZPP_1
             }*/
 
 
-
-
-            Hello.Visibility = Visibility.Hidden;
-            MyScrollViewer.Visibility = Visibility.Hidden;
-            SpinningWheel.Visibility = Visibility.Visible;
-            Dead.Visibility = Visibility.Hidden;
             WebConnection parser = new WebConnection();
             PagesLoadedMemory.currentQuery = PoleSzukaj.Text;
             bool dead = false;
             if (PagesLoadedMemory.currentQuery.Length > 0)
             {
+
+                textboxStrona.Visibility = Visibility.Visible;
+                następna_strona.Visibility = Visibility.Visible;
+                poprzednia_strona.Visibility = Visibility.Visible;
+                Hello.Visibility = Visibility.Hidden;
+                MyScrollViewer.Visibility = Visibility.Hidden;
+                SpinningWheel.Visibility = Visibility.Visible;
+                Dead.Visibility = Visibility.Hidden;
                 await Task.Run(() =>
                 {
                     do
@@ -243,6 +249,7 @@ namespace P_ZPP_1
                         {
                             MyScrollViewer.Visibility = Visibility.Hidden;
                             Dead.Visibility = Visibility.Visible;
+                            PagesLoadedMemory.loading = 0;
                             dead = true;
                         });
                         return;
@@ -261,15 +268,13 @@ namespace P_ZPP_1
                         string myTmp = "";
                         foreach (var item in items)
                         {
-                            int i = 0;
+                            
                             foreach (var itempar in GetItemParams(item.Id).ToList())
                             {
-                                if (i % 2 == 0)
-                                    myTmp += itempar.Property_Name + ": " + itempar.Property_Value + " ";
-                                else
+                                
                                     myTmp += itempar.Property_Name + ": " + itempar.Property_Value + " \n";
 
-                                i++;
+                                
                             }
 
                             tmpParserList.Add(new P_ZPP_1.Classes.ParsingToWpf(item, myTmp));
@@ -302,14 +307,13 @@ namespace P_ZPP_1
                 qr.QueryRemower_Work();
                 combox.ItemsSource = GetQuerry().Distinct();
 
-
-
                 // textbox.Text = PagesLoadedMemory.GetCurrentPage().ToString();
 
 
                 //var qr = new QueryRemover();
                 //qr.QueryRemower_Work();
-
+                if (dead)
+                    return;
                 await Task.Run(() =>
                 {
                     do
@@ -406,7 +410,43 @@ namespace P_ZPP_1
                             textboxStrona.Text = aktualnaStrona;
                         });
                     }
+
+                    var tmpParserList = new List<P_ZPP_1.Classes.ParsingToWpf>();
+
+                    string myTmp = "";
+                    foreach (var item in items)
+                    {
+
+                        foreach (var itempar in GetItemParams(item.Id).ToList())
+                        {
+
+                            myTmp += itempar.Property_Name + ": " + itempar.Property_Value + " \n";
+
+
+                        }
+
+                        tmpParserList.Add(new P_ZPP_1.Classes.ParsingToWpf(item, myTmp));
+
+                        myTmp = "";
+                    }
+
+
+                    if (tmpParserList.Count > 0)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            ProductList.ItemsSource = tmpParserList;
+                            string aktualnaStrona = PagesLoadedMemory.GetCurrentPage().ToString();
+                            textboxStrona.Text = aktualnaStrona;
+                        });
+                    }
+
+
                 }
+                
+
+
+                
             });
 
         }
@@ -476,6 +516,36 @@ namespace P_ZPP_1
                                 textboxStrona.Text = aktualnaStrona;
                             });
                         }
+                        var tmpParserList = new List<P_ZPP_1.Classes.ParsingToWpf>();
+
+                        string myTmp = "";
+                        foreach (var item in items)
+                        {
+
+                            foreach (var itempar in GetItemParams(item.Id).ToList())
+                            {
+
+                                myTmp += itempar.Property_Name + ": " + itempar.Property_Value + " \n";
+
+
+                            }
+
+                            tmpParserList.Add(new P_ZPP_1.Classes.ParsingToWpf(item, myTmp));
+
+                            myTmp = "";
+                        }
+
+
+                        if (tmpParserList.Count > 0)
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                ProductList.ItemsSource = tmpParserList;
+                                string aktualnaStrona = PagesLoadedMemory.GetCurrentPage().ToString();
+                                textboxStrona.Text = aktualnaStrona;
+                            });
+                        }
+
                     }
                 }
 
@@ -518,7 +588,8 @@ namespace P_ZPP_1
 
         private void combox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (combox.SelectedItem != null)
+                historyButton.IsEnabled = true;
         }
 
         private void Allegrobutton_Click(object sender, RoutedEventArgs e)
