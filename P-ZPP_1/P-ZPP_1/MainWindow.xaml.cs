@@ -40,7 +40,8 @@ namespace P_ZPP_1
 
 
             combox.ItemsSource = querry;
-
+            poprzednia_strona.IsEnabled = false;
+            następna_strona.IsEnabled = false;
             //GoToStore = new GoToStoreCommand(this);
 
 
@@ -294,9 +295,9 @@ namespace P_ZPP_1
                     } while (PagesLoadedMemory.loading == 1);
                     PagesLoadedMemory.loading = 1;
                     string usedQuery = PagesLoadedMemory.currentQuery;
-                    for (int i = 2; i <= PagesLoadedMemory.maxPage && i <= 6; i++)
+                    for (int i = 2; i <= PagesLoadedMemory.maxPage && i <= PagesLoadedMemory.GetCurrentPage() + 6; i++)
                     {
-                        if (usedQuery != PagesLoadedMemory.currentQuery || PagesLoadedMemory.GetCurrentPage() != 1)
+                        if (usedQuery != PagesLoadedMemory.currentQuery)
                         {
                             PagesLoadedMemory.loading = 0;
                             return;
@@ -311,6 +312,10 @@ namespace P_ZPP_1
                             else
                                 następna_strona.IsEnabled = true;
                         });
+                        do
+                        {
+                        } while (i == PagesLoadedMemory.GetCurrentPage() + 5);
+
                     }
                     PagesLoadedMemory.loading = 0;
                 });
@@ -337,9 +342,6 @@ namespace P_ZPP_1
                 //if (paramiters.Count > 0)
 
             */
-            
-
-
         }
            
         
@@ -350,6 +352,12 @@ namespace P_ZPP_1
             await Task.Run(() =>
             {
                 PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() - 1);
+                if (PagesLoadedMemory.GetCurrentPage() >= PagesLoadedMemory.maxLoadedPage)
+                    następna_strona.IsEnabled = false;
+                else
+                    następna_strona.IsEnabled = true;
+                if (PagesLoadedMemory.GetCurrentPage() == 1)
+                    poprzednia_strona.IsEnabled = false;
 
                 using (var db = new AllegroAppContext())
                 {
@@ -398,23 +406,22 @@ namespace P_ZPP_1
 
         private async void Następna_strona_Click(object sender, RoutedEventArgs e)
         {
-
-            następna_strona.IsEnabled = false;
+            PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() + 1);
+            if (PagesLoadedMemory.GetCurrentPage() >= PagesLoadedMemory.maxLoadedPage)
+                następna_strona.IsEnabled = false;
+            else
+                następna_strona.IsEnabled = true;
+            if (PagesLoadedMemory.GetCurrentPage() != 1)
+                poprzednia_strona.IsEnabled = true;
 
             await Task.Run(() =>
             {
-                PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() + 1);
 
-                do
-                {
-
-                } while (PagesLoadedMemory.loading == 1);
-                PagesLoadedMemory.loading = 1;
 
                 if (PagesLoadedMemory.maxLoadedPage < PagesLoadedMemory.GetCurrentPage())
                 {
                     PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() - 1);
-                    PagesLoadedMemory.loading = 0;
+
                     return;
                 }
                 else
@@ -425,7 +432,7 @@ namespace P_ZPP_1
                         var nextID = id + PagesLoadedMemory.GetCurrentPage() - 1;
                         var nextpage = PagesLoadedMemory.GetCurrentPage();
                         var items = GetItems(nextID, nextpage);
-                        //var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+                        var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
                         if (items.Count > 0)
                         {
                             Dispatcher.Invoke(() =>
@@ -438,8 +445,7 @@ namespace P_ZPP_1
                 }
 
 
-                WebConnection parser = new WebConnection();
-                string usedQuery = PagesLoadedMemory.currentQuery;
+                /*string usedQuery = PagesLoadedMemory.currentQuery;
                 int currentPage = PagesLoadedMemory.GetCurrentPage();
                 for (int i = PagesLoadedMemory.maxLoadedPage; i <= PagesLoadedMemory.GetCurrentPage() + 5; i++)
                 {
@@ -450,18 +456,14 @@ namespace P_ZPP_1
                         else
                             następna_strona.IsEnabled = true;
                     });
+
                     if (usedQuery != PagesLoadedMemory.currentQuery || PagesLoadedMemory.GetCurrentPage() != currentPage)
                     {
                         PagesLoadedMemory.loading = 0;
                         return;
                     }
-
-                    parser.GetHtml(usedQuery, i);
-                    PagesLoadedMemory.maxLoadedPage = i;
-                    
                 }
-
-                PagesLoadedMemory.loading = 0;
+                PagesLoadedMemory.loading = 0;*/
             });
         }
         /// <summary>
