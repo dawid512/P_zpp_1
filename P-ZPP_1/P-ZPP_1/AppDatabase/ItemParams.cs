@@ -8,22 +8,31 @@ using System.Threading.Tasks;
 
 namespace P_ZPP_1.AppDatabase
 {
+    /// <summary>
+    /// Table containg all paramaters for a single item from <see cref="Items">Items</see> table.
+    /// </summary>
     public class ItemParams
     {
+        
+
         [Key]
         public int Id { get; set; }
-        public int item_id { get; set; }
-        public int querry_id { get; set; }
+        public int Item_id { get; set; }
+        public int Querry_id { get; set; }
         public string Property_Name { get; set; }
         public string Property_Value { get; set; }
 
-        public ItemParams(int id, int item_id, int querry_id, string property_Name, string property_Value)
+        public ItemParams(int item_id, int querry_id, string property_Name, string property_Value)
         {
-            Id = id;
-            this.item_id = item_id;
-            this.querry_id = querry_id;
+            Item_id = item_id;
+            Querry_id = querry_id;
             Property_Name = property_Name;
             Property_Value = property_Value;
+        }
+
+        public ItemParams()
+        {
+            
         }
     }
 }

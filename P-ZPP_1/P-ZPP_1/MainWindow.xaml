@@ -1,69 +1,123 @@
-﻿<Window x:Class="P_ZPP_1.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:P_ZPP_1"
+        xmlns:AppDatabase="clr-namespace:P_ZPP_1.AppDatabase" x:Class="P_ZPP_1.MainWindow"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Height="600" Width="1080"
+        Height="600" Width="1000"
         FontFamily="The Medic Demo"
-        WindowStartupLocation="CenterScreen">
-    <Grid>
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <Storyboard x:Key="WaitStoryboard">
+            <DoubleAnimation
+            Storyboard.TargetName="Wait"
+            Storyboard.TargetProperty="(TextBlock.RenderTransform).(RotateTransform.Angle)"
+            From="0"
+            To="360"
+            Duration="0:0:2"
+            RepeatBehavior="Forever" />
+        </Storyboard>
+    </Window.Resources>
+    <Grid Margin="0,0,0,-6">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="170"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="824"/>
+
         </Grid.ColumnDefinitions>
-        <Grid Grid.RowSpan="2">
-            <TextBlock Text="Allegro" HorizontalAlignment="Center" Margin="10" FontSize="30"/>
+        <Grid Grid.RowSpan="1">
+            <Button Click="Allegrobutton_Click" x:Name="Allegrobutton" Background="White" BorderBrush="White" HorizontalAlignment="Center" Margin="15,0,15,0" FontSize="30" Width="140" Height="50" VerticalAlignment="Bottom">
+                <Image Source="Photos/allegro_logo.png"/>
+            </Button>
+
         </Grid>
+        <TextBox x:Name="PoleSzukaj"  Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="22" Margin="19,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="414"/>
+        <Button                      BorderBrush="#FF5A00"
+                                     FontSize="12"
+                                     FontWeight="Bold"
+                                     Background="#FF5A00" 
+                                     Foreground="White" 
+                                     Content="Szukaj" Grid.Column="1" HorizontalAlignment="Left" Margin="440,10,0,0" VerticalAlignment="Top" Width="98" Height="30" Click="Button_Click_1"/>
 
-        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="22" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="434"/>
-        <Button Content="Szukaj" Grid.Column="1" HorizontalAlignment="Left" Margin="464,10,0,0" VerticalAlignment="Top" Width="98" Height="30"/>
-
-
-        <Button Content="stworz baze danych jesni nie stnieje" HorizontalAlignment="Left" VerticalAlignment="Top" Width="338" Margin="28,13,0,0" Height="27" Grid.Column="1" Click="Button_Click" />
-        <!-- Products List -->
-        <ScrollViewer VerticalScrollBarVisibility="Visible" 
-            Grid.Column="1" Grid.Row="1" 
-              Background="LightSteelBlue">
+        <ScrollViewer x:Name="MyScrollViewer" VerticalScrollBarVisibility="Auto"  Grid.Row="1" 
+              Background="#edeff1" Margin="0,10,10,67" Grid.ColumnSpan="2" Visibility="Hidden">
             <StackPanel>
-                <ItemsControl x:Name="ProductList" ItemsSource="{Binding Items}">
+                <ItemsControl x:Name="ProductList" ItemsSource="{Binding tmpParserList}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="20 10 " Background="AliceBlue">
-                                <Border Margin="10" Width="830" Height="200" >
+                                <Border Margin="10" Width="1000" Height="180" >
                                     <WrapPanel>
                                         <Grid Width="220" Height="200">
-                                            <Border Height="150" Width="180" Margin="15,25,15,15">
+                                            <Border Height="150" Width="180" Margin="15,10,15,35">
                                                 <Border.Background>
-                                                    <ImageBrush ImageSource="{Binding Image}"/>
+                                                    <ImageBrush ImageSource="{Binding ImagePath}"/>
                                                 </Border.Background>
 
                                             </Border>
                                         </Grid>
-                                        <Grid Height="200" Width="600">
-                                            <TextBlock Text="{Binding ProductName}" Margin="10,0,10,166" />
-                                            <TextBlock Text="{Binding Price }" Margin="10,81,446,91"/>
-                                            <Grid Margin="10,23,10,124">
+                                        <Grid Height="350" Width="600">
+                                            <TextBlock Text="{Binding ProductName}" FontSize="16" FontWeight="Black" Margin="10,10,10,106" />
+                                            <TextBlock x:Name="tekstblockparamiters"  Text="{Binding myParameters}"  Margin="10,30,10,70"/>
+                                            <TextBlock Margin="10,145" FontSize="18"  >
+                                                <Run Text="{Binding  Price}"/>
+                                                <Run Text="zł"/>
+                                            </TextBlock>
 
-                                            </Grid>
-                                            <Grid x:Name="AllegroSmart">
-                                                <Border Margin="171,77,301,101">
-                                                    <Border.Background>
-                                                        <ImageBrush ImageSource="Photos/smart.png"/>
-                                                    </Border.Background>
+                                            <Grid x:Name="AllegroSmart" >
+                                                <Border Margin="121,77,391,118">
+                                                    <Image >
+                                                        <Image.Style>
+                                                            <Style TargetType="{x:Type Image}">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding ALLEGROsmart}" Value="True">
+                                                                        <Setter Property="Source" Value="Photos/smart.png"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Image.Style>
+                                                    </Image>
+
+
                                                 </Border>
-                                                <TextBlock Text="z dostawą" Margin="299,88,110,89"/>
+                                                <TextBlock x:Name="tekst_zdostawą" Text="z dostawą" Margin="213,153,0,59">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="{x:Type TextBlock}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding ALLEGROsmart}" Value="false">
+                                                                    <Setter Property="Visibility" Value="Hidden"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                             </Grid>
 
-                                            <TextBlock Text="{Binding PriceWithShipping}" Margin="10,172,10,0"/>
-
-
-
+                                           
+                                            <Button  Content="PRZEJDŹ DO STRONY"
+                                     
+                                     
+                                     Margin="20,-30,-460, 0"
+                                      Click="Button_Click_2"
+                                                     Tag="{Binding Hyperlink}"
+                                     
+                                     Width="120"
+                                     Height="40"
+                                     BorderBrush="#FF5A00"
+                                     FontSize="10"
+                                     FontWeight="Bold"
+                                     Background="#FF5A00" 
+                                       Foreground="White"
+                                      >
+                                            </Button>
+                                           
 
 
                                         </Grid>
@@ -84,5 +138,26 @@
             </StackPanel>
 
         </ScrollViewer>
+        <Button x:Name="następna_strona" Content="Następna strona" HorizontalAlignment="Left" Margin="665,0,0,16" VerticalAlignment="Bottom" Height="30" Width="140" Click="Następna_strona_Click" Grid.Column="1" Grid.Row="1"/>
+        <Button x:Name="poprzednia_strona" Content="Poprzednia strona " HorizontalAlignment="Left" Margin="475,0,0,16" VerticalAlignment="Bottom" Height="30" Width="140" Click="Poprzednia_strona_Click" Grid.Column="1" Grid.Row="1"/>
+
+
+
+        <TextBox x:Name="textboxStrona" Padding="9,2,0,0" FontSize="20" IsReadOnly="True" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="35" Grid.Column="1" Margin="623,0,0,16" Grid.Row="1"   />
+        <Button FontSize="12" Content="Historia wyszukiwania" Grid.Column="1" HorizontalAlignment="Left" Margin="545,10,0,0" VerticalAlignment="Top" Width="140" Click="Button_Click" Height="30"/>
+        <ComboBox FontSize="12" x:Name="combox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" HorizontalAlignment="Left" Margin="692,10,0,0" VerticalAlignment="Top" Width="115" Height="30" SelectionChanged="combox_SelectionChanged" />
+
+        <Grid x:Name="Hello" Grid.Column="1" Grid.Row="1" Visibility="Visible">
+            <Image HorizontalAlignment="Left" VerticalAlignment="Center" Source="wink.png" Opacity="0.5" Height="216" Width="200" Margin="230,92,0,219" />
+            <Label Content="Co Cię dziś interesuje?" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="126,314,0,0" Width="412" FontSize="40" Opacity="0.5"/>
+        </Grid>
+        <Grid x:Name="SpinningWheel" Margin="168,72,338,207" Grid.Row="1" Grid.Column="1" Visibility="Hidden">
+            <fa:ImageAwesome Icon="Spinner" Spin="True" Height="200" Width="200" Rotation="0.2" Opacity="0.5"/>
+            <Label Content="Czekaj, szukam dla Ciebie ofert..." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-129,244,-136,-52" Width="583" FontSize="40" Opacity="0.5" Height="56"/>
+        </Grid>
+        <Grid x:Name="Dead" Grid.Row="1" Grid.Column="1" Visibility="Hidden">
+            <Label Content="Nie znalazłem żadnych ofert..." Opacity="0.5" FontSize="40"  Margin="55,315,71,-1"/>
+            <Image HorizontalAlignment="Left" VerticalAlignment="Center" Source="dead.png" Opacity="0.5" Margin="230,92,0,219" Height="216" Width="200"/>
+        </Grid>
     </Grid>
 </Window>

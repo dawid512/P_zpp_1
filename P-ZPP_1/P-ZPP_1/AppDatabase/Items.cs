@@ -8,28 +8,35 @@ using System.Threading.Tasks;
 
 namespace P_ZPP_1.AppDatabase
 {
+    /// <summary>
+    /// The derived table containg all items from a result of the query from <see cref="QueryInfo">QueryInfo</see> base table.
+    /// </summary>
     public class Items
     {
         [Key]
         public int Id { get; set; }
-        public int query_Id { get; set; }
+        public int Query_Id { get; set; }
         public string ProductName { get; set; }
-        public float Price { get; set; }
-        public float PriceWithShipping { get; set; }
-        public int NumberOfPeopleWhoAlsoBought { get; set; }
+        public decimal Price { get; set; }
         public bool ALLEGROsmart { get; set; }
-        public string Image { get; set; }
+        public int PageNumber { get; set; }
+        public string ImagePath { get; set; }
+        public string Hyperlink { get; set; }
 
-        public Items(int id, int query_Id, string productName, float price, float priceWithShipping, int numberOfPeopleWhoAlsoBought, bool aLLEGROsmart, string image)
+        public Items(int query_Id, string productName, decimal price, bool aLLEGROsmart, int page, string imagepath, string hyperlink)
         {
-            Id = id;
-            this.query_Id = query_Id;
+            Query_Id = query_Id;
             ProductName = productName;
             Price = price;
-            PriceWithShipping = priceWithShipping;
-            NumberOfPeopleWhoAlsoBought = numberOfPeopleWhoAlsoBought;
             ALLEGROsmart = aLLEGROsmart;
-            Image = image;
+            PageNumber = page;
+            ImagePath = imagepath;
+            Hyperlink = hyperlink;
+        }
+
+        public Items()
+        {
+            
         }
     }
 }
