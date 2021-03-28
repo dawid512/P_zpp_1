@@ -33,11 +33,18 @@
 
         </Grid.ColumnDefinitions>
         <Grid Grid.RowSpan="1">
-            <TextBlock Text="Allegro" HorizontalAlignment="Center" Margin="12,0,18,5" FontSize="30" Width="140" Height="50" VerticalAlignment="Bottom"/>
+            <Button Click="Allegrobutton_Click" x:Name="Allegrobutton" Background="White" BorderBrush="White" HorizontalAlignment="Center" Margin="15,0,15,0" FontSize="30" Width="140" Height="50" VerticalAlignment="Bottom">
+                <Image Source="Photos/allegro_logo.png"/>
+            </Button>
 
         </Grid>
-        <TextBox x:Name="PoleSzukaj"  Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="22" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="414"/>
-        <Button Background="#ff5a00" Content="Szukaj" Grid.Column="1" HorizontalAlignment="Left" Margin="440,10,0,0" VerticalAlignment="Top" Width="98" Height="30" Click="Button_Click_1"/>
+        <TextBox x:Name="PoleSzukaj"  Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="22" Margin="19,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="414"/>
+        <Button                      BorderBrush="#FF5A00"
+                                     FontSize="10"
+                                     FontWeight="Bold"
+                                     Background="#FF5A00" 
+                                     Foreground="White" 
+                                     Content="Szukaj" Grid.Column="1" HorizontalAlignment="Left" Margin="440,10,0,0" VerticalAlignment="Top" Width="98" Height="30" Click="Button_Click_1"/>
 
         <ScrollViewer x:Name="MyScrollViewer" VerticalScrollBarVisibility="Auto"  Grid.Row="1" 
               Background="#edeff1" Margin="0,10,0,67" Grid.ColumnSpan="2" Visibility="Hidden">
@@ -49,7 +56,7 @@
                                 <Border Margin="10" Width="1000" Height="180" >
                                     <WrapPanel>
                                         <Grid Width="220" Height="200">
-                                            <Border Height="150" Width="180" Margin="15,25,15,15">
+                                            <Border Height="150" Width="180" Margin="15,10,15,35">
                                                 <Border.Background>
                                                     <ImageBrush ImageSource="{Binding ImagePath}"/>
                                                 </Border.Background>
@@ -57,7 +64,7 @@
                                             </Border>
                                         </Grid>
                                         <Grid Height="350" Width="600">
-                                            <TextBlock Text="{Binding ProductName}" FontSize="16" FontWeight="Black" Margin="10,0,10,156" />
+                                            <TextBlock Text="{Binding ProductName}" FontSize="16" FontWeight="Black" Margin="10,10,10,106" />
                                             <TextBlock x:Name="tekstblockparamiters"  Text="{Binding myParameters}"  Margin="10,30,10,70"/>
                                             <TextBlock Text="{Binding Price}"  Margin="10,145" FontSize="18"  />
                                             
@@ -100,9 +107,11 @@
                                      
                                      Width="120"
                                      Height="40"
-                                     
+                                     BorderBrush="#FF5A00"
                                      FontSize="10"
+                                     FontWeight="Bold"
                                      Background="#FF5A00" 
+                                       Foreground="White"
                                       >
                                             </Button>
                                            
@@ -131,8 +140,8 @@
 
 
 
-        <TextBox x:Name="textbox" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="25" Width="35" Grid.Column="1" Margin="623,0,0,18" Grid.Row="1"   />
-        <Button Content="Historia wyszukiwania" Grid.Column="1" HorizontalAlignment="Left" Margin="546,10,0,0" VerticalAlignment="Top" Width="140" Click="Button_Click" Height="30"/>
+        <TextBox x:Name="textboxStrona"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="25" Width="35" Grid.Column="1" Margin="623,0,0,18" Grid.Row="1"   />
+        <Button Content="Historia wyszukiwania" Grid.Column="1" HorizontalAlignment="Left" Margin="545,10,0,0" VerticalAlignment="Top" Width="140" Click="Button_Click" Height="30"/>
         <ComboBox x:Name="combox" Grid.Column="1" HorizontalAlignment="Left" Margin="692,10,0,0" VerticalAlignment="Top" Width="115" Height="30" SelectionChanged="combox_SelectionChanged" />
 
         <Grid x:Name="Hello" Grid.Column="1" Grid.Row="1" Visibility="Visible">

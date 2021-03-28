@@ -41,10 +41,9 @@ namespace P_ZPP_1
 
             combox.ItemsSource = querry.Distinct();
 
-            //GoToStore = new GoToStoreCommand(this);
+            
 
-
-
+            
 
         }
 
@@ -223,7 +222,7 @@ namespace P_ZPP_1
 
                         var items = GetItems(id, 1);
                         var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
-
+                        
                         var tmpParserList = new List<P_ZPP_1.Classes.ParsingToWpf>();
                         
                         string myTmp = "";
@@ -251,8 +250,11 @@ namespace P_ZPP_1
                             Dispatcher.Invoke(() =>
                             {
                                 ProductList.ItemsSource = tmpParserList;
+                                string aktualnaStrona = PagesLoadedMemory.GetCurrentPage().ToString();
+                                textboxStrona.Text = aktualnaStrona;
                             });
                         }
+                        
 
                     }
                 });
@@ -338,7 +340,7 @@ namespace P_ZPP_1
         {
             await Task.Run(() =>
             {
-                PagesLoadedMemory.SetCurrentPage(Convert.ToInt32(textbox.Text));
+                //PagesLoadedMemory.SetCurrentPage(Convert.ToInt32(textbox.Text));
                 using (var db = new AllegroAppContext())
                 {
                     var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
@@ -400,6 +402,14 @@ namespace P_ZPP_1
         private void combox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             
+        }
+
+        private void Allegrobutton_Click(object sender, RoutedEventArgs e)
+        {
+            Hello.Visibility = Visibility.Visible;
+            MyScrollViewer.Visibility = Visibility.Hidden;
+            PoleSzukaj.Text = String.Empty;
+            PagesLoadedMemory.currentQuery = "";
         }
     }
 }
