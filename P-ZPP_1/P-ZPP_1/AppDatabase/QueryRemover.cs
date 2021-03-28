@@ -18,18 +18,22 @@ namespace P_ZPP_1.AppDatabase
         {
             
             var db = new AppDatabase.AllegroAppContext();
-            int numberOfItemsToBeRemoved = db.QueryInfo.Select(x => x).Count() - 3;
-
+            int numberOfItemsToBeRemoved = db.QueryInfo.Select(x => x.Querry).Distinct().Count() - 3;
+            var DuplicatedQuery = db.QueryInfo.OrderByDescending(x => x.Date).Select(x => x.Date).FirstOrDefault(); 
             if (numberOfItemsToBeRemoved > 0)
             {
-                var TmpListOfAllItems = db.QueryInfo.OrderBy(y => y.Date).Skip(3).ToList();
+                var stringOfQueryToBeRemoved = db.QueryInfo.OrderBy(y => y.Date).Distinct().Select(x=> x.Querry).Take(numberOfItemsToBeRemoved).ToList();
+                var TmpListOfAllItemsToBeRemoved = new List<QueryInfo>(); 
+                
+                foreach (var item in stringOfQueryToBeRemoved)
+                    foreach (var item2 in db.QueryInfo.Where(x => x.Querry == item).ToList())
+                        TmpListOfAllItemsToBeRemoved.Add(item2);
 
-                foreach (var item in TmpListOfAllItems)
+                foreach (var item in TmpListOfAllItemsToBeRemoved)
                     RemoveAllEntitiesWithID(item.Id);
-                db.SaveChanges();
             }
 
-            RemoveOutdatedQuery();    
+            RemoveOutdatedQuery(DuplicatedQuery);    
         }
         /// <summary>
         /// Method invokes all methods required to remove all elements connected to QuerryInfo with Id of queryID from database:
@@ -84,15 +88,18 @@ namespace P_ZPP_1.AppDatabase
         /// Method removes Old query results, if current query already exists in datatabase
         /// </summary>
         /// <returns>bool true if old querry wa removed</returns>
-        public void RemoveOutdatedQuery()
+        public void RemoveOutdatedQuery(DateTime LastTime)
         {
-            var db = new AppDatabase.AllegroAppContext();
-            var LatestQuery = db.QueryInfo.OrderBy(r => r.Date).FirstOrDefault();
+            using (var db = new AppDatabase.AllegroAppContext())
+            {
+                var LatestQuery = db.QueryInfo.OrderBy(r => r.Date).Select(q=>q.Querry).FirstOrDefault();
 
-            var SearchForOutdatedQuery = db.QueryInfo.Where(x => x.Querry == LatestQuery.Querry && x.Id != LatestQuery.Id);
+                var SearchForOutdatedQuery = db.QueryInfo.Where(x => x.Querry == LatestQuery && x.Date < LastTime);
 
-            if (SearchForOutdatedQuery.Any())
-                RemoveAllEntitiesWithID(SearchForOutdatedQuery.FirstOrDefault().Id);
+                if (SearchForOutdatedQuery.Any())
+                    RemoveAllEntitiesWithID(SearchForOutdatedQuery.FirstOrDefault().Id);
+            
+            }
         }
     }
 }

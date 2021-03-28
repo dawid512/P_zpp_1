@@ -39,7 +39,7 @@ namespace P_ZPP_1
             var querry = GetQuerry();
 
 
-            combox.ItemsSource = querry;
+            combox.ItemsSource = querry.Distinct();
 
             //GoToStore = new GoToStoreCommand(this);
 
@@ -395,6 +395,11 @@ namespace P_ZPP_1
         {
             var hyperlink = (sender as Button).Tag;
             Process.Start(hyperlink.ToString());
+        }
+
+        private void combox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
         }
     }
 }

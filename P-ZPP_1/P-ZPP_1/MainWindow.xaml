@@ -133,7 +133,7 @@
 
         <TextBox x:Name="textbox" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="25" Width="35" Grid.Column="1" Margin="623,0,0,18" Grid.Row="1"   />
         <Button Content="Historia wyszukiwania" Grid.Column="1" HorizontalAlignment="Left" Margin="546,10,0,0" VerticalAlignment="Top" Width="140" Click="Button_Click" Height="30"/>
-        <ComboBox x:Name="combox" Grid.Column="1" HorizontalAlignment="Left" Margin="692,10,0,0" VerticalAlignment="Top" Width="115" Height="30" />
+        <ComboBox x:Name="combox" Grid.Column="1" HorizontalAlignment="Left" Margin="692,10,0,0" VerticalAlignment="Top" Width="115" Height="30" SelectionChanged="combox_SelectionChanged" />
 
         <Grid x:Name="Hello" Grid.Column="1" Grid.Row="1" Visibility="Visible">
             <Image HorizontalAlignment="Left" VerticalAlignment="Center" Source="wink.png" Opacity="0.5" Height="216" Width="200" Margin="230,92,0,219" />
