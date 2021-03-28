@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +33,10 @@ namespace P_ZPP_1.AppDatabase
                         TmpListOfAllItemsToBeRemoved.Add(item2);
 
                 foreach (var item in TmpListOfAllItemsToBeRemoved)
+                {
                     RemoveAllEntitiesWithID(item.Id);
+                    RemovePictures(item.Id, item.Querry);
+                }
             }else
                 RemoveOutdatedQuery(teraz);    
         }
@@ -42,6 +46,7 @@ namespace P_ZPP_1.AppDatabase
         /// <param name="queryId"></param>
         public void RemoveAllEntitiesWithID(int queryId)
         {
+
             RemoveFromQueryInfoElements(queryId);
             RemoveFromItemElements(queryId);
             RemoveFromItemParamsElements(queryId);
@@ -99,14 +104,31 @@ namespace P_ZPP_1.AppDatabase
 
                 var timeDiference = LastTime.AddSeconds(-15);
                 var SearchForOutdatedQuery = db.QueryInfo.Where(x => x.Querry == LatestQuery && x.Date < timeDiference);
-                
+
 
                 if (SearchForOutdatedQuery.Any())
                     foreach (var item in SearchForOutdatedQuery)
-                     RemoveAllEntitiesWithID(item.Id);
+                    {
+                        RemoveAllEntitiesWithID(item.Id);
+                        RemovePictures(item.Id, item.Querry);
+                    }
 
                 db.SaveChanges();
             }
+        }
+        /// <summary>
+        /// Method removes downloaded photos related to removed query.
+        /// </summary>
+        /// <param name="queryID"></param>
+        /// <param name="query"></param>
+        public void RemovePictures(int queryID, string query)
+        {
+            DirectoryInfo folderToBeDeleted = new DirectoryInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), (query + "_" + queryID.ToString())));
+
+            foreach (var item in folderToBeDeleted.GetFiles())
+                item.Delete();
+
+            folderToBeDeleted.Delete();
         }
     }
 }

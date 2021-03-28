@@ -34,7 +34,8 @@ namespace P_ZPP_1
             var db = new AppDatabase.AllegroAppContext();
 
             db.Database.CreateIfNotExists();
-
+            var testybazydanych = new Tests_1();
+            testybazydanych.RunDatabaseTests();
 
             var querry = GetQuerry();
 
