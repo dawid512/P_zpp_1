@@ -248,6 +248,7 @@ namespace P_ZPP_1
                         {
                             MyScrollViewer.Visibility = Visibility.Hidden;
                             Dead.Visibility = Visibility.Visible;
+                            PagesLoadedMemory.loading = 0;
                             dead = true;
                         });
                         return;
@@ -305,14 +306,13 @@ namespace P_ZPP_1
                 qr.QueryRemower_Work();
                 combox.ItemsSource = GetQuerry().Distinct();
 
-
-
                 // textbox.Text = PagesLoadedMemory.GetCurrentPage().ToString();
 
 
                 //var qr = new QueryRemover();
                 //qr.QueryRemower_Work();
-
+                if (dead)
+                    return;
                 await Task.Run(() =>
                 {
                     do
