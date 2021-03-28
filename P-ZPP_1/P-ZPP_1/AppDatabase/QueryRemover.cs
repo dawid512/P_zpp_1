@@ -98,7 +98,6 @@ namespace P_ZPP_1.AppDatabase
 
                 if (SearchForOutdatedQuery.Any())
                     RemoveAllEntitiesWithID(SearchForOutdatedQuery.FirstOrDefault().Id);
-            
             }
         }
     }
