@@ -33,9 +33,8 @@ namespace P_ZPP_1.AppDatabase
 
                 foreach (var item in TmpListOfAllItemsToBeRemoved)
                     RemoveAllEntitiesWithID(item.Id);
-            }
-
-            RemoveOutdatedQuery(teraz);    
+            }else
+                RemoveOutdatedQuery(teraz);    
         }
         /// <summary>
         /// Method invokes all methods required to remove all elements connected to QuerryInfo with Id of queryID from database:
@@ -95,7 +94,8 @@ namespace P_ZPP_1.AppDatabase
             
             using (var db = new AppDatabase.AllegroAppContext())
             {
-                var LatestQuery = db.QueryInfo.OrderBy(r => r.Date).Select(q=>q.Querry).FirstOrDefault();
+
+                var LatestQuery = db.QueryInfo.OrderByDescending(r => r.Date).Select(q=>q.Querry).FirstOrDefault();
 
                 var timeDiference = LastTime.AddSeconds(-15);
                 var SearchForOutdatedQuery = db.QueryInfo.Where(x => x.Querry == LatestQuery && x.Date < timeDiference);

@@ -60,18 +60,29 @@ namespace P_ZPP_1
                 //foreach (var item in id)
                 //{
                 //qurery = db.QueryInfo.Where(x => x.Id == item).ToList();
-                foreach (var items in id)
+
+                var dupa = db.Items.Where(x => x.PageNumber == 1).Select(x => x.Query_Id).ToList();
+                var dupisk = new List<QueryInfo>();
+
+                foreach (var item in dupa)
                 {
-                    listOfString.Add(items);
+                    dupisk.Add(db.QueryInfo.Where(x => x.Id == item).FirstOrDefault());
                 }
+
+
+                //  foreach (var items in id)
+                //  {
+                //      listOfString.Add(items);
+                //  }
                 //}
 
 
-            }
-            // var id = qurery[0].Id; 
-            // var QueryString = qurery[1].Querry;
 
-            return listOfString;
+                // var id = qurery[0].Id; 
+                // var QueryString = qurery[1].Querry;
+
+                return dupisk.Select(x => x.Querry).ToList();
+            }
 
         }
 
@@ -187,8 +198,16 @@ namespace P_ZPP_1
             }
         }
 
-            private async void Button_Click_1(object sender, RoutedEventArgs e)
+            private async void Button_Click_1(object sender, RoutedEventArgs e) //przycisk wyszukaj
         {
+            /*using (var db = new AllegroAppContext()) 
+            {
+                combox.ItemsSource = db.QueryInfo.OrderBy(y=>y.Date).Distinct().Select(x => x.Querry).ToList();
+            }*/
+
+            
+
+
             Hello.Visibility = Visibility.Hidden;
             MyScrollViewer.Visibility = Visibility.Hidden;
             SpinningWheel.Visibility = Visibility.Visible;
@@ -266,6 +285,7 @@ namespace P_ZPP_1
 
                 var qr = new QueryRemover();
                 qr.QueryRemower_Work();
+                combox.ItemsSource = GetQuerry().Distinct();
 
                 await Task.Run(() =>
                 {
