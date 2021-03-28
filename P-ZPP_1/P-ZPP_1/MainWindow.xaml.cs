@@ -266,15 +266,13 @@ namespace P_ZPP_1
                         string myTmp = "";
                         foreach (var item in items)
                         {
-                            int i = 0;
+                            
                             foreach (var itempar in GetItemParams(item.Id).ToList())
                             {
-                                if (i % 2 == 0)
-                                    myTmp += itempar.Property_Name + ": " + itempar.Property_Value + " ";
-                                else
+                                
                                     myTmp += itempar.Property_Name + ": " + itempar.Property_Value + " \n";
 
-                                i++;
+                                
                             }
 
                             tmpParserList.Add(new P_ZPP_1.Classes.ParsingToWpf(item, myTmp));
@@ -411,7 +409,43 @@ namespace P_ZPP_1
                             textboxStrona.Text = aktualnaStrona;
                         });
                     }
+
+                    var tmpParserList = new List<P_ZPP_1.Classes.ParsingToWpf>();
+
+                    string myTmp = "";
+                    foreach (var item in items)
+                    {
+
+                        foreach (var itempar in GetItemParams(item.Id).ToList())
+                        {
+
+                            myTmp += itempar.Property_Name + ": " + itempar.Property_Value + " \n";
+
+
+                        }
+
+                        tmpParserList.Add(new P_ZPP_1.Classes.ParsingToWpf(item, myTmp));
+
+                        myTmp = "";
+                    }
+
+
+                    if (tmpParserList.Count > 0)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            ProductList.ItemsSource = tmpParserList;
+                            string aktualnaStrona = PagesLoadedMemory.GetCurrentPage().ToString();
+                            textboxStrona.Text = aktualnaStrona;
+                        });
+                    }
+
+
                 }
+                
+
+
+                
             });
 
         }
@@ -481,6 +515,36 @@ namespace P_ZPP_1
                                 textboxStrona.Text = aktualnaStrona;
                             });
                         }
+                        var tmpParserList = new List<P_ZPP_1.Classes.ParsingToWpf>();
+
+                        string myTmp = "";
+                        foreach (var item in items)
+                        {
+
+                            foreach (var itempar in GetItemParams(item.Id).ToList())
+                            {
+
+                                myTmp += itempar.Property_Name + ": " + itempar.Property_Value + " \n";
+
+
+                            }
+
+                            tmpParserList.Add(new P_ZPP_1.Classes.ParsingToWpf(item, myTmp));
+
+                            myTmp = "";
+                        }
+
+
+                        if (tmpParserList.Count > 0)
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                ProductList.ItemsSource = tmpParserList;
+                                string aktualnaStrona = PagesLoadedMemory.GetCurrentPage().ToString();
+                                textboxStrona.Text = aktualnaStrona;
+                            });
+                        }
+
                     }
                 }
 
