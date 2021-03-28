@@ -123,6 +123,10 @@ namespace P_ZPP_1
 
                 await Task.Run(() =>
                 {
+                    do
+                    {
+                    } while (PagesLoadedMemory.loading == 1);
+                    PagesLoadedMemory.loading = 1;
                     PagesLoadedMemory.ClearInfo();
                     PagesLoadedMemory.SetCurrentPage(1);
 
@@ -177,6 +181,7 @@ namespace P_ZPP_1
                         }
 
                     }
+                    PagesLoadedMemory.loading = 0;
                 });
                 if (dead)
                     MyScrollViewer.Visibility = Visibility.Hidden;
@@ -201,8 +206,18 @@ namespace P_ZPP_1
             {
                 await Task.Run(() =>
                 {
+                    do
+                    {
+                    } while (PagesLoadedMemory.loading == 1);
+                    PagesLoadedMemory.loading = 1;
+
                     PagesLoadedMemory.ClearInfo();
                     PagesLoadedMemory.SetCurrentPage(1);
+                    Dispatcher.Invoke(() =>
+                    {
+                        następna_strona.IsEnabled = false;
+                    });
+
                     PagesLoadedMemory.maxPage = parser.GetHtml(PagesLoadedMemory.currentQuery, 1);
 
                     if (PagesLoadedMemory.maxPage == -1)
@@ -255,6 +270,7 @@ namespace P_ZPP_1
                         }
 
                     }
+                    PagesLoadedMemory.loading = 0;
                 });
                 if (dead)
                     MyScrollViewer.Visibility = Visibility.Hidden;
@@ -262,21 +278,41 @@ namespace P_ZPP_1
                     MyScrollViewer.Visibility = Visibility.Visible;
                 SpinningWheel.Visibility = Visibility.Hidden;
 
-                var qr = new QueryRemover();
-                qr.QueryRemower_Work();
+
+
+
+                textbox.Text = PagesLoadedMemory.GetCurrentPage().ToString();
+             
+
+                //var qr = new QueryRemover();
+                //qr.QueryRemower_Work();
 
                 await Task.Run(() =>
                 {
-                    string usedQuery = PagesLoadedMemory.currentQuery;
-                    for (int i = 2; i <= PagesLoadedMemory.maxPage; i++)
+                    do
                     {
-                        //mozliwe ze tymczasowe
-                        if (usedQuery != PagesLoadedMemory.currentQuery)
+                    } while (PagesLoadedMemory.loading == 1);
+                    PagesLoadedMemory.loading = 1;
+                    string usedQuery = PagesLoadedMemory.currentQuery;
+                    for (int i = 2; i <= PagesLoadedMemory.maxPage && i <= 6; i++)
+                    {
+                        if (usedQuery != PagesLoadedMemory.currentQuery || PagesLoadedMemory.GetCurrentPage() != 1)
+                        {
+                            PagesLoadedMemory.loading = 0;
                             return;
+                        }
 
                         parser.GetHtml(usedQuery, i);
                         PagesLoadedMemory.maxLoadedPage = i;
+                        Dispatcher.Invoke(() =>
+                        {
+                            if (PagesLoadedMemory.GetCurrentPage() >= PagesLoadedMemory.maxLoadedPage)
+                                następna_strona.IsEnabled = false;
+                            else
+                                następna_strona.IsEnabled = true;
+                        });
                     }
+                    PagesLoadedMemory.loading = 0;
                 });
             }
             else
@@ -328,13 +364,14 @@ namespace P_ZPP_1
                         Dispatcher.Invoke(() =>
                         {
                             ProductList.ItemsSource = items;
+                            textbox.Text = PagesLoadedMemory.GetCurrentPage().ToString();
                         });
                     }
                 }
             });
 
         }
-        private async void idz_do_Click(object sender, RoutedEventArgs e)
+        /*private async void idz_do_Click(object sender, RoutedEventArgs e)
         {
             await Task.Run(() =>
             {
@@ -355,31 +392,76 @@ namespace P_ZPP_1
                         });
                     }
                 }
+
             });
-        }
+        }*/
 
         private async void Następna_strona_Click(object sender, RoutedEventArgs e)
         {
+
+            następna_strona.IsEnabled = false;
+
             await Task.Run(() =>
             {
                 PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() + 1);
 
-
-                using (var db = new AllegroAppContext())
+                do
                 {
-                    var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
-                    var nextID = id + PagesLoadedMemory.GetCurrentPage() - 1;
-                    var nextpage = PagesLoadedMemory.GetCurrentPage();
-                    var items = GetItems(nextID, nextpage);
-                    //var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
-                    if (items.Count > 0)
+
+                } while (PagesLoadedMemory.loading == 1);
+                PagesLoadedMemory.loading = 1;
+
+                if (PagesLoadedMemory.maxLoadedPage < PagesLoadedMemory.GetCurrentPage())
+                {
+                    PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() - 1);
+                    PagesLoadedMemory.loading = 0;
+                    return;
+                }
+                else
+                {
+                    using (var db = new AllegroAppContext())
                     {
-                        Dispatcher.Invoke(() =>
+                        var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
+                        var nextID = id + PagesLoadedMemory.GetCurrentPage() - 1;
+                        var nextpage = PagesLoadedMemory.GetCurrentPage();
+                        var items = GetItems(nextID, nextpage);
+                        //var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
+                        if (items.Count > 0)
                         {
-                            ProductList.ItemsSource = items;
-                        });
+                            Dispatcher.Invoke(() =>
+                            {
+                                ProductList.ItemsSource = items;
+                                textbox.Text = PagesLoadedMemory.GetCurrentPage().ToString();
+                            });
+                        }
                     }
                 }
+
+
+                WebConnection parser = new WebConnection();
+                string usedQuery = PagesLoadedMemory.currentQuery;
+                int currentPage = PagesLoadedMemory.GetCurrentPage();
+                for (int i = PagesLoadedMemory.maxLoadedPage; i <= PagesLoadedMemory.GetCurrentPage() + 5; i++)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        if (PagesLoadedMemory.GetCurrentPage() >= PagesLoadedMemory.maxLoadedPage)
+                            następna_strona.IsEnabled = false;
+                        else
+                            następna_strona.IsEnabled = true;
+                    });
+                    if (usedQuery != PagesLoadedMemory.currentQuery || PagesLoadedMemory.GetCurrentPage() != currentPage)
+                    {
+                        PagesLoadedMemory.loading = 0;
+                        return;
+                    }
+
+                    parser.GetHtml(usedQuery, i);
+                    PagesLoadedMemory.maxLoadedPage = i;
+                    
+                }
+
+                PagesLoadedMemory.loading = 0;
             });
         }
         /// <summary>
