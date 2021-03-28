@@ -13,7 +13,7 @@ namespace P_ZPP_1.Classes
         public static int minPage { get; set; }
         public static string currentQuery { get; set; }
         public static int maxLoadedPage { get; set; }
-
+        public static int loading { get; set; }
 
         static PagesLoadedMemory()
         {
