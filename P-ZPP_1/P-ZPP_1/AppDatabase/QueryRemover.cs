@@ -18,8 +18,10 @@ namespace P_ZPP_1.AppDatabase
         {
             
             var db = new AppDatabase.AllegroAppContext();
+            DateTime teraz = DateTime.Now;
             int numberOfItemsToBeRemoved = db.QueryInfo.Select(x => x.Querry).Distinct().Count() - 3;
-            var DuplicatedQuery = db.QueryInfo.OrderByDescending(x => x.Date).Select(x => x.Date).FirstOrDefault(); 
+            
+            
             if (numberOfItemsToBeRemoved > 0)
             {
                 var stringOfQueryToBeRemoved = db.QueryInfo.OrderBy(y => y.Date).Distinct().Select(x=> x.Querry).Take(numberOfItemsToBeRemoved).ToList();
@@ -33,7 +35,7 @@ namespace P_ZPP_1.AppDatabase
                     RemoveAllEntitiesWithID(item.Id);
             }
 
-            RemoveOutdatedQuery(DuplicatedQuery);    
+            RemoveOutdatedQuery(teraz);    
         }
         /// <summary>
         /// Method invokes all methods required to remove all elements connected to QuerryInfo with Id of queryID from database:
@@ -90,14 +92,20 @@ namespace P_ZPP_1.AppDatabase
         /// <returns>bool true if old querry wa removed</returns>
         public void RemoveOutdatedQuery(DateTime LastTime)
         {
+            
             using (var db = new AppDatabase.AllegroAppContext())
             {
                 var LatestQuery = db.QueryInfo.OrderBy(r => r.Date).Select(q=>q.Querry).FirstOrDefault();
 
-                var SearchForOutdatedQuery = db.QueryInfo.Where(x => x.Querry == LatestQuery && x.Date < LastTime);
+                var timeDiference = LastTime.AddSeconds(-15);
+                var SearchForOutdatedQuery = db.QueryInfo.Where(x => x.Querry == LatestQuery && x.Date < timeDiference);
+                
 
                 if (SearchForOutdatedQuery.Any())
-                    RemoveAllEntitiesWithID(SearchForOutdatedQuery.FirstOrDefault().Id);
+                    foreach (var item in SearchForOutdatedQuery)
+                     RemoveAllEntitiesWithID(item.Id);
+
+                db.SaveChanges();
             }
         }
     }
