@@ -144,7 +144,7 @@
 
 
         <TextBox x:Name="textboxStrona" Padding="9,2,0,0" FontSize="20" IsReadOnly="True" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="35" Grid.Column="1" Margin="623,0,0,16" Grid.Row="1"   />
-        <Button FontSize="12" Content="Historia wyszukiwania" Grid.Column="1" HorizontalAlignment="Left" Margin="545,10,0,0" VerticalAlignment="Top" Width="140" Click="Button_Click" Height="30"/>
+        <Button FontSize="12" x:Name="historyButton" Content="Historia wyszukiwania" Grid.Column="1" HorizontalAlignment="Left" Margin="545,10,0,0" VerticalAlignment="Top" Width="140" Click="Button_Click" Height="30"/>
         <ComboBox FontSize="12" x:Name="combox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" HorizontalAlignment="Left" Margin="692,10,0,0" VerticalAlignment="Top" Width="115" Height="30" SelectionChanged="combox_SelectionChanged" />
 
         <Grid x:Name="Hello" Grid.Column="1" Grid.Row="1" Visibility="Visible">

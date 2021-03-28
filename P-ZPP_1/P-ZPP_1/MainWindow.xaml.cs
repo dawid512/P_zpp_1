@@ -42,6 +42,7 @@ namespace P_ZPP_1
             combox.ItemsSource = querry.Distinct();
             poprzednia_strona.IsEnabled = false;
             następna_strona.IsEnabled = false;
+            historyButton.IsEnabled = false;
 
 
 
@@ -121,11 +122,14 @@ namespace P_ZPP_1
             //historyOfQuerry.Show();
 
             // URUCHOMIC PRZYCISK OD HISTORII OFFLINE 
+
+            następna_strona.Visibility = Visibility.Hidden;
+            poprzednia_strona.Visibility = Visibility.Hidden;
+            textboxStrona.Visibility = Visibility.Hidden;
             Hello.Visibility = Visibility.Hidden;
             MyScrollViewer.Visibility = Visibility.Hidden;
             SpinningWheel.Visibility = Visibility.Visible;
             Dead.Visibility = Visibility.Hidden;
-
             PagesLoadedMemory.currentQuery = combox.SelectedItem.ToString();
             bool dead = false;
             if (PagesLoadedMemory.currentQuery.Length > 0)
@@ -209,17 +213,19 @@ namespace P_ZPP_1
             }*/
 
 
-
-
-            Hello.Visibility = Visibility.Hidden;
-            MyScrollViewer.Visibility = Visibility.Hidden;
-            SpinningWheel.Visibility = Visibility.Visible;
-            Dead.Visibility = Visibility.Hidden;
             WebConnection parser = new WebConnection();
             PagesLoadedMemory.currentQuery = PoleSzukaj.Text;
             bool dead = false;
             if (PagesLoadedMemory.currentQuery.Length > 0)
             {
+
+                textboxStrona.Visibility = Visibility.Visible;
+                następna_strona.Visibility = Visibility.Visible;
+                poprzednia_strona.Visibility = Visibility.Visible;
+                Hello.Visibility = Visibility.Hidden;
+                MyScrollViewer.Visibility = Visibility.Hidden;
+                SpinningWheel.Visibility = Visibility.Visible;
+                Dead.Visibility = Visibility.Hidden;
                 await Task.Run(() =>
                 {
                     do
@@ -517,7 +523,8 @@ namespace P_ZPP_1
 
         private void combox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (combox.SelectedItem != null)
+                historyButton.IsEnabled = true;
         }
 
         private void Allegrobutton_Click(object sender, RoutedEventArgs e)
