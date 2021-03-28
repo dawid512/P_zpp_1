@@ -335,6 +335,11 @@ namespace P_ZPP_1
                         });
                         do
                         {
+                            if (usedQuery != PagesLoadedMemory.currentQuery)
+                            {
+                                PagesLoadedMemory.loading = 0;
+                                return;
+                            }
                         } while (i == PagesLoadedMemory.GetCurrentPage() + 5);
 
                     }
