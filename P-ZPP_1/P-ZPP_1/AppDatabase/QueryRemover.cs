@@ -123,12 +123,15 @@ namespace P_ZPP_1.AppDatabase
         /// <param name="query"></param>
         public void RemovePictures(int queryID, string query)
         {
-            DirectoryInfo folderToBeDeleted = new DirectoryInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), (query + "_" + queryID.ToString())));
+            DirectoryInfo folderToBeDeleted = new DirectoryInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ("AllegroApp\\" + query + "_" + queryID.ToString())));
 
-            foreach (var item in folderToBeDeleted.GetFiles())
-                item.Delete();
+            if (folderToBeDeleted.Exists)
+            {
+                foreach (var item in folderToBeDeleted.GetFiles())
+                    item.Delete();
 
-            folderToBeDeleted.Delete();
+                folderToBeDeleted.Delete();
+            }
         }
     }
 }
