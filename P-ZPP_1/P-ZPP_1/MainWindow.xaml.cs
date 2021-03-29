@@ -30,7 +30,6 @@ namespace P_ZPP_1
         {
 
             InitializeComponent();
-            //imgBrush.ImageSource = new BitmapImage(new Uri("pack://application:,,,C:/Users/ASUS/Photos/wink.png"));
             var db = new AppDatabase.AllegroAppContext();
 
             db.Database.CreateIfNotExists();
@@ -50,80 +49,62 @@ namespace P_ZPP_1
         }
 
 
-
+        /// <summary>
+        /// Gets info about Query from <see cref="QueryInfo"/> table.
+        /// </summary>
+        /// <returns>List of Items from <see cref="QueryInfo"/>table.</returns>
         private List<string> GetQuerry()
         {
             List<QueryInfo> qurery = new List<QueryInfo>();
             List<string> listOfString = new List<string>();
             using (var db = new AllegroAppContext())
             {
-                //Where(x => x.PageNumber == 1).Select(x => x.Query_Id)
                 var id = db.QueryInfo.Select(X => X.Querry).ToList();
-                //foreach (var item in id)
-                //{
-                //qurery = db.QueryInfo.Where(x => x.Id == item).ToList();
 
-                var dupa = db.Items.Where(x => x.PageNumber == 1).Select(x => x.Query_Id).ToList();
-                var dupisk = new List<QueryInfo>();
+                var tmpitems = db.Items.Where(x => x.PageNumber == 1).Select(x => x.Query_Id).ToList();
+                var queryinfolist = new List<QueryInfo>();
 
-                foreach (var item in dupa)
+                foreach (var item in tmpitems)
                 {
-                    dupisk.Add(db.QueryInfo.Where(x => x.Id == item).FirstOrDefault());
+                    queryinfolist.Add(db.QueryInfo.Where(x => x.Id == item).FirstOrDefault());
                 }
 
-
-                //  foreach (var items in id)
-                //  {
-                //      listOfString.Add(items);
-                //  }
-                //}
-
-
-
-                // var id = qurery[0].Id; 
-                // var QueryString = qurery[1].Querry;
-
-                return dupisk.Select(x => x.Querry).ToList();
+                return queryinfolist.Select(x => x.Querry).ToList();
             }
 
         }
-
-
-
-
-
+        /// <summary>
+        /// Gets the items from <see cref="Items"/> table.
+        /// </summary>
+        /// <param name="QuerryID">Id of query.</param>
+        /// <param name="page">Page number.</param>
+        /// <returns>List of items from <see cref="Items"/> table.</returns>
         private List<Items> GetItems(int QuerryID, int page)
         {
             List<Items> qurery = new List<Items>();
 
             using (var db = new AllegroAppContext())
             {
-                //var lastTMP = db.QueryInfo.Last<QueryInfo>();
-                //var last = lastTMP.Id;
                 List<Items> tmp = db.Items.Where(x => x.Query_Id == QuerryID && x.PageNumber == page).ToList();
                 qurery = tmp.Skip(2).Take(tmp.Count() - 4).ToList();
             }
             return qurery;
         }
-
+        /// <summary>
+        /// Gets the info about item parameters from <see cref="ItemParams"/> table.
+        /// </summary>
+        /// <param name="itemID">Id of an item.</param>
+        /// <returns>List of item parameters.</returns>
         private List<ItemParams> GetItemParams(int itemID)
         {
-            //List<ItemParams> itemParams = new List<ItemParams>();
             using (var db = new AllegroAppContext())
             {
                 return db.ItemParams.Where(x => x.Item_id == itemID).ToList();
-                //return itemParams;
             }
-            //return itemParams;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            //HistoryOfQuerry historyOfQuerry = new HistoryOfQuerry();
-            //historyOfQuerry.Show();
-
-            // URUCHOMIC PRZYCISK OD HISTORII OFFLINE 
-
             następna_strona.Visibility = Visibility.Hidden;
             poprzednia_strona.Visibility = Visibility.Hidden;
             textboxStrona.Visibility = Visibility.Hidden;
@@ -208,12 +189,6 @@ namespace P_ZPP_1
 
         private async void Button_Click_1(object sender, RoutedEventArgs e) //przycisk wyszukaj
         {
-            /*using (var db = new AllegroAppContext()) 
-            {
-                combox.ItemsSource = db.QueryInfo.OrderBy(y=>y.Date).Distinct().Select(x => x.Querry).ToList();
-            }*/
-
-
             WebConnection parser = new WebConnection();
             PagesLoadedMemory.currentQuery = PoleSzukaj.Text;
             bool dead = false;
@@ -375,9 +350,6 @@ namespace P_ZPP_1
             */
         }
 
-
-
-
         private async void Poprzednia_strona_Click(object sender, RoutedEventArgs e)
         {
             await Task.Run(() =>
@@ -450,31 +422,7 @@ namespace P_ZPP_1
             });
 
         }
-        /*private async void idz_do_Click(object sender, RoutedEventArgs e)
-        {
-            await Task.Run(() =>
-            {
-                //PagesLoadedMemory.SetCurrentPage(Convert.ToInt32(textbox.Text));
-                using (var db = new AllegroAppContext())
-                {
-                    var id = db.QueryInfo.Where(x => x.Querry == PagesLoadedMemory.currentQuery).Select(x => x.Id).FirstOrDefault();
-
-                    var nextID = id + PagesLoadedMemory.GetCurrentPage() - 1;
-                    var nextpage = PagesLoadedMemory.GetCurrentPage();
-                    var items = GetItems(nextID, nextpage);
-                    var listItemId = items.Where(x => x.Query_Id == id).Select(x => x.Id).ToList();
-                    if (items.Count > 0)
-                    {
-                        Dispatcher.Invoke(() =>
-                        {
-                            ProductList.ItemsSource = items;
-                        });
-                    }
-                }
-
-            });
-        }*/
-
+    
         private async void Następna_strona_Click(object sender, RoutedEventArgs e)
         {
             PagesLoadedMemory.SetCurrentPage(PagesLoadedMemory.GetCurrentPage() + 1);
@@ -571,14 +519,6 @@ namespace P_ZPP_1
                 PagesLoadedMemory.loading = 0;*/
             });
         }
-        /// <summary>
-        /// otwiera strone
-        /// </summary>
-        /// <param name="link"></param>
-        //public void Store(string link)
-        //{
-        //    Process.Start(link);
-        //}
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
@@ -596,6 +536,10 @@ namespace P_ZPP_1
         {
             Hello.Visibility = Visibility.Visible;
             MyScrollViewer.Visibility = Visibility.Hidden;
+            następna_strona.Visibility = Visibility.Hidden;
+            poprzednia_strona.Visibility = Visibility.Hidden;
+            textboxStrona.Visibility = Visibility.Hidden;
+            Dead.Visibility = Visibility.Hidden;
             PoleSzukaj.Text = String.Empty;
             PagesLoadedMemory.currentQuery = "";
         }

@@ -29,6 +29,9 @@ namespace P_ZPP_1
             //klasy znaczników 
             #region tag classes 
             string regularAuctionName = ".//a[@class='_w7z6o _uj8z7 meqh_en mpof_z0 mqu1_16 _9c44d_2vTdY  ']"; //normalna aukcja
+            string clothingName = ".//a[@class='_w7z6o _uj8z7 meqh_en mpof_z0 mqu1_16 _9c44d_2vTdY  m7er_k4 msa3_z4'";
+            string otherClothingName = ".//a[@class='_w7z6o _uj8z7 meqh_en mpof_z0 mqu1_16 _9c44d_2vTdY m9qz_yq m7er_k4 msa3_z4'";
+            string clothingName3 = ".//a[@class='_1h7wt _15mod mj9z_5r _07bcb_2W89U'";
             string freeShippingAuctionName = ".//a[@class='_w7z6o _uj8z7 meqh_en mpof_z0 mqu1_16 _9c44d_2vTdY m9qz_yq ']";//aukcja z darmową dostawą
             string priceInfo = ".//span[@class='_1svub _lf05o']"; //informacja o cenie
             string paramList = ".//dl[@class='mp4t_0 m3h2_0 mryx_0 munh_0 mg9e_0 mvrt_0 mj7a_0 mh36_0 meqh_en msa3_z4 _1vx3o']"; //lista parametrów danego produktu - zawsze inna
@@ -60,14 +63,14 @@ namespace P_ZPP_1
 
                     bool isAllegroSmart = (item.SelectSingleNode(allegroSmart) != null);
 
-                    
+
                     DbItems result = new DbItems();
                     result.Add(queryLoad.queryInfo.Id, ItemName, decimalPrice, isAllegroSmart, page, paths[x], link);
 
                     var ParametersNode = item.SelectSingleNode(paramList);
                     string tmp = "";
                     string tmp2 = "";
-                    
+
                     if (ParametersNode != null)
                     {
                         var ParametersList = ParametersNode.ChildNodes;
@@ -90,7 +93,7 @@ namespace P_ZPP_1
                 else if (item.SelectSingleNode(freeShippingAuctionName) != null)
                 {
                     var ItemName = item.SelectSingleNode(freeShippingAuctionName).InnerText;
-                    
+
                     var ItemPrice = item.SelectSingleNode(priceInfo).InnerText;
                     ItemPrice = ItemPrice.Replace(",", ".");
                     ItemPrice = ItemPrice.Replace(" ", "");
@@ -98,7 +101,7 @@ namespace P_ZPP_1
                     var decimalPrice = Decimal.Parse(ItemPrice, CultureInfo.InvariantCulture);
 
                     var ParametersNode = item.SelectSingleNode(paramList);
-                    
+
                     var link = item.SelectSingleNode(hyperlink).GetAttributeValue("href", "http://allegro.pl");
 
                     bool isAllegroSmart = (item.SelectSingleNode(allegroSmart) != null);
@@ -129,6 +132,10 @@ namespace P_ZPP_1
                         }
                     }
                     x++;
+                }
+                if (x == 60)
+                {
+                    break;
                 }
             }
         }

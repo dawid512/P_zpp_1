@@ -35,7 +35,7 @@ namespace P_ZPP_1.AppDatabase
                 foreach (var item in TmpListOfAllItemsToBeRemoved)
                 {
                     RemoveAllEntitiesWithID(item.Id);
-                    RemovePictures(item.Id, item.Querry);
+                    //RemovePictures(item.Id, item.Querry);
                 }
             }else
                 RemoveOutdatedQuery(teraz);    
@@ -110,7 +110,7 @@ namespace P_ZPP_1.AppDatabase
                     foreach (var item in SearchForOutdatedQuery)
                     {
                         RemoveAllEntitiesWithID(item.Id);
-                        RemovePictures(item.Id, item.Querry);
+                        //RemovePictures(item.Id, item.Querry);
                     }
 
                 db.SaveChanges();
