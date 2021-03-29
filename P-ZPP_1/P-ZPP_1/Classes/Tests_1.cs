@@ -38,7 +38,7 @@ namespace P_ZPP_1.Classes
             using (var db = new AllegroAppContext())
             {
                 Assert.IsTrue(db.Items.Where(x => x.Query_Id == 9999 && x.ProductName == "sampleProductName" && x.Price == 13M && x.ALLEGROsmart == true && x.PageNumber == 9999 && x.ImagePath == @"C:\Users\Samo\Desktop\sampleImg.jpg" && x.Hyperlink == "https://www.diki.pl/slownik-angielskiego?q=sample+page").Any());
-                db.Items.Remove(db.Items.Where(x => x.Query_Id == 9999 && x.ProductName == "sampleProductName" && x.Price == 13M && x.ALLEGROsmart == true && x.PageNumber == 9999 && x.ImagePath == @"C:\Users\Samo\Desktop\sampleImg.jpg" && x.Hyperlink == "https://www.diki.pl/slownik-angielskiego?q=sample+page").FirstOrDefault());
+                db.Items.Remove(db.Items.Where(x => x.ProductName == "sampleProductName" ).FirstOrDefault());
                 db.SaveChanges();
             }
         }
@@ -50,7 +50,7 @@ namespace P_ZPP_1.Classes
             using (var db = new AllegroAppContext())
             {
                 Assert.IsTrue(db.ItemParams.Where(x => x.Item_id==9999 && x.Querry_id == 9999 && x.Property_Name == "samplePropertyname" && x.Property_Value== "samplePropertyValue").Any());
-                db.ItemParams.Remove(db.ItemParams.Where(x => x.Item_id == 9999 && x.Querry_id == 9999 && x.Property_Name == "samplePropertyname" && x.Property_Value == "samplePropertyValue").FirstOrDefault());
+                db.ItemParams.Remove(db.ItemParams.Where(x => x.Property_Name == "samplePropertyname").FirstOrDefault());
                 db.SaveChanges();
             }
         }
